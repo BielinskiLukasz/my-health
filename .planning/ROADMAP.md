@@ -31,7 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The dashboard shows today's values for every metric the user has logged
   4. The app works fully offline after the first load; data survives browser restarts
   5. App is live and accessible at the GitHub Pages URL
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Walking Skeleton: install deps, Dexie schema, HashRouter, 3-tab layout, WeightForm, Dashboard, PWA manifest + service worker + update prompt
+- [ ] 01-02-PLAN.md — Remaining 4 metric forms (sleep, steps, water, heart rate) + Settings (dark mode, height input)
+- [ ] 01-03-PLAN.md — GitHub Pages deployment workflow + live URL human verification
+
 **UI hint**: yes
 
 ### Phase 2: Charts & Visualization
@@ -91,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Logging | 0/TBD | Not started | - |
+| 1. Foundation & Core Logging | 0/3 | Not started | - |
 | 2. Charts & Visualization | 0/TBD | Not started | - |
 | 3. Targets & Goals | 0/TBD | Not started | - |
 | 4. Training Sessions | 0/TBD | Not started | - |
