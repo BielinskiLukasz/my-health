@@ -118,30 +118,63 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DEPL-01 | Phase 1 | Pending |
-| PWA-01 through PWA-04 | Phase 1 | Pending |
-| PWA-05 | TBD | Pending |
-| DASH-01 through DASH-03 | Phase 1 | Pending |
-| WGHT-01, WGHT-02 | Phase 1 | Pending |
-| SLEP-01, SLEP-02 | Phase 1 | Pending |
-| STEP-01, STEP-02 | Phase 1 | Pending |
-| WATR-01, WATR-02 | Phase 1 | Pending |
-| HRTE-01, HRTE-02 | Phase 1 | Pending |
-| BMI-01, BMI-02 | TBD | Pending |
-| JRNL-01, JRNL-02 | TBD | Pending |
-| EXRC-01, EXRC-02 | TBD | Pending |
-| SESS-01 through SESS-04 | TBD | Pending |
-| TARG-01 through TARG-05 | TBD | Pending |
-| PB-01, PB-02 | TBD | Pending |
-| CHRT-01 through CHRT-04 | TBD | Pending |
-| HIST-01, HIST-02 | TBD | Pending |
-| DATA-01 through DATA-06 | TBD | Pending |
-| UX-01 through UX-04 | Phase 1 | Pending |
+| PWA-01 | Phase 1 | Pending |
+| PWA-02 | Phase 1 | Pending |
+| PWA-03 | Phase 1 | Pending |
+| PWA-04 | Phase 1 | Pending |
+| PWA-05 | Phase 5 | Pending |
+| DASH-01 | Phase 1 | Pending |
+| DASH-02 | Phase 2 | Pending |
+| DASH-03 | Phase 3 | Pending |
+| WGHT-01 | Phase 1 | Pending |
+| WGHT-02 | Phase 1 | Pending |
+| SLEP-01 | Phase 1 | Pending |
+| SLEP-02 | Phase 1 | Pending |
+| STEP-01 | Phase 1 | Pending |
+| STEP-02 | Phase 1 | Pending |
+| WATR-01 | Phase 1 | Pending |
+| WATR-02 | Phase 1 | Pending |
+| HRTE-01 | Phase 1 | Pending |
+| HRTE-02 | Phase 1 | Pending |
+| BMI-01 | Phase 2 | Pending |
+| BMI-02 | Phase 2 | Pending |
+| JRNL-01 | Phase 4 | Pending |
+| JRNL-02 | Phase 4 | Pending |
+| EXRC-01 | Phase 4 | Pending |
+| EXRC-02 | Phase 4 | Pending |
+| SESS-01 | Phase 4 | Pending |
+| SESS-02 | Phase 4 | Pending |
+| SESS-03 | Phase 4 | Pending |
+| SESS-04 | Phase 4 | Pending |
+| TARG-01 | Phase 3 | Pending |
+| TARG-02 | Phase 3 | Pending |
+| TARG-03 | Phase 3 | Pending |
+| TARG-04 | Phase 3 | Pending |
+| TARG-05 | Phase 3 | Pending |
+| PB-01 | Phase 3 | Pending |
+| PB-02 | Phase 3 | Pending |
+| CHRT-01 | Phase 2 | Pending |
+| CHRT-02 | Phase 2 | Pending |
+| CHRT-03 | Phase 2 | Pending |
+| CHRT-04 | Phase 2 | Pending |
+| HIST-01 | Phase 5 | Pending |
+| HIST-02 | Phase 5 | Pending |
+| DATA-01 | Phase 5 | Pending |
+| DATA-02 | Phase 5 | Pending |
+| DATA-03 | Phase 5 | Pending |
+| DATA-04 | Phase 5 | Pending |
+| DATA-05 | Phase 5 | Pending |
+| DATA-06 | Phase 5 | Pending |
+| UX-01 | Phase 1 | Pending |
+| UX-02 | Phase 1 | Pending |
+| UX-03 | Phase 1 | Pending |
+| UX-04 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 52 total
-- Mapped to phases: TBD (roadmapper will finalize)
-- Unmapped: TBD
+- Mapped to phases: 52/52
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-09-02*
-*Last updated: 2026-09-02 after initial definition*
+*Last updated: 2026-09-03 — traceability finalized after roadmap creation*
