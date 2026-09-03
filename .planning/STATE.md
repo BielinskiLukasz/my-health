@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
-current_phase: 1
+current_phase: 01
 current_phase_name: Foundation & Core Logging
-status: planning
-stopped_at: Phase 1 plans ready — 3 plans, Walking Skeleton
-last_updated: "2026-09-03T13:29:49.446Z"
+status: executing
+stopped_at: Plan 01-01 complete — walking skeleton shipped
+last_updated: "2026-09-03T18:30:00.000Z"
 last_activity: 2026-09-03
-last_activity_desc: Roadmap created; 52 v1 requirements mapped across 5 phases
-state_head: 95883772f024a6da3b55fd46c66f5c693d6f2770
+last_activity_desc: Plan 01-01 executed — walking skeleton, Dexie schema, weight form, PWA
+state_head: 80079b92f27f8b9dcae8ffa4c63ecba508058845
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 33
 ---
 
 # Project State
@@ -23,35 +23,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-02)
 
 **Core value:** Clear, honest charts of your own health history — with full data ownership and the ability to track any exercise you actually do
-**Current focus:** Phase 1 — Foundation & Core Logging
+**Current focus:** Phase 01 — Foundation & Core Logging
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation & Core Logging)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-09-03 — Roadmap created; 52 v1 requirements mapped across 5 phases
+Phase: 01 (Foundation & Core Logging) — EXECUTING
+Plan: 2 of 3
+Status: Plan 01-01 complete; ready for Plan 01-02
+Last activity: 2026-09-03 — Plan 01-01 executed (walking skeleton)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████░░░░░░░░░░░░░░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: — min
-- Total execution time: 0.0 hours
+- Total plans completed: 1
+- Average duration: ~60 min
+- Total execution time: ~1.0 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 1/3 | ~60m | ~60m |
 
 **Recent Trend:**
 
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01 (~60m)
+- Trend: baseline established
 
 *Updated after each plan completion*
 
@@ -67,23 +67,36 @@ Recent decisions affecting current work:
 - Initial: PWA with service worker; GitHub Pages static hosting
 - Initial: HashRouter required to avoid 404 on page refresh on GitHub Pages
 - Initial: `navigator.storage.persist()` must be called on first load to prevent data eviction
+- Plan 01-01: Dark mode via Zustand store + localStorage 'myhealth-darkmode' (ThemeProvider removed)
+- Plan 01-01: Toaster imported from 'sonner' directly (not shadcn wrapper) to avoid next-themes
+- Plan 01-01: MyHealth/ has nested .git from Vite scaffold — implementation commits in inner repo
+- Plan 01-01: accentColor applied to metric name label in MetricTile for per-metric visual distinction
 
 ### Pending Todos
 
-None yet.
+- **BLOCKER for next executor:** MyHealth/ has a nested .git from Vite scaffold. User needs to
+  explicitly authorize `rm -rf MyHealth/.git` to unify into single repo. Until resolved, all
+  implementation commits for MyHealth/ go to the inner repo (git -C MyHealth/). Planning files
+  (.planning/) continue to commit in the outer repo.
 
 ### Blockers/Concerns
 
-None yet.
+- Nested MyHealth/.git: executor auto-mode classifier blocked removal. Requires explicit user authorization.
+  Message to surface: "To track MyHealth/ files in the outer repo, please run: `rm -rf MyHealth/.git`
+  or use `Get-Item C:/my-code/vibe-coding/my-health/MyHealth/.git -Force | Remove-Item -Recurse -Force` in PowerShell.
+  Then re-add files with `git -C C:/my-code/vibe-coding/my-health add MyHealth/`."
 
 ## Deferred Items
 
 | Category | Item | Status | Deferred At | Milestone |
 |----------|------|--------|-------------|-----------|
-| *(none)* | | | | |
+| stub | 4 metric forms (sleep/steps/water/HR) | pending | Plan 01-01 | Plan 01-02 |
+| stub | Settings screen | pending | Plan 01-01 | Plan 01-02 |
+| stub | PWA icons (real artwork) | pending | Plan 01-01 | Plan 01-03 |
+| decision | Nested MyHealth/.git resolution | needs-user-input | Plan 01-01 | Before Plan 01-02 |
 
 ## Session Continuity
 
-Last session: 2026-09-03T13:29:49.429Z
-Stopped at: Phase 1 plans ready — 3 plans, Walking Skeleton
-Resume file: .planning/phases/01-foundation-core-logging/01-UI-SPEC.md
+Last session: 2026-09-03T18:30:00.000Z
+Stopped at: Plan 01-01 complete — walking skeleton shipped (db5508e, fa7124b in MyHealth inner repo)
+Resume file: .planning/phases/01-foundation-core-logging/01-02-PLAN.md
