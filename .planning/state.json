@@ -1,0 +1,38 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Foundation & Core Logging",
+      "status": "pending"
+    },
+    {
+      "number": "2",
+      "name": "Charts & Visualization",
+      "status": "pending"
+    },
+    {
+      "number": "3",
+      "name": "Targets & Goals",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Training Sessions",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "History & Data",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 5 · 0% · executing"
+  },
+  "updated_at": "2026-09-03T17:31:49.543Z"
+}
