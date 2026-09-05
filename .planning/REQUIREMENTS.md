@@ -15,14 +15,14 @@
 
 - [ ] **WGHT-01**: User can log weight (kg) for any date, including past dates
 - [ ] **WGHT-02**: User can edit or delete any weight entry
-- [ ] **SLEP-01**: User can log sleep as bedtime + wake time for any date; duration auto-calculated
-- [ ] **SLEP-02**: User can edit or delete any sleep entry
-- [ ] **STEP-01**: User can log daily step count (numeric) for any date
-- [ ] **STEP-02**: User can edit or delete any step entry
-- [ ] **WATR-01**: User can log daily water intake (ml) for any date
-- [ ] **WATR-02**: User can edit or delete any water entry
-- [ ] **HRTE-01**: User can log resting heart rate (bpm) for any date
-- [ ] **HRTE-02**: User can edit or delete any heart rate entry
+- [x] **SLEP-01**: User can log sleep as bedtime + wake time for any date; duration auto-calculated
+- [x] **SLEP-02**: User can edit or delete any sleep entry
+- [x] **STEP-01**: User can log daily step count (numeric) for any date
+- [x] **STEP-02**: User can edit or delete any step entry
+- [x] **WATR-01**: User can log daily water intake (ml) for any date
+- [x] **WATR-02**: User can edit or delete any water entry
+- [x] **HRTE-01**: User can log resting heart rate (bpm) for any date
+- [x] **HRTE-02**: User can edit or delete any heart rate entry
 - [ ] **BMI-01**: User stores height once in settings; BMI auto-calculated from weight entries
 - [ ] **BMI-02**: BMI is charted alongside weight in the weight view
 - [ ] **JRNL-01**: User can write an optional free-text journal note for any date
@@ -79,9 +79,9 @@
 ### UX & Settings
 
 - [ ] **UX-01**: Mobile-first responsive design — primary target is phone
-- [ ] **UX-02**: Dark mode with manual toggle; preference persisted
+- [x] **UX-02**: Dark mode with manual toggle; preference persisted
 - [ ] **UX-03**: All units in metric (kg, km, ml, cm)
-- [ ] **UX-04**: User can enter their height in settings (used for BMI calculation)
+- [x] **UX-04**: User can enter their height in settings (used for BMI calculation)
 
 ### Deployment
 
@@ -128,14 +128,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-03 | Phase 3 | Pending |
 | WGHT-01 | Phase 1 | Pending |
 | WGHT-02 | Phase 1 | Pending |
-| SLEP-01 | Phase 1 | Pending |
-| SLEP-02 | Phase 1 | Pending |
-| STEP-01 | Phase 1 | Pending |
-| STEP-02 | Phase 1 | Pending |
-| WATR-01 | Phase 1 | Pending |
-| WATR-02 | Phase 1 | Pending |
-| HRTE-01 | Phase 1 | Pending |
-| HRTE-02 | Phase 1 | Pending |
+| SLEP-01 | Phase 1 | Complete |
+| SLEP-02 | Phase 1 | Complete |
+| STEP-01 | Phase 1 | Complete |
+| STEP-02 | Phase 1 | Complete |
+| WATR-01 | Phase 1 | Complete |
+| WATR-02 | Phase 1 | Complete |
+| HRTE-01 | Phase 1 | Complete |
+| HRTE-02 | Phase 1 | Complete |
 | BMI-01 | Phase 2 | Pending |
 | BMI-02 | Phase 2 | Pending |
 | JRNL-01 | Phase 4 | Pending |
@@ -166,11 +166,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-05 | Phase 5 | Pending |
 | DATA-06 | Phase 5 | Pending |
 | UX-01 | Phase 1 | Pending |
-| UX-02 | Phase 1 | Pending |
+| UX-02 | Phase 1 | Complete |
 | UX-03 | Phase 1 | Pending |
-| UX-04 | Phase 1 | Pending |
+| UX-04 | Phase 1 | Complete |
 
 **Coverage:**
+
 - v1 requirements: 52 total
 - Mapped to phases: 52/52
 - Unmapped: 0
