@@ -4,14 +4,9 @@ import { Toaster } from "sonner"
 import Layout from "./components/Layout"
 import Dashboard from "./components/Dashboard/Dashboard"
 import LogScreen from "./components/Log/LogScreen"
+import Settings from "./components/Settings/Settings"
 import UpdatePrompt from "./components/UpdatePrompt"
 import { requestPersistentStorage } from "./utils/storage"
-
-function Settings() {
-  return (
-    <div className="p-4 text-gray-400">Settings (coming in Plan 01-02)</div>
-  )
-}
 
 export default function App() {
   useEffect(() => {
