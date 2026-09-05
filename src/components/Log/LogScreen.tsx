@@ -2,21 +2,26 @@ import { useNavigate, useParams } from "react-router-dom"
 import { METRIC_CONFIG } from "@/utils/constants"
 import { useAppStore } from "@/store/appStore"
 import WeightForm from "./WeightForm"
+import SleepForm from "./SleepForm"
+import StepsForm from "./StepsForm"
+import WaterForm from "./WaterForm"
+import HeartRateForm from "./HeartRateForm"
 
 export default function LogScreen() {
   const { metric } = useParams<{ metric?: string }>()
   const navigate = useNavigate()
   const setSelectedMetric = useAppStore((s) => s.setSelectedMetric)
 
+  // Route to the correct form component based on the metric param
   if (metric) {
     if (metric === "weight") return <WeightForm />
-    // Stubs for Plan 01-02
+    if (metric === "sleep") return <SleepForm />
+    if (metric === "steps") return <StepsForm />
+    if (metric === "water") return <WaterForm />
+    if (metric === "heartRate") return <HeartRateForm />
     return (
       <div className="px-4 pt-6">
-        <h1 className="text-xl font-semibold mb-4">
-          {METRIC_CONFIG[metric as keyof typeof METRIC_CONFIG]?.label ?? metric}
-        </h1>
-        <p className="text-gray-400">Coming soon: {metric}</p>
+        <p className="text-gray-400">Unknown metric: {metric}</p>
       </div>
     )
   }
