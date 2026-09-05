@@ -23,25 +23,26 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### Phase 1: Foundation & Core Logging
 
-**Goal**: Users can install the app, log any of the five core health metrics for any date, and see today's snapshot on the dashboard
+**Goal**: Users can install the app, log any of the six core health metrics for any date, and see today's snapshot on the dashboard
 **Mode:** mvp
 **Depends on**: Nothing (first phase)
-**Requirements**: DEPL-01, PWA-01, PWA-02, PWA-03, PWA-04, WGHT-01, WGHT-02, SLEP-01, SLEP-02, STEP-01, STEP-02, WATR-01, WATR-02, HRTE-01, HRTE-02, DASH-01, UX-01, UX-02, UX-03, UX-04
+**Requirements**: DEPL-01, PWA-01, PWA-02, PWA-03, PWA-04, WGHT-01, WGHT-02, SLEP-01, SLEP-02, STEP-01, STEP-02, WATR-01, WATR-02, HRTE-01, HRTE-02, TEMP-01, TEMP-02, DASH-01, UX-01, UX-02, UX-03, UX-04
 **Success Criteria** (what must be TRUE):
 
   1. User can open the app on a phone browser, install it to the homescreen, and reopen it from the homescreen — all without a login
-  2. User can log weight, sleep (bedtime + wake time), steps, water, and heart rate for today or any past date; each entry can be edited or deleted
+  2. User can log weight, sleep (bedtime + wake time), steps, water, heart rate, and body temperature for today or any past date; each entry can be edited or deleted
   3. The dashboard shows today's values for every metric the user has logged
   4. The app works fully offline after the first load; data survives browser restarts
   5. App is live and accessible at the GitHub Pages URL
 
-**Plans**: 3/3 plans executed
+**Plans**: 3/4 plans executed
 
 Plans:
 
 - [x] 01-01-PLAN.md — Walking Skeleton: install deps, Dexie schema, HashRouter, 3-tab layout, WeightForm, Dashboard, PWA manifest + service worker + update prompt
 - [x] 01-02-PLAN.md — Remaining 4 metric forms (sleep, steps, water, heart rate) + Settings (dark mode, height input)
 - [x] 01-03-PLAN.md — GitHub Pages deployment workflow + live URL human verification
+- [ ] 01-04-PLAN.md — Body temperature form (multi-per-day, °C) + Dexie schema v2 migration
 
 **UI hint**: yes
 
@@ -114,7 +115,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Logging | 3/3 | In Progress|  |
+| 1. Foundation & Core Logging | 3/4 | In Progress|  |
 | 2. Charts & Visualization | 0/TBD | Not started | - |
 | 3. Targets & Goals | 0/TBD | Not started | - |
 | 4. Training Sessions | 0/TBD | Not started | - |

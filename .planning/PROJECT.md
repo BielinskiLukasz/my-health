@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A personal health tracking Progressive Web App that lives entirely in the browser — no account, no server, no lock-in. Track weight, sleep, steps, water intake, heart rate, and fully configurable training sessions. See rich weekly/monthly/yearly charts, activity heatmaps, and progress toward personal targets with deadlines. Import years of history from Samsung Health and export any time as JSON or CSV.
+A personal health tracking Progressive Web App that lives entirely in the browser — no account, no server, no lock-in. Track weight, sleep, steps, water intake, heart rate, body temperature, and fully configurable training sessions. See rich weekly/monthly/yearly charts, activity heatmaps, and progress toward personal targets with deadlines. Import years of history from Samsung Health and export any time as JSON or CSV.
 
 ## Core Value
 
