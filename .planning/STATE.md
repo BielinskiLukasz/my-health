@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Foundation & Core Logging
 status: executing
-stopped_at: Plan 01-01 complete — walking skeleton shipped
-last_updated: "2026-09-03T18:30:00.000Z"
-last_activity: 2026-09-03
-last_activity_desc: Plan 01-01 executed — walking skeleton, Dexie schema, weight form, PWA
-state_head: 80079b92f27f8b9dcae8ffa4c63ecba508058845
+stopped_at: Completed 01-02-PLAN.md — all 5 metric forms + Settings done
+last_updated: "2026-09-05T17:16:45.841Z"
+last_activity: 2026-09-05
+last_activity_desc: Phase 01 execution started
+state_head: 6430704514f52cfa55c02e0aa72293b9b479d0de
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 33
+  completed_plans: 2
+  percent: 0
 ---
 
 # Project State
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 
 Phase: 01 (Foundation & Core Logging) — EXECUTING
 Plan: 2 of 3
-Status: Plan 01-01 complete; ready for Plan 01-02
-Last activity: 2026-09-03 — Plan 01-01 executed (walking skeleton)
+Status: Ready to execute
+Last activity: 2026-09-05 — Phase 01 execution started
 
-Progress: [██████████░░░░░░░░░░░░░░░░░░░░] 33%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -54,6 +54,11 @@ Progress: [██████████░░░░░░░░░░░░░
 - Trend: baseline established
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P02 | 30 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -71,6 +76,8 @@ Recent decisions affecting current work:
 - Plan 01-01: Toaster imported from 'sonner' directly (not shadcn wrapper) to avoid next-themes
 - Plan 01-01: MyHealth/ has nested .git from Vite scaffold — implementation commits in inner repo
 - Plan 01-01: accentColor applied to metric name label in MetricTile for per-metric visual distinction
+- [Phase 01]: Native HTML toggle (role=switch) used for dark mode toggle in Settings instead of shadcn Switch — avoids adding new dependency
+- [Phase 01]: Height input auto-saves to localStorage on keystroke — no save button needed (matches system settings UX)
 
 ### Pending Todos
 
@@ -97,6 +104,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-03T18:30:00.000Z
-Stopped at: Plan 01-01 complete — walking skeleton shipped (db5508e, fa7124b in MyHealth inner repo)
-Resume file: .planning/phases/01-foundation-core-logging/01-02-PLAN.md
+Last session: 2026-09-05T17:16:45.787Z
+Stopped at: Completed 01-02-PLAN.md — all 5 metric forms + Settings done
+Resume file: .planning/phases/01-foundation-core-logging/01-03-PLAN.md
