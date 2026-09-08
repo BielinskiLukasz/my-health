@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-09-08T14:05:01.135Z",
+  "phase": "01",
+  "phase_name": "foundation-core-logging",
+  "phase_dir": ".planning/phases/01-foundation-core-logging",
+  "plan": 3,
+  "task": 2,
+  "total_tasks": 2,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Plan 01 — PWA scaffold, Dexie schema v1, Zustand store, Tailwind/shadcn setup", "status": "done", "commit": "e6ef5f0"},
+    {"id": 2, "name": "Plan 02 — 4 metric forms (weight, sleep, steps, water), LogScreen, SettingsScreen", "status": "done", "commit": "6430704"},
+    {"id": 3, "name": "Plan 03 Task 1 — GitHub Actions CI/CD deploy workflow + npm deploy script", "status": "done", "commit": "e9a8ff5"},
+    {"id": 4, "name": "Plan 04 spec — body temperature requirements + 01-04-PLAN.md added", "status": "done", "commit": "9d7a875"}
+  ],
+  "remaining_tasks": [
+    {"id": 5, "name": "Plan 03 Task 2 — human-verify live GitHub Pages URL after first push to main", "status": "awaiting_human"},
+    {"id": 6, "name": "Plan 04 Task 1 — implement TemperatureForm + schema v2 + type/constants + MetricTile case", "status": "not_started"}
+  ],
+  "blockers": [
+    {
+      "description": "Plan 03 Task 2 requires human to push to main and verify the live GitHub Pages URL loads correctly",
+      "type": "human_action",
+      "workaround": "Can proceed with Plan 04 (temperature implementation) in parallel — it does not depend on the live URL check"
+    }
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Push the develop branch to main to trigger the GitHub Actions deploy workflow, then verify the live GitHub Pages URL loads the PWA correctly",
+      "context": "Plan 03 Task 2 — deploy workflow is wired but has never run against the live repo",
+      "blocking": false
+    }
+  ],
+  "decisions": [
+    {"decision": "App moved from MyHealth/ subdirectory to repo root", "rationale": "Cleaner monorepo layout; deploy workflow uses npm ci at root (not --prefix MyHealth)", "phase": "01"},
+    {"decision": "peaceiris/actions-gh-pages@v4 pinned to major version tag", "rationale": "Supply-chain security (T-03-01)", "phase": "01"},
+    {"decision": "permissions: contents: write at job level (least privilege)", "rationale": "T-03-03 mitigation", "phase": "01"},
+    {"decision": "Temperature uses multi-per-day pattern (++id, date index) same as HeartRate", "rationale": "Body temperature can legitimately vary across the day (morning vs fever peak)", "phase": "01"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Execute Plan 04 Task 1 — implement TemperatureForm, schema v2 migration, type/constants updates, MetricTile temperature case. Run npm run build to verify zero TypeScript errors.",
+  "context_notes": "Plans 01–03 are essentially done. Plan 03 Task 2 is a human-verify checkpoint (live URL check) that does not block Plan 04. Plan 04 is fully spec'd in 01-04-PLAN.md and ready to execute — follow the HeartRateForm multi-per-day pattern exactly."
+}
