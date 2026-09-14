@@ -114,6 +114,7 @@ status: complete
 ## Task Commits
 
 1. **Task 1: Temperature schema, types, form, LogScreen route, and MetricTile case** — `3de6664` (feat)
+2. **Gap fix: add temperature tile to Dashboard grid** — `2dfbc35` (fix) — Dashboard.tsx was missing the MetricTile instantiation; caught by phase verifier
 
 ## Files Created/Modified
 
@@ -123,6 +124,7 @@ status: complete
 - `src/components/Log/TemperatureForm.tsx` — new multi-per-day form (parseFloat, step=0.1, min=35, max=42)
 - `src/components/Log/LogScreen.tsx` — TemperatureForm import + route dispatch + metrics array
 - `src/components/Dashboard/MetricTile.tsx` — temperature case in loadTileData switch
+- `src/components/Dashboard/Dashboard.tsx` — temperature MetricTile added to grid (gap fix)
 
 ## Decisions Made
 
@@ -131,7 +133,20 @@ status: complete
 
 ## Deviations from Plan
 
-None — plan executed exactly as written.
+### Auto-fixed Issues
+
+**1. [Gap] Dashboard.tsx missing temperature MetricTile**
+- **Found during:** Phase verifier (post-plan)
+- **Issue:** `MetricTile` had a complete `case "temperature":` block, but `Dashboard.tsx` never instantiated the tile — success criterion #3 (dashboard shows all logged metrics) would not be satisfied
+- **Fix:** Added `<MetricTile metric="temperature" {...METRIC_CONFIG.temperature} />` as a `col-span-2` row matching the heartRate tile layout
+- **Files modified:** `src/components/Dashboard/Dashboard.tsx`
+- **Verification:** `npm run build` exits 0
+- **Committed in:** `2dfbc35`
+
+---
+
+**Total deviations:** 1 auto-fixed (missing dashboard wiring)
+**Impact on plan:** Necessary for phase goal correctness. No scope creep.
 
 ## Issues Encountered
 
