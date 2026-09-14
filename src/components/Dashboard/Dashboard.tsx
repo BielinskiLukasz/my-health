@@ -2,6 +2,7 @@ import MetricTile from "./MetricTile"
 import { METRIC_CONFIG } from "@/utils/constants"
 import { formatDisplayDate } from "@/utils/dateFormat"
 import { useAppStore } from "@/store/appStore"
+import ActivityHeatmap from "@/components/Charts/ActivityHeatmap"
 
 export default function Dashboard() {
   const currentDate = useAppStore((s) => s.currentDate)
@@ -24,6 +25,10 @@ export default function Dashboard() {
         <div className="col-span-2">
           <MetricTile metric="temperature" {...METRIC_CONFIG.temperature} />
         </div>
+      </div>
+      {/* Activity heatmap below metric tile grid (D-12) */}
+      <div className="mt-6">
+        <ActivityHeatmap />
       </div>
     </div>
   )
