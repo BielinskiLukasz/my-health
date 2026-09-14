@@ -59,7 +59,14 @@ Plans:
   3. Each metric tile on the dashboard shows a target progress bar and a red/yellow/green color indicator
   4. User enters height once in settings; BMI is auto-calculated from all weight entries and shown as an overlay on the weight chart
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Recharts install + chart infrastructure (chartColors.ts, aggregation.ts TDD, useChartData) + complete MetricChart screen (W/M/Y, all metrics, FAB, summary stat)
+- [ ] 02-02-PLAN.md — Activity heatmap (useHeatmapData, ActivityHeatmap CSS Grid 52×7, Dashboard integration, cell tooltip D-13)
+- [ ] 02-03-PLAN.md — Dashboard sparklines (Sparkline.tsx, MetricTile embed, empty state D-15)
+- [ ] 02-04-PLAN.md — BMI section (bmi.ts TDD, useBmiData hook, BmiSection component below weight chart D-09)
+
 **UI hint**: yes
 
 ### Phase 3: Targets & Goals
