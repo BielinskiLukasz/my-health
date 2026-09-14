@@ -57,7 +57,7 @@
 - [x] **CHRT-01**: User can view a weekly chart for any metric
 - [x] **CHRT-02**: User can view a monthly chart for any metric
 - [x] **CHRT-03**: User can view a yearly chart for any metric
-- [ ] **CHRT-04**: Activity heatmap shows training days and target-hit days (GitHub-style grid)
+- [x] **CHRT-04**: Activity heatmap shows training days and target-hit days (GitHub-style grid)
 - [ ] **HIST-01**: User can browse a scrollable history list of all logged entries
 - [ ] **HIST-02**: History list is filterable by metric type, date range, and exercise type
 
@@ -160,7 +160,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHRT-01 | Phase 2 | Complete |
 | CHRT-02 | Phase 2 | Complete |
 | CHRT-03 | Phase 2 | Complete |
-| CHRT-04 | Phase 2 | Pending |
+| CHRT-04 | Phase 2 | Complete |
 | HIST-01 | Phase 5 | Pending |
 | HIST-02 | Phase 5 | Pending |
 | DATA-01 | Phase 5 | Pending |

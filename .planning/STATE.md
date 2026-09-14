@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 02
 current_phase_name: Charts & Visualization
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-09-14T20:56:20.293Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-09-14T21:08:36.910Z"
 last_activity: 2026-09-14
 last_activity_desc: Phase 02 execution started
-state_head: 774027adc60220bf79acf40e08df24f00e6e664b
+state_head: cb202c2450f6aef7d331b8000efc785d40d449a4
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 ## Current Position
 
 Phase: 02 (Charts & Visualization) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-09-14 — Phase 02 execution started
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P02 | 30 | 2 tasks | 7 files |
 | Phase 02 P01 | 23 | 3 tasks | 12 files |
+| Phase 02 P02 | 4 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 02]: Installed react-is@^19 alongside recharts@^3 to fix blank-chart bug on React 19
 - [Phase 02]: ResponsiveContainer always uses fixed pixel height (not 100%) per Pitfall 7
 - [Phase 02]: defineConfig imported from vitest/config to support test block in vite.config.ts
+- [Phase 02]: Metric names in HeatmapCell.metrics come from hardcoded allowlist strings, not raw Dexie data (T-02-04 mitigation)
+- [Phase 02]: overflow-x-auto + minWidth 600px prevents heatmap viewport overflow on mobile (Pitfall 6)
+- [Phase 02]: gridAutoFlow: column creates correct week-column/day-row orientation for 52x7 CSS Grid heatmap
 
 ### Pending Todos
 
@@ -109,6 +113,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-14T20:56:20.250Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-09-14T21:08:36.842Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
