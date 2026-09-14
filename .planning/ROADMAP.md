@@ -59,10 +59,11 @@ Plans:
   3. Each metric tile on the dashboard shows a target progress bar and a red/yellow/green color indicator
   4. User enters height once in settings; BMI is auto-calculated from all weight entries and shown as an overlay on the weight chart
 
-**Plans**: 4 plans
+**Plans**: 1/4 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Recharts install + chart infrastructure (chartColors.ts, aggregation.ts TDD, useChartData) + complete MetricChart screen (W/M/Y, all metrics, FAB, summary stat)
+
+- [x] 02-01-PLAN.md — Recharts install + chart infrastructure (chartColors.ts, aggregation.ts TDD, useChartData) + complete MetricChart screen (W/M/Y, all metrics, FAB, summary stat)
 - [ ] 02-02-PLAN.md — Activity heatmap (useHeatmapData, ActivityHeatmap CSS Grid 52×7, Dashboard integration, cell tooltip D-13)
 - [ ] 02-03-PLAN.md — Dashboard sparklines (Sparkline.tsx, MetricTile embed, empty state D-15)
 - [ ] 02-04-PLAN.md — BMI section (bmi.ts TDD, useBmiData hook, BmiSection component below weight chart D-09)
@@ -123,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Logging | 4/4 | Complete | 2026-09-14 |
-| 2. Charts & Visualization | 0/TBD | Not started | - |
+| 2. Charts & Visualization | 1/4 | In Progress|  |
 | 3. Targets & Goals | 0/TBD | Not started | - |
 | 4. Training Sessions | 0/TBD | Not started | - |
 | 5. History & Data | 0/TBD | Not started | - |
