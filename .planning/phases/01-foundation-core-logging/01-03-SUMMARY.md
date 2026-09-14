@@ -2,7 +2,7 @@
 phase: 01-foundation-core-logging
 plan: "03"
 subsystem: deployment
-status: partial
+status: complete
 tags:
   - github-actions
   - gh-pages
@@ -57,19 +57,14 @@ actuals:
 
 ## Status
 
-PARTIAL — Task 1 complete, paused at Task 2 (human-verify checkpoint: live URL verification required).
+COMPLETE — Task 1 complete (CI/CD pipeline); Task 2 verified by user 2026-09-14 (live GitHub Pages URL confirmed working).
 
 ## Tasks Completed
 
 | # | Name | Commit | Files |
 |---|------|--------|-------|
 | 1 | GitHub Actions deploy workflow + npm deploy script | e9a8ff5 | .github/workflows/deploy.yml, package.json |
-
-## Tasks Pending
-
-| # | Name | Type | Status |
-|---|------|------|--------|
-| 2 | Verify live GitHub Pages URL after first deployment | checkpoint:human-verify | awaiting human |
+| 2 | Live GitHub Pages URL verified working | (human verify) | — |
 
 ## What Was Built
 
