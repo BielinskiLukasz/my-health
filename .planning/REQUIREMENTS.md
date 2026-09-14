@@ -8,7 +8,7 @@
 ### Dashboard
 
 - [ ] **DASH-01**: User sees today's snapshot across all tracked metrics on the home screen
-- [ ] **DASH-02**: Each metric tile shows current value, target progress bar, and color indicator (red/yellow/green)
+- [x] **DASH-02**: Each metric tile shows current value, target progress bar, and color indicator (red/yellow/green)
 - [ ] **DASH-03**: Dashboard shows active streak count for each metric with a target
 
 ### Metrics — Core Logging
@@ -126,7 +126,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PWA-04 | Phase 1 | Pending |
 | PWA-05 | Phase 5 | Pending |
 | DASH-01 | Phase 1 | Pending |
-| DASH-02 | Phase 2 | Pending |
+| DASH-02 | Phase 2 | Complete |
 | DASH-03 | Phase 3 | Pending |
 | WGHT-01 | Phase 1 | Pending |
 | WGHT-02 | Phase 1 | Pending |
