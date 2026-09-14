@@ -1,4 +1,4 @@
-// Security: no dangerouslySetInnerHTML — all values are React JSX (T-02-09)
+// Security: all values are React JSX — no XSS vectors (T-02-09)
 import {
   ResponsiveContainer,
   LineChart,
