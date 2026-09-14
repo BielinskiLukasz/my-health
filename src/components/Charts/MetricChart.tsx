@@ -20,6 +20,7 @@ import { useChartData } from "@/hooks/useChartData"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
 import CustomTooltip from "./CustomTooltip"
+import BmiSection from "./BmiSection"
 
 // D-05: auto-choose chart type by metric (line for continuous, bar for discrete)
 const METRIC_CHART_TYPE: Record<MetricType, "line" | "bar"> = {
@@ -160,6 +161,9 @@ export default function MetricChart() {
           )}
         </ResponsiveContainer>
       )}
+
+      {/* D-09: BMI section appears only below the weight chart — not dual Y-axis */}
+      {metric === 'weight' && <BmiSection />}
 
       {/* D-02: FAB navigates to log form for this metric */}
       <button
