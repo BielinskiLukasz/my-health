@@ -6,6 +6,7 @@ import SleepForm from "./SleepForm"
 import StepsForm from "./StepsForm"
 import WaterForm from "./WaterForm"
 import HeartRateForm from "./HeartRateForm"
+import TemperatureForm from "./TemperatureForm"
 
 export default function LogScreen() {
   const { metric } = useParams<{ metric?: string }>()
@@ -19,6 +20,7 @@ export default function LogScreen() {
     if (metric === "steps") return <StepsForm />
     if (metric === "water") return <WaterForm />
     if (metric === "heartRate") return <HeartRateForm />
+    if (metric === "temperature") return <TemperatureForm />
     return (
       <div className="px-4 pt-6">
         <p className="text-gray-400">Unknown metric: {metric}</p>
@@ -32,6 +34,7 @@ export default function LogScreen() {
     "steps",
     "water",
     "heartRate",
+    "temperature",
   ] as const
 
   return (

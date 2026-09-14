@@ -29,4 +29,10 @@ export const METRIC_CONFIG = {
     accentColor: "text-red-500",
     accentBorder: "border-red-500",
   },
+  temperature: {
+    label: "Temperature",
+    unit: "°C",
+    accentColor: "text-orange-500",
+    accentBorder: "border-orange-500",
+  },
 } as const

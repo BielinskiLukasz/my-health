@@ -33,10 +33,17 @@ export interface HeartRate {
   timestamp: string // full ISO string
 }
 
+export interface Temperature {
+  id?: number
+  date: string // YYYY-MM-DD
+  celsius: number
+  timestamp: string // full ISO string
+}
+
 // Per D-15: separate tables per metric — NEVER a unified table
-// Per D-16: weight + heartRate allow multiple per day (++id PK), others are one per day (date PK)
+// Per D-16: weight + heartRate + temperature allow multiple per day (++id PK), others are one per day (date PK)
 // Per D-17: dates as YYYY-MM-DD strings, timestamps as full ISO strings
-// Per D-19: schema version 1 contains Phase 1 tables only
+// Per D-19: schema version 1 contains Phase 1 tables only; version 2 adds temperatures (additive)
 
 class MyHealthDB extends Dexie {
   weights!: EntityTable<Weight, "id">
@@ -44,6 +51,7 @@ class MyHealthDB extends Dexie {
   stepEntries!: EntityTable<Steps, "date">
   waterEntries!: EntityTable<Water, "date">
   heartRates!: EntityTable<HeartRate, "id">
+  temperatures!: EntityTable<Temperature, "id">
 
   constructor() {
     super("MyHealthDB")
@@ -53,6 +61,9 @@ class MyHealthDB extends Dexie {
       stepEntries: "date",
       waterEntries: "date",
       heartRates: "++id, date",
+    })
+    this.version(2).stores({
+      temperatures: "++id, date",
     })
   }
 }

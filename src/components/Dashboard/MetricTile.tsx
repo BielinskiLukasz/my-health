@@ -127,6 +127,28 @@ async function loadTileData(
         }
         return { variant: "c", value: "" }
       }
+
+      case "temperature": {
+        const todayEntries = await db.temperatures
+          .where("date")
+          .equals(currentDate)
+          .toArray()
+        if (todayEntries.length > 0) {
+          const avg =
+            todayEntries.reduce((sum, e) => sum + e.celsius, 0) /
+            todayEntries.length
+          return { variant: "a", value: avg.toFixed(1) }
+        }
+        const last = await db.temperatures.orderBy("date").reverse().first()
+        if (last) {
+          return {
+            variant: "b",
+            value: last.celsius.toFixed(1),
+            lastDate: last.date,
+          }
+        }
+        return { variant: "c", value: "" }
+      }
     }
   } catch {
     return { variant: "c", value: "", error: true }

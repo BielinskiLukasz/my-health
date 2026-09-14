@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { format } from "date-fns"
 
-export type MetricType = "weight" | "sleep" | "steps" | "water" | "heartRate"
+export type MetricType = "weight" | "sleep" | "steps" | "water" | "heartRate" | "temperature"
 
 interface AppStore {
   currentDate: string
