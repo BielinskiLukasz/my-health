@@ -21,6 +21,9 @@ export default function Dashboard() {
         <div className="col-span-2">
           <MetricTile metric="heartRate" {...METRIC_CONFIG.heartRate} />
         </div>
+        <div className="col-span-2">
+          <MetricTile metric="temperature" {...METRIC_CONFIG.temperature} />
+        </div>
       </div>
     </div>
   )
