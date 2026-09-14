@@ -164,7 +164,6 @@ export default function MetricTile({
 }: MetricTileProps) {
   const navigate = useNavigate()
   const currentDate = useAppStore((s) => s.currentDate)
-  const setSelectedMetric = useAppStore((s) => s.setSelectedMetric)
   const [tileData, setTileData] = useState<TileData>({ variant: "c", value: "" })
 
   useEffect(() => {
@@ -172,8 +171,7 @@ export default function MetricTile({
   }, [metric, currentDate])
 
   const handleTap = () => {
-    setSelectedMetric(metric)
-    navigate("/log/" + metric)
+    navigate("/chart/" + metric)
   }
 
   const { variant, value, lastDate, error } = tileData
