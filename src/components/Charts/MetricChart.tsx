@@ -1,66 +1,174 @@
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import { format } from "date-fns"
 import {
   ResponsiveContainer,
   LineChart,
+  BarChart,
   Line,
+  Bar,
   CartesianGrid,
   XAxis,
   YAxis,
+  Tooltip,
 } from "recharts"
+import { ChevronLeft, Plus } from "lucide-react"
+import type { MetricType } from "@/store/appStore"
+import { METRIC_CONFIG } from "@/utils/constants"
 import { CHART_HEX } from "@/utils/chartColors"
+import { useChartData } from "@/hooks/useChartData"
+import PeriodSelector from "./PeriodSelector"
+import ChartHeader from "./ChartHeader"
+import CustomTooltip from "./CustomTooltip"
 
-// Stub: hardcoded dummy data for smoke test (Task 1)
-// Real data wired in Task 3
-const DUMMY_DATA = [
-  { date: "2026-09-08", value: 73.5 },
-  { date: "2026-09-09", value: 73.2 },
-  { date: "2026-09-10", value: 73.8 },
-  { date: "2026-09-11", value: 73.1 },
-  { date: "2026-09-12", value: 72.9 },
+// D-05: auto-choose chart type by metric (line for continuous, bar for discrete)
+const METRIC_CHART_TYPE: Record<MetricType, "line" | "bar"> = {
+  weight: "line",
+  sleep: "line",
+  steps: "bar",
+  water: "bar",
+  heartRate: "line",
+  temperature: "line",
+}
+
+const VALID_METRICS: MetricType[] = [
+  "weight",
+  "sleep",
+  "steps",
+  "water",
+  "heartRate",
+  "temperature",
 ]
 
+// T-02-01: validate metric against allowlist before use
+function isValidMetric(m: string): m is MetricType {
+  return VALID_METRICS.includes(m as MetricType)
+}
+
 export default function MetricChart() {
+  const { metric: metricParam } = useParams<{ metric: string }>()
   const navigate = useNavigate()
+  const [period, setPeriod] = useState<"W" | "M" | "Y">("W")
+
+  // T-02-01: guard against invalid metric in URL param
+  if (!metricParam || !isValidMetric(metricParam)) {
+    navigate(-1)
+    return null
+  }
+
+  const metric = metricParam as MetricType
+  const { data, prevData, isLoading } = useChartData(metric, period)
+
+  // D-06: yearly view always uses bar chart regardless of metric type
+  const chartType = period === "Y" ? "bar" : METRIC_CHART_TYPE[metric]
+
+  const config = METRIC_CONFIG[metric]
+  const accentHex = CHART_HEX[metric]
+
+  // X-axis tick formatter: yearly shows month name, weekly/monthly shows "MMM d"
+  const xTickFormatter = (value: string) => {
+    if (period === "Y") {
+      // Monthly data key is "YYYY-MM" — append "-01" to parse as a date
+      return format(new Date(value + "-01T00:00:00"), "MMM")
+    }
+    return format(new Date(value + "T00:00:00"), "MMM d")
+  }
 
   return (
-    <div className="px-4 pt-6">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="px-4 pt-6 pb-24">
+      {/* Header row: back button + metric name */}
+      <div className="flex items-center gap-3 mb-4">
         <button
           onClick={() => navigate(-1)}
-          className="text-sm text-gray-400 hover:text-white transition-colors"
+          className="flex items-center text-gray-400 hover:text-white transition-colors"
+          aria-label="Go back"
         >
-          ← Back
+          <ChevronLeft className="size-5" />
         </button>
-        <h1 className="text-xl font-semibold text-white">Weight Chart</h1>
+        <h1 className="text-xl font-semibold text-white">{config.label}</h1>
       </div>
 
-      <ResponsiveContainer width="100%" height={220}>
-        <LineChart
-          data={DUMMY_DATA}
-          margin={{ top: 4, right: 8, left: -20, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-          <XAxis
-            dataKey="date"
-            tick={{ fill: "#71717a", fontSize: 11 }}
-            axisLine={false}
-            tickLine={false}
-          />
-          <YAxis
-            tick={{ fill: "#71717a", fontSize: 11 }}
-            axisLine={false}
-            tickLine={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke={CHART_HEX["weight"]}
-            strokeWidth={2}
-            dot={false}
-            connectNulls={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {/* Summary stat header (avg/min/max + trend arrow) */}
+      <ChartHeader metric={metric} data={data} prevData={prevData} period={period} />
+
+      {/* Period switcher W | M | Y */}
+      <div className="mb-4">
+        <PeriodSelector selected={period} onSelect={setPeriod} />
+      </div>
+
+      {/* Chart */}
+      {isLoading ? (
+        <div className="flex items-center justify-center h-[220px] text-zinc-400 text-sm">
+          Loading...
+        </div>
+      ) : data.length === 0 ? (
+        <div className="flex items-center justify-center h-[220px] text-zinc-400 text-sm">
+          No data for this period
+        </div>
+      ) : (
+        // Pitfall 7: ResponsiveContainer always uses fixed pixel height, never "100%"
+        <ResponsiveContainer width="100%" height={220}>
+          {chartType === "line" ? (
+            <LineChart
+              data={data}
+              margin={{ top: 4, right: 8, left: -20, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={xTickFormatter}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip content={<CustomTooltip unit={config.unit} />} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke={accentHex}
+                strokeWidth={2}
+                dot={false}
+                connectNulls={false}
+              />
+            </LineChart>
+          ) : (
+            <BarChart
+              data={data}
+              margin={{ top: 4, right: 8, left: -20, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={xTickFormatter}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip content={<CustomTooltip unit={config.unit} />} />
+              <Bar dataKey="value" fill={accentHex} radius={[2, 2, 0, 0]} />
+            </BarChart>
+          )}
+        </ResponsiveContainer>
+      )}
+
+      {/* D-02: FAB navigates to log form for this metric */}
+      <button
+        onClick={() => navigate("/log/" + metric)}
+        className="fixed bottom-6 right-6 z-10 flex items-center justify-center rounded-full bg-white text-black p-4 shadow-lg hover:bg-gray-100 transition-colors"
+        aria-label={`Log ${config.label}`}
+      >
+        <Plus className="size-5" />
+      </button>
     </div>
   )
 }
