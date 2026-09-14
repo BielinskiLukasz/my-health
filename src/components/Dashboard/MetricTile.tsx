@@ -4,6 +4,8 @@ import { db } from "@/db/schema"
 import { useAppStore, type MetricType } from "@/store/appStore"
 import { formatShortDate } from "@/utils/dateFormat"
 import { differenceInMinutes, parseISO } from "date-fns"
+import { CHART_HEX } from "@/utils/chartColors"
+import Sparkline from "@/components/Charts/Sparkline"
 
 interface MetricTileProps {
   metric: MetricType
@@ -218,6 +220,11 @@ export default function MetricTile({
           </span>
         </div>
       )}
+
+      {/* 14-day sparkline below value display (D-14, D-15) */}
+      <div className="mt-2">
+        <Sparkline metric={metric} accentHex={CHART_HEX[metric]} />
+      </div>
     </button>
   )
 }
