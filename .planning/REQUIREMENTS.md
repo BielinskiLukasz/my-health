@@ -23,8 +23,8 @@
 - [x] **WATR-02**: User can edit or delete any water entry
 - [x] **HRTE-01**: User can log resting heart rate (bpm) for any date
 - [x] **HRTE-02**: User can edit or delete any heart rate entry
-- [ ] **TEMP-01**: User can log body temperature (°C) for any date and time; multiple entries per day are allowed
-- [ ] **TEMP-02**: User can edit or delete any temperature entry
+- [x] **TEMP-01**: User can log body temperature (°C) for any date and time; multiple entries per day are allowed
+- [x] **TEMP-02**: User can edit or delete any temperature entry
 - [ ] **BMI-01**: User stores height once in settings; BMI auto-calculated from weight entries
 - [ ] **BMI-02**: BMI is charted alongside weight in the weight view
 - [ ] **JRNL-01**: User can write an optional free-text journal note for any date
@@ -138,8 +138,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WATR-02 | Phase 1 | Complete |
 | HRTE-01 | Phase 1 | Complete |
 | HRTE-02 | Phase 1 | Complete |
-| TEMP-01 | Phase 1 | Pending |
-| TEMP-02 | Phase 1 | Pending |
+| TEMP-01 | Phase 1 | Complete |
+| TEMP-02 | Phase 1 | Complete |
 | BMI-01 | Phase 2 | Pending |
 | BMI-02 | Phase 2 | Pending |
 | JRNL-01 | Phase 4 | Pending |
