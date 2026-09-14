@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { getDay, parseISO, format } from 'date-fns'
 import { useHeatmapData } from '@/hooks/useHeatmapData'
 import type { HeatmapCell } from '@/hooks/useHeatmapData'
+import { METRIC_CONFIG } from '@/utils/constants'
 
 function heatmapCellClass(count: number): string {
   if (count === 0) return 'bg-zinc-800'
@@ -34,8 +36,26 @@ function getMonthLabels(cells: HeatmapCell[], startDay: number): MonthLabel[] {
   return labels
 }
 
+interface TooltipState {
+  date: string
+  metrics: string[]
+  x: number
+  y: number
+}
+
 export default function ActivityHeatmap() {
   const { cellData, isLoading } = useHeatmapData()
+  const [tooltip, setTooltip] = useState<TooltipState | null>(null)
+
+  const handleCellClick = (cell: HeatmapCell, event: React.MouseEvent) => {
+    event.stopPropagation()
+    setTooltip({
+      date: cell.date,
+      metrics: cell.metrics,
+      x: event.clientX,
+      y: event.clientY,
+    })
+  }
 
   if (isLoading) {
     return (
@@ -93,15 +113,51 @@ export default function ActivityHeatmap() {
             {cellData.map((cell) => (
               <div
                 key={cell.date}
-                className={`w-[10px] h-[10px] rounded-sm ${heatmapCellClass(cell.count)}`}
+                className={`w-[10px] h-[10px] rounded-sm cursor-pointer ${heatmapCellClass(cell.count)}`}
                 data-date={cell.date}
                 data-metrics={cell.metrics.join(',')}
-                onClick={() => {/* no-op — tooltip wired in Task 2 */}}
+                onClick={(e) => handleCellClick(cell, e)}
               />
             ))}
           </div>
         </div>
       </div>
+
+      {/* Overlay — dismisses tooltip on click outside cell (z-40, below tooltip z-50) */}
+      {tooltip && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setTooltip(null)}
+        />
+      )}
+
+      {/* Tooltip — pointer-events-none so it doesn't block overlay dismiss (D-13) */}
+      {tooltip && (
+        <div
+          className="fixed z-50 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 shadow-lg text-sm pointer-events-none"
+          style={{
+            top: tooltip.y - 10,
+            left: tooltip.x > window.innerWidth - 200 ? tooltip.x - 160 : tooltip.x + 10,
+          }}
+        >
+          {/* Date label — T00:00:00 avoids UTC/local shift (Pitfall 3) */}
+          <p className="text-zinc-400 text-xs mb-1">
+            {format(parseISO(tooltip.date + 'T00:00:00'), 'EEEE, MMM d, yyyy')}
+          </p>
+          {tooltip.metrics.length === 0 ? (
+            <p className="text-zinc-500 text-xs">No metrics logged</p>
+          ) : (
+            <ul>
+              {tooltip.metrics.map((m) => (
+                <li key={m} className="text-white text-xs">
+                  {/* Security: m comes from hardcoded allowlist in useHeatmapData (T-02-04) */}
+                  {METRIC_CONFIG[m as keyof typeof METRIC_CONFIG]?.label ?? m}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   )
 }
