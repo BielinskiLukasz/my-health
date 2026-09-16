@@ -1,45 +1,59 @@
 {
   "version": "1.0",
-  "timestamp": "2026-09-08T14:05:01.135Z",
-  "phase": "01",
-  "phase_name": "foundation-core-logging",
-  "phase_dir": ".planning/phases/01-foundation-core-logging",
-  "plan": 3,
-  "task": 2,
-  "total_tasks": 2,
+  "timestamp": "2026-09-16T19:04:40.236Z",
+  "phase": "02",
+  "phase_name": "charts-visualization",
+  "phase_dir": ".planning/phases/02-charts-visualization",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Plan 01 — PWA scaffold, Dexie schema v1, Zustand store, Tailwind/shadcn setup", "status": "done", "commit": "e6ef5f0"},
-    {"id": 2, "name": "Plan 02 — 4 metric forms (weight, sleep, steps, water), LogScreen, SettingsScreen", "status": "done", "commit": "6430704"},
-    {"id": 3, "name": "Plan 03 Task 1 — GitHub Actions CI/CD deploy workflow + npm deploy script", "status": "done", "commit": "e9a8ff5"},
-    {"id": 4, "name": "Plan 04 spec — body temperature requirements + 01-04-PLAN.md added", "status": "done", "commit": "9d7a875"}
+    {"id": 1, "name": "Plans 02-01..02-04 (charts, heatmap, sparklines, BMI section) executed and code-reviewed", "status": "done", "commit": "426b196"},
+    {"id": 2, "name": "02-VERIFICATION.md automated pass (17/17 checks) — status human_needed, 4 items need browser UAT", "status": "done", "commit": null},
+    {"id": 3, "name": "UAT test 1 (D2) run — found bug: update banner button no-op", "status": "done", "commit": "6eef7b9"},
+    {"id": 4, "name": "Gap G-02-1 (update banner no-op) fixed and resolved", "status": "done", "commit": "6eef7b9"}
   ],
   "remaining_tasks": [
-    {"id": 5, "name": "Plan 03 Task 2 — human-verify live GitHub Pages URL after first push to main", "status": "awaiting_human"},
-    {"id": 6, "name": "Plan 04 Task 1 — implement TemperatureForm + schema v2 + type/constants + MetricTile case", "status": "not_started"}
+    {"id": 5, "name": "Fix G-02-2 — chart screen Log button hidden under bottom nav (major severity, unresolved)", "status": "not_started"},
+    {"id": 6, "name": "UAT test 2 (D4) — ChartHeader recompute on period switch", "status": "awaiting_human", "note": "Current test in 02-UAT.md, awaiting user response"},
+    {"id": 7, "name": "UAT test 3 (H1) — GitHub-style heatmap layout", "status": "not_started"},
+    {"id": 8, "name": "UAT test 4 (H2) — heatmap cell tap tooltip", "status": "not_started"},
+    {"id": 9, "name": "Close out Phase 2: update 02-UAT.md summary, mark phase 2 complete in state.json", "status": "not_started"},
+    {"id": 10, "name": "Discuss-phase for Phase 3 (Targets & Goals) — no phase directory exists yet", "status": "not_started"}
   ],
   "blockers": [
     {
-      "description": "Plan 03 Task 2 requires human to push to main and verify the live GitHub Pages URL loads correctly",
-      "type": "human_action",
-      "workaround": "Can proceed with Plan 04 (temperature implementation) in parallel — it does not depend on the live URL check"
+      "description": "Gap G-02-2: chart's Log button is obscured by the bottom nav bar (major severity) — reported during UAT test 1, not yet fixed",
+      "type": "technical",
+      "workaround": "Move Log button higher in the chart screen layout or reposition relative to bottom nav before Phase 2 sign-off"
     }
   ],
   "async_jobs": [],
   "human_actions_pending": [
     {
-      "action": "Push the develop branch to main to trigger the GitHub Actions deploy workflow, then verify the live GitHub Pages URL loads the PWA correctly",
-      "context": "Plan 03 Task 2 — deploy workflow is wired but has never run against the live repo",
-      "blocking": false
+      "action": "Resume UAT test 2 (D4) in 02-UAT.md — switch W/M/Y periods on any chart screen and confirm Avg/min-max/trend arrow recompute correctly",
+      "context": "02-UAT.md has this marked as the Current Test, awaiting user response",
+      "blocking": true
+    },
+    {
+      "action": "Complete UAT tests 3 (H1 heatmap layout) and 4 (H2 heatmap tooltip) after test 2",
+      "context": "Both still pending in 02-UAT.md",
+      "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "App moved from MyHealth/ subdirectory to repo root", "rationale": "Cleaner monorepo layout; deploy workflow uses npm ci at root (not --prefix MyHealth)", "phase": "01"},
-    {"decision": "peaceiris/actions-gh-pages@v4 pinned to major version tag", "rationale": "Supply-chain security (T-03-01)", "phase": "01"},
-    {"decision": "permissions: contents: write at job level (least privilege)", "rationale": "T-03-03 mitigation", "phase": "01"},
-    {"decision": "Temperature uses multi-per-day pattern (++id, date index) same as HeartRate", "rationale": "Body temperature can legitimately vary across the day (morning vs fever peak)", "phase": "01"}
+    {"decision": "SC3 (target progress bars/color coding on tiles) deferred from Phase 2 to Phase 3", "rationale": "Phase 3 Success Criteria #2 explicitly owns this feature; Phase 2 goal is charts/heatmap/BMI only", "phase": "02"},
+    {"decision": "useRegisterSW() needRefresh must be destructured as a tuple [value, setter], not a boolean", "rationale": "Root cause of G-02-1 — registerType 'autoUpdate' plus wrong destructuring made the update button a permanent no-op with false-positive banner display", "phase": "02"}
   ],
-  "uncommitted_files": [],
-  "next_action": "Execute Plan 04 Task 1 — implement TemperatureForm, schema v2 migration, type/constants updates, MetricTile temperature case. Run npm run build to verify zero TypeScript errors.",
-  "context_notes": "Plans 01–03 are essentially done. Plan 03 Task 2 is a human-verify checkpoint (live URL check) that does not block Plan 04. Plan 04 is fully spec'd in 01-04-PLAN.md and ready to execute — follow the HeartRateForm multi-per-day pattern exactly."
+  "uncommitted_files": [
+    ".planning/milestone.lock",
+    ".planning/phases/02-charts-visualization/02-UAT.md",
+    ".planning/state.json",
+    ".planning/phases/01-foundation-core-logging/01-VERIFICATION.md",
+    ".planning/phases/02-charts-visualization/02-VERIFICATION.md",
+    ".planning/research/.cache/"
+  ],
+  "next_action": "Resume the Phase 2 UAT conversation at test 2 (D4) in 02-UAT.md, then tests 3 and 4; fix gap G-02-2 (Log button under bottom nav) before final Phase 2 verification sign-off.",
+  "context_notes": "Phase 2 code is fully implemented and automated-verified (17/17 checks). We are mid human-UAT loop: test 1 already surfaced two issues — one fixed (update banner no-op, commit 6eef7b9) and one still open (G-02-2, Log button hidden under bottom nav, major). Once UAT tests 2-4 finish and G-02-2 is fixed, close out Phase 2 in state.json and move to /gsd-discuss-phase for Phase 3 (Targets & Goals) — phases 3-5 have no phase directories yet and each needs its own discuss-phase pass before planning."
 }
