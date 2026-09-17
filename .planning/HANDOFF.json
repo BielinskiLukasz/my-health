@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-09-17T15:46:02.280Z",
+  "phase": "02",
+  "phase_name": "charts-visualization",
+  "phase_dir": ".planning/phases/02-charts-visualization",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Plans 02-01..02-04 (charts, heatmap, sparklines, BMI section) executed and code-reviewed", "status": "done", "commit": "426b196"},
+    {"id": 2, "name": "Gap G-02-1 (update banner no-op) fixed and resolved", "status": "done", "commit": "6eef7b9"},
+    {"id": 3, "name": "Gap G-02-2 (chart Log button hidden under bottom nav) fixed and resolved", "status": "done", "commit": "2d12acf"},
+    {"id": 4, "name": "UAT restarted from test 1 at user request; fresh pass surfaced 3 new gaps (G-02-3, G-02-4, G-02-5)", "status": "done", "commit": null},
+    {"id": 5, "name": "Gap G-02-3 (log form last-value prefill) + G-02-4 (existing-value load on date select, already worked) fixed/verified", "status": "done", "commit": "74466eb"},
+    {"id": 6, "name": "Gap G-02-5 (weight/HR/temperature charts start Y-axis at 0 instead of period min/max) fixed", "status": "done", "commit": "6dc699a"},
+    {"id": 7, "name": "Ad-hoc: Dashboard sparklines given same min/max Y-axis scaling; MetricTile variant B decluttered (dropped lastDate line + Not-logged-today badge) so sparkline renders taller", "status": "done", "commit": "8d38c9f"},
+    {"id": 8, "name": "Ad-hoc: fixed regression where G-02-3's fallback prefill leaked the most-recent value into historic backfill dates — now gated on currentDate === todayISO()", "status": "done", "commit": "b436efa"},
+    {"id": 9, "name": "Ad-hoc: heatmap tap tooltip (H2-adjacent) fixed to never render under/behind the bottom nav — vertical clamp/flip + z-[60]", "status": "done", "commit": "3d38ebd"},
+    {"id": 10, "name": "Ad-hoc: narrowed D-06 — yearly period no longer forces bar chart for continuous metrics (weight/sleep/heartRate/temperature); only steps/water stay bar", "status": "done", "commit": "a94856c"},
+    {"id": 11, "name": "Ad-hoc: BMI mini chart given min/max Y-axis scaling clamped to always include the 18.5-25 normal range", "status": "done", "commit": "9e13aa2"},
+    {"id": 12, "name": "Ad-hoc: fixed Y-axis tick labels rendering with many decimal digits (e.g. 25.413580246913575) — added formatAxisTick(), 1 decimal place everywhere it matters", "status": "done", "commit": "7830271"},
+    {"id": 13, "name": "Cleaned up long-stale 'nested MyHealth/.git' blocker in STATE.md — verified no such directory exists", "status": "done", "commit": "52d2536"}
+  ],
+  "remaining_tasks": [
+    {"id": 14, "name": "Resume UAT test 1 (D2 — W/M/Y chart rendering for all 6 metrics) fresh — many chart-rendering fixes landed since it was last run (Y-axis scaling, yearly line-vs-bar, tick formatting, BMI domain, log-form prefill), so a clean re-verification is warranted before moving on", "status": "not_started"},
+    {"id": 15, "name": "Run UAT test 2 (D4) — ChartHeader recompute on period switch", "status": "not_started"},
+    {"id": 16, "name": "Run UAT test 3 (H1) — GitHub-style heatmap layout", "status": "not_started"},
+    {"id": 17, "name": "Run UAT test 4 (H2) — heatmap cell tap tooltip (now has a nav-clip fix applied via quick task 260917-i9a — worth specifically confirming the tooltip position fix visually)", "status": "not_started"},
+    {"id": 18, "name": "Close out Phase 2: update 02-UAT.md summary, mark phase 2 complete in state", "status": "not_started"},
+    {"id": 19, "name": "Discuss-phase for Phase 3 (Targets & Goals) — no phase directory exists yet", "status": "not_started"}
+  ],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Resume UAT — recommend restarting at test 1 (D2) since so many chart-rendering fixes landed this session; then proceed through tests 2-4",
+      "context": "No code fixes are pending; every known/reported gap has been fixed and committed. This is purely a 'go verify it' action, not a decision point.",
+      "blocking": false
+    }
+  ],
+  "decisions": [
+    {"decision": "Full UAT restarted from test 1 at user request for a clean pass; this uncovered 3 new gaps beyond the original G-02-1/G-02-2", "rationale": "User wanted to confirm no regressions after the G-02-2 fix", "phase": "02"},
+    {"decision": "Narrowed D-06 (yearly-always-bar) to only apply to discrete/count metrics (steps, water); continuous metrics (weight, sleep, heartRate, temperature) render as line in Y too", "rationale": "User reported yearly weight chart wasn't linear/continuous like W/M; investigation found no rendering-safety reason for the blanket rule — it was an overgeneralization of the original 'daily data is noisy at yearly scale' aggregation rationale", "phase": "02"},
+    {"decision": "BMI chart Y-axis domain clamped to [min(dataMin-1, 18.5), max(dataMax+1, 25)] rather than reusing getYAxisDomain (which only handles MetricType enum values via string-formula domains)", "rationale": "User wants the 18.5/25 category threshold reference lines to always stay in-frame regardless of actual BMI data range", "phase": "02"},
+    {"decision": "Y-axis tick formatting (formatAxisTick, 1 decimal place) applied unconditionally to BMI chart but only conditionally (on yAxisDomain being set) to MetricChart — steps/water keep whole-number ticks, no forced '.0' suffix", "rationale": "Root cause (long decimal ticks) only affects metrics with float-precision domains (BMI, weight/heartRate/temperature); forcing decimals on count metrics like steps would regress clean '8000' ticks into '8000.0'", "phase": "02"},
+    {"decision": "Removed the long-standing 'nested MyHealth/.git' blocker from STATE.md", "rationale": "Verified directly (ls, find) that no MyHealth/ directory or nested .git exists in the current tree — this was stale from an earlier session/phase and flagged independently by two separate quick-task executors before removal", "phase": "02"}
+  ],
+  "uncommitted_files": [
+    ".planning/research/.cache/"
+  ],
+  "next_action": "Resume the Phase 2 UAT conversation, restarting at test 1 (D2 — W/M/Y chart rendering for all 6 metrics) given the volume of chart-rendering fixes since it was last checked. Ask the user to walk through weight/sleep/steps/water/heartRate/temperature charts across W/M/Y periods, then proceed to tests 2-4 (D4, H1, H2) if test 1 passes clean.",
+  "context_notes": "This was a long single session: started by resuming a paused UAT (G-02-1/G-02-2 already fixed from a prior session), user asked to restart UAT from scratch for a clean pass, which surfaced 3 more gaps (G-02-3/4/5) — all fixed. Then the user reported several more issues conversationally (not through formal UAT) that were fixed as ad-hoc quick tasks: Dashboard sparkline scaling + tile decluttering, a G-02-3 fallback regression (was leaking most-recent-value into historic backfill dates — now correctly gated to today only), heatmap tooltip nav-clipping, yearly chart type (D-06 narrowed so weight/etc render as line not bar in Y), BMI chart Y-axis domain clamping to include 18.5-25, and Y-axis tick decimal formatting. That's 8 quick tasks total, all committed, all verified via typecheck/lint/test. No code fixes are outstanding — the honest next step is simply to go back and actually run through the UAT tests in a browser, since so much chart rendering has changed. 02-UAT.md's test 1 still shows result: issue (from before these fixes) and tests 2-4 are still [pending] from the original run — none of this has been re-verified visually yet."
+}
