@@ -43,6 +43,7 @@ result: [pending]
 ### 4. H2 — Heatmap cell tap tooltip
 expected: A tooltip appears showing the formatted date and the names of the metrics logged that day (e.g., "Weight, Steps").
 result: [pending]
+note: "Quick task 260917-i9a fixed a previously-undiscovered bug where the tooltip could render under/behind the fixed bottom nav for taps near the bottom of the viewport (raised z-index + vertical clamp/flip in ActivityHeatmap.tsx). This test still needs a human UAT pass to visually confirm the tooltip renders correctly."
 
 ## Summary
 
