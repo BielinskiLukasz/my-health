@@ -10,6 +10,7 @@ import {
 } from "recharts"
 import { format } from "date-fns"
 import { useBmiData } from "@/hooks/useBmiData"
+import { getBmiYAxisDomain } from "@/utils/chartDomain"
 import CustomTooltip from "./CustomTooltip"
 
 // BMI category color hints (D-09)
@@ -51,6 +52,7 @@ export default function BmiSection() {
   }
 
   const categoryColor = category ? (CATEGORY_COLOR[category] ?? "text-gray-400") : "text-gray-400"
+  const bmiDomain = getBmiYAxisDomain(bmiData.map((d) => d.bmi))
 
   return (
     <div className="mt-8 p-4 rounded-xl bg-zinc-900">
@@ -77,6 +79,7 @@ export default function BmiSection() {
             tickLine={false}
           />
           <YAxis
+            domain={bmiDomain}
             tick={{ fill: "#71717a", fontSize: 11 }}
             axisLine={false}
             tickLine={false}
