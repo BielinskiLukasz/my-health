@@ -48,12 +48,17 @@ blocked: 0
 
 - gap_id: G-02-2
   truth: "The chart's Log button is reachable and clickable, not obscured by the bottom nav."
-  status: failed
+  status: resolved
   reason: "User reported: Log button in chart is hidden under bottom nav. Move it higher or before bottom nav."
   severity: major
   test: 1
-  artifacts: []
+  root_cause: "Log FAB used bottom-6 (24px), placing it inside the fixed bottom nav's 64px rendered height; the nav's higher z-index (z-50 vs the FAB's z-10) painted over and intercepted clicks on the button."
+  artifacts:
+    - path: "src/components/Charts/MetricChart.tsx"
+      issue: "FAB positioned bottom-6 right-6 z-10, overlapped by bottom nav"
   missing: []
+  resolved_by: "commit 2d12acf (fix(charts): raise log FAB above bottom nav on chart screen)"
+  resolved_at: 2026-09-17
 
 - gap_id: G-02-1
   truth: "Each metric renders a chart with real data; the period switch reloads chart data."
