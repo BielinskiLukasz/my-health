@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-fw9: Fix gaps G-02-3/G-02-4 (log form prefill/existing-value check)
+Last activity: 2026-09-17 - Completed quick task 260917-g44: Fix gap G-02-5 (chart Y-axis min/max scaling) — all 5 UAT gaps now resolved
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -113,6 +113,7 @@ Recent decisions affecting current work:
 |---|-------------|------|--------|-----------|
 | 260917-dzj | Fix gap G-02-2: chart screen Log button hidden under bottom nav. Reposition Log button so it clears the bottom nav (layout/padding fix). Update 02-UAT.md to mark G-02-2 resolved, following the pattern used for G-02-1 (commit 6eef7b9). | 2026-09-17 | 2d12acf | [260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h](./quick/260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h/) |
 | 260917-fw9 | Fix gaps G-02-3 and G-02-4: metric log forms should check for an existing entry on the selected date (load into editable field) or prefill the last logged value if none exists. Update 02-UAT.md to mark both resolved. | 2026-09-17 | 74466eb | [260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo](./quick/260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo/) |
+| 260917-g44 | Fix gap G-02-5: weight, heart rate, and temperature charts should scale the Y-axis to the min/max of the selected period instead of starting at 0. Update 02-UAT.md to mark G-02-5 resolved. | 2026-09-17 | 6dc699a | [260917-g44-fix-gap-g-02-5-weight-heart-rate-and-tem](./quick/260917-g44-fix-gap-g-02-5-weight-heart-rate-and-tem/) |
 
 ## Deferred Items
 
