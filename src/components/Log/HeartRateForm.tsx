@@ -44,7 +44,9 @@ export default function HeartRateForm() {
           setValue(String(mostRecent.bpm))
           setEditingId(mostRecent.id)
         } else {
-          setValue("")
+          // No entry for this date — prefill with the most recently logged value (G-02-3)
+          const last = await db.heartRates.orderBy("date").reverse().first()
+          setValue(last ? String(last.bpm) : "")
           setEditingId(undefined)
         }
       } catch {

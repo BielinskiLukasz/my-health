@@ -42,8 +42,17 @@ export default function SleepForm() {
           setWakeTime(wakeParts[1]?.slice(0, 5) ?? "")
           setIsEditing(true)
         } else {
-          setBeddingTime("")
-          setWakeTime("")
+          // No entry for this date — prefill with the most recently logged value (G-02-3)
+          const last = await db.sleepEntries.orderBy("date").reverse().first()
+          if (last) {
+            const bedParts = last.beddingTime.split("T")
+            const wakeParts = last.wakeTime.split("T")
+            setBeddingTime(bedParts[1]?.slice(0, 5) ?? "")
+            setWakeTime(wakeParts[1]?.slice(0, 5) ?? "")
+          } else {
+            setBeddingTime("")
+            setWakeTime("")
+          }
           setIsEditing(false)
           setDuration(null)
         }

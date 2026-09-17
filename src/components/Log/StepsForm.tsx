@@ -35,7 +35,9 @@ export default function StepsForm() {
           setValue(String(entry.steps))
           setIsEditing(true)
         } else {
-          setValue("")
+          // No entry for this date — prefill with the most recently logged value (G-02-3)
+          const last = await db.stepEntries.orderBy("date").reverse().first()
+          setValue(last ? String(last.steps) : "")
           setIsEditing(false)
         }
       } catch {

@@ -44,7 +44,9 @@ export default function TemperatureForm() {
           setValue(mostRecent.celsius.toFixed(1))
           setEditingId(mostRecent.id)
         } else {
-          setValue("")
+          // No entry for this date — prefill with the most recently logged value (G-02-3)
+          const last = await db.temperatures.orderBy("date").reverse().first()
+          setValue(last ? last.celsius.toFixed(1) : "")
           setEditingId(undefined)
         }
       } catch {

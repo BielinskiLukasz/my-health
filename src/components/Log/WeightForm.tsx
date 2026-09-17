@@ -40,7 +40,9 @@ export default function WeightForm() {
           setValue(latest.value.toString())
           setEditingId(latest.id)
         } else {
-          setValue("")
+          // No entry for this date — prefill with the most recently logged value (G-02-3)
+          const last = await db.weights.orderBy("date").reverse().first()
+          setValue(last ? last.value.toString() : "")
           setEditingId(undefined)
         }
       } catch {
