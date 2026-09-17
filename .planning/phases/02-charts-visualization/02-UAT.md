@@ -90,6 +90,8 @@ blocked: 0
   missing: []
   resolved_by: "commit 74466eb (fix(log): prefill last logged value when no entry exists for date)"
   resolved_at: 2026-09-17
+  refinement: "The most-recently-logged-value prefill was found to incorrectly apply to any date with no entry, including historic backfill dates. Narrowed to only apply when the selected date equals today (todayISO()) — historic dates with no entry now leave the field(s) empty instead of being prefilled."
+  refinement_resolved_by: "commit b436efa (fix: gate G-02-3 fallback prefill on today only)"
 
 - gap_id: G-02-2
   truth: "The chart's Log button is reachable and clickable, not obscured by the bottom nav."
