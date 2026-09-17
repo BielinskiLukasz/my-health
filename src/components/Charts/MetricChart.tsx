@@ -61,8 +61,10 @@ export default function MetricChart() {
   const metric = metricParam as MetricType
   const { data, prevData, isLoading } = useChartData(metric, period)
 
-  // D-06: yearly view always uses bar chart regardless of metric type
-  const chartType = period === "Y" ? "bar" : METRIC_CHART_TYPE[metric]
+  // D-06 (narrowed): bar chart is forced only for discrete/count metrics
+  // (steps, water) via METRIC_CHART_TYPE, independent of period — continuous
+  // metrics render as a line chart in every period, including yearly.
+  const chartType = METRIC_CHART_TYPE[metric]
 
   const config = METRIC_CONFIG[metric]
   const accentHex = CHART_HEX[metric]
