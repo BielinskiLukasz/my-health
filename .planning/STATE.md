@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-nbo: BMI chart Y-axis clamped to always include the 18.5-25 normal range
+Last activity: 2026-09-17 - Completed quick task 260917-ntz: chart Y-axis ticks formatted to 1 decimal place
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -98,17 +98,11 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- **BLOCKER for next executor:** MyHealth/ has a nested .git from Vite scaffold. User needs to
-  explicitly authorize `rm -rf MyHealth/.git` to unify into single repo. Until resolved, all
-  implementation commits for MyHealth/ go to the inner repo (git -C MyHealth/). Planning files
-  (.planning/) continue to commit in the outer repo.
+(None currently — the nested MyHealth/.git blocker below was resolved/superseded; see Blockers/Concerns.)
 
 ### Blockers/Concerns
 
-- Nested MyHealth/.git: executor auto-mode classifier blocked removal. Requires explicit user authorization.
-  Message to surface: "To track MyHealth/ files in the outer repo, please run: `rm -rf MyHealth/.git`
-  or use `Get-Item C:/my-code/vibe-coding/my-health/MyHealth/.git -Force | Remove-Item -Recurse -Force` in PowerShell.
-  Then re-add files with `git -C C:/my-code/vibe-coding/my-health add MyHealth/`."
+- ~~Nested MyHealth/.git~~ — RESOLVED/STALE as of 2026-09-17. Verified no `MyHealth/` directory exists in the repo; it's a single flat repo rooted at `.git`. This blocker predates the current tree layout and no longer applies. Flagged independently by two quick-task executors (260917-nbo, 260917-ntz) before removal.
 
 ### Quick Tasks Completed
 
@@ -122,6 +116,7 @@ Recent decisions affecting current work:
 | 260917-i9a | Fix gap G-02-3-adjacent: heatmap tap tooltip could render under/behind the fixed bottom nav for taps near the bottom of the viewport. Added vertical clamp/flip (getTooltipTop) and raised z-index to z-[60]. Annotated pending H2 UAT test in 02-UAT.md. | 2026-09-17 | 6125b6b | [260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c](./quick/260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c/) |
 | 260917-m7l | Narrow D-06: yearly (Y) period no longer forces every metric into a bar chart. Continuous metrics (weight, sleep, heartRate, temperature) now render as a line chart in Y too, matching W/M; only discrete/count metrics (steps, water) stay bar in all periods. | 2026-09-17 | a94856c | [260917-m7l-reverse-part-of-decision-d-06-in-metricc](./quick/260917-m7l-reverse-part-of-decision-d-06-in-metricc/) |
 | 260917-nbo | Apply min/max Y-axis scaling to the BMI mini chart, with the domain clamped so lower bound is never above 18.5 and upper bound never below 25 (category threshold lines always stay in-frame), expanding further to cover actual BMI data outside that range. | 2026-09-17 | 9e13aa2 | [260917-nbo-apply-the-same-min-max-y-axis-scaling-ru](./quick/260917-nbo-apply-the-same-min-max-y-axis-scaling-ru/) |
+| 260917-ntz | Fix Y-axis tick labels rendering with many decimal digits (e.g. 25.413580246913575) instead of 1 decimal place. Added formatAxisTick() util; wired unconditionally into BmiSection.tsx and conditionally (on yAxisDomain) into MetricChart.tsx's line/bar YAxis. | 2026-09-17 | 7830271 | [260917-ntz-y-axis-tick-labels-can-render-with-many-](./quick/260917-ntz-y-axis-tick-labels-can-render-with-many-/) |
 
 ## Deferred Items
 
