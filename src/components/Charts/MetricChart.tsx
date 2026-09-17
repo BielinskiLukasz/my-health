@@ -16,6 +16,7 @@ import { ChevronLeft, Plus } from "lucide-react"
 import type { MetricType } from "@/store/appStore"
 import { METRIC_CONFIG } from "@/utils/constants"
 import { CHART_HEX } from "@/utils/chartColors"
+import { getYAxisDomain } from "@/utils/chartDomain"
 import { useChartData } from "@/hooks/useChartData"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
@@ -65,6 +66,7 @@ export default function MetricChart() {
 
   const config = METRIC_CONFIG[metric]
   const accentHex = CHART_HEX[metric]
+  const yAxisDomain = getYAxisDomain(metric)
 
   // X-axis tick formatter: yearly shows month name, weekly/monthly shows "MMM d"
   const xTickFormatter = (value: string) => {
@@ -123,6 +125,7 @@ export default function MetricChart() {
                 tickLine={false}
               />
               <YAxis
+                domain={yAxisDomain}
                 tick={{ fill: "#71717a", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
@@ -151,6 +154,7 @@ export default function MetricChart() {
                 tickLine={false}
               />
               <YAxis
+                domain={yAxisDomain}
                 tick={{ fill: "#71717a", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
