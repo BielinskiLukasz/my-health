@@ -57,12 +57,15 @@ blocked: 0
 
 - gap_id: G-02-5
   truth: "Charts for weight, heart rate, and temperature scale their Y-axis to the min/max of the selected period, not from 0."
-  status: open
+  status: resolved
   reason: "User reported: Charts for weight, heart rate and temperature shouldn't start at 0, rather it should be min and max value for selected period of time."
   severity: major
   test: 1
+  root_cause: "Every metric chart's Recharts YAxis had no domain prop set, so Recharts computed a default range that always included 0 regardless of the actual data range, flattening trend visibility for weight/heart-rate/temperature whose real values never approach 0."
   artifacts: []
   missing: []
+  resolved_by: "commit 6dc699a (feat(charts): scale Y-axis to data range for weight/HR/temp)"
+  resolved_at: 2026-09-17
 
 - gap_id: G-02-4
   truth: "Logging a value for a date that already has an entry loads the existing value into an editable field instead of allowing a silent duplicate/overwrite."
