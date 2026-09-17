@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-h77: Dashboard sparkline min/max scaling + taller tile layout
+Last activity: 2026-09-17 - Completed quick task 260917-m7l: Yearly view now renders continuous metrics as a line chart
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -93,6 +93,7 @@ Recent decisions affecting current work:
 - [Phase 02]: calcBmi has no zero guard — pure math; useBmiData validates input (T-02-08, security separation)
 - [Phase 02]: BmiSection is separate section below weight chart, not dual Y-axis (D-09)
 - [Phase 02]: Quick 260917-hwj: Gated G-02-3 fallback prefill on currentDate === todayISO() in all six Log forms — historic dates with no entry now leave fields empty instead of borrowing an unrelated most-recent value
+- [Phase 02]: Quick 260917-m7l: Narrowed D-06 — yearly period no longer forces bar for every metric; only steps/water (discrete/count) stay bar, weight/sleep/heartRate/temperature render as line in Y same as W/M
 - [Phase 02]: Quick 260917-i9a: Fixed heatmap tap tooltip nav-clipping via vertical clamp/flip (getTooltipTop) + raised z-index (z-[60]) above Layout.tsx's bottom nav
 
 ### Pending Todos
@@ -119,6 +120,7 @@ Recent decisions affecting current work:
 | 260917-h77 | Apply the same Y-axis min/max scaling from G-02-5 to the Dashboard home-screen mini sparklines (weight/heartRate/temperature), and hide the lastDate line + Not logged today badge in MetricTile's variant B so the sparkline can render taller in the freed space. | 2026-09-17 | 8d38c9f | [260917-h77-apply-the-same-y-axis-min-max-scaling-fr](./quick/260917-h77-apply-the-same-y-axis-min-max-scaling-fr/) |
 | 260917-hwj | Fix regression in the G-02-3 fallback (commit 74466eb): all six metric log forms prefilled the most-recently-logged value for ANY no-entry date, contaminating historic backfill dates. Gated the fallback on currentDate === todayISO() in all six forms; documented the refinement on the resolved G-02-3 entry in 02-UAT.md. | 2026-09-17 | b436efa | [260917-hwj-fix-regression-in-the-g-02-3-fallback-pr](./quick/260917-hwj-fix-regression-in-the-g-02-3-fallback-pr/) |
 | 260917-i9a | Fix gap G-02-3-adjacent: heatmap tap tooltip could render under/behind the fixed bottom nav for taps near the bottom of the viewport. Added vertical clamp/flip (getTooltipTop) and raised z-index to z-[60]. Annotated pending H2 UAT test in 02-UAT.md. | 2026-09-17 | 6125b6b | [260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c](./quick/260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c/) |
+| 260917-m7l | Narrow D-06: yearly (Y) period no longer forces every metric into a bar chart. Continuous metrics (weight, sleep, heartRate, temperature) now render as a line chart in Y too, matching W/M; only discrete/count metrics (steps, water) stay bar in all periods. | 2026-09-17 | a94856c | [260917-m7l-reverse-part-of-decision-d-06-in-metricc](./quick/260917-m7l-reverse-part-of-decision-d-06-in-metricc/) |
 
 ## Deferred Items
 
