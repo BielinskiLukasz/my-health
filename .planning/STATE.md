@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 current_phase: 02
 current_phase_name: Charts & Visualization
 status: verifying
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-09-14T21:28:16.696Z"
-last_activity: 2026-09-14
+stopped_at: "Completed quick task 260917-hwj: Fix G-02-3 fallback regression (historic date backfill contamination)"
+last_updated: "2026-09-17T11:04:48.769Z"
+last_activity: 2026-09-17
 last_activity_desc: Phase 02 execution started
-state_head: e7a23a2cfcfc2c18378ced3f563ab8a4a568f3e6
+state_head: eff329e25272c4d1157b36c38f244bb4f7c1bf45
 progress:
   total_phases: 5
   completed_phases: 0
@@ -92,6 +92,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Sparkline uses period='M' sliced to last 14 entries — avoids adding new period to useChartData hook
 - [Phase 02]: calcBmi has no zero guard — pure math; useBmiData validates input (T-02-08, security separation)
 - [Phase 02]: BmiSection is separate section below weight chart, not dual Y-axis (D-09)
+- [Phase 02]: Quick 260917-hwj: Gated G-02-3 fallback prefill on currentDate === todayISO() in all six Log forms — historic dates with no entry now leave fields empty instead of borrowing an unrelated most-recent value
 
 ### Pending Todos
 
@@ -115,6 +116,7 @@ Recent decisions affecting current work:
 | 260917-fw9 | Fix gaps G-02-3 and G-02-4: metric log forms should check for an existing entry on the selected date (load into editable field) or prefill the last logged value if none exists. Update 02-UAT.md to mark both resolved. | 2026-09-17 | 74466eb | [260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo](./quick/260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo/) |
 | 260917-g44 | Fix gap G-02-5: weight, heart rate, and temperature charts should scale the Y-axis to the min/max of the selected period instead of starting at 0. Update 02-UAT.md to mark G-02-5 resolved. | 2026-09-17 | 6dc699a | [260917-g44-fix-gap-g-02-5-weight-heart-rate-and-tem](./quick/260917-g44-fix-gap-g-02-5-weight-heart-rate-and-tem/) |
 | 260917-h77 | Apply the same Y-axis min/max scaling from G-02-5 to the Dashboard home-screen mini sparklines (weight/heartRate/temperature), and hide the lastDate line + Not logged today badge in MetricTile's variant B so the sparkline can render taller in the freed space. | 2026-09-17 | 8d38c9f | [260917-h77-apply-the-same-y-axis-min-max-scaling-fr](./quick/260917-h77-apply-the-same-y-axis-min-max-scaling-fr/) |
+| 260917-hwj | Fix regression in the G-02-3 fallback (commit 74466eb): all six metric log forms prefilled the most-recently-logged value for ANY no-entry date, contaminating historic backfill dates. Gated the fallback on currentDate === todayISO() in all six forms; documented the refinement on the resolved G-02-3 entry in 02-UAT.md. | 2026-09-17 | b436efa | [260917-hwj-fix-regression-in-the-g-02-3-fallback-pr](./quick/260917-hwj-fix-regression-in-the-g-02-3-fallback-pr/) |
 
 ## Deferred Items
 
@@ -127,6 +129,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-14T21:28:16.646Z
-Stopped at: Completed 02-04-PLAN.md
+Last session: 2026-09-17T11:04:46.921Z
+Stopped at: Completed quick task 260917-hwj: Fix G-02-3 fallback regression (historic date backfill contamination)
 Resume file: None
