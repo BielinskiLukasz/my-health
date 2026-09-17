@@ -4,6 +4,16 @@ import { useHeatmapData } from '@/hooks/useHeatmapData'
 import type { HeatmapCell } from '@/hooks/useHeatmapData'
 import { METRIC_CONFIG } from '@/utils/constants'
 
+// Layout.tsx's fixed bottom nav rendered height (py-3 padding + size-5 icon +
+// gap-1 + text-xs label) — same reserved-nav-band concept as MetricChart.tsx's
+// Log FAB offset (commit 2d12acf), used here as a precise clamp boundary.
+const NAV_HEIGHT = 64
+// Conservative rendered-height estimate for the tooltip's px-3 py-2 bordered
+// box (padding + border + date label row), plus one row per metric line.
+// Estimated high on purpose so the clamp never under-reserves space.
+const TOOLTIP_BASE_HEIGHT = 48
+const TOOLTIP_LINE_HEIGHT = 18
+
 function heatmapCellClass(count: number): string {
   if (count === 0) return 'bg-zinc-800'
   if (count <= 2) return 'bg-emerald-900'
@@ -41,6 +51,19 @@ interface TooltipState {
   metrics: string[]
   x: number
   y: number
+}
+
+// Clamp/flip the tooltip's vertical position so it never renders under the
+// fixed bottom nav. Uses the existing below-tap-point offset when it fits
+// above the reserved nav band; otherwise flips the tooltip above the tap
+// point. Always clamped between 8px from the viewport top and the lowest
+// top that keeps the tooltip's bottom edge clear of the nav.
+function getTooltipTop(y: number, metricsCount: number): number {
+  const estimatedHeight = TOOLTIP_BASE_HEIGHT + Math.max(1, metricsCount) * TOOLTIP_LINE_HEIGHT
+  const maxTop = window.innerHeight - NAV_HEIGHT - estimatedHeight
+  const naturalTop = y - 10
+  const flippedTop = y - 10 - estimatedHeight
+  return Math.max(8, Math.min(naturalTop > maxTop ? flippedTop : naturalTop, maxTop))
 }
 
 export default function ActivityHeatmap() {
@@ -123,7 +146,7 @@ export default function ActivityHeatmap() {
         </div>
       </div>
 
-      {/* Overlay — dismisses tooltip on click outside cell (z-40, below tooltip z-50) */}
+      {/* Overlay — dismisses tooltip on click outside cell (z-40, below tooltip z-[60]) */}
       {tooltip && (
         <div
           className="fixed inset-0 z-40"
@@ -134,9 +157,9 @@ export default function ActivityHeatmap() {
       {/* Tooltip — pointer-events-none so it doesn't block overlay dismiss (D-13) */}
       {tooltip && (
         <div
-          className="fixed z-50 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 shadow-lg text-sm pointer-events-none"
+          className="fixed z-[60] rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 shadow-lg text-sm pointer-events-none"
           style={{
-            top: tooltip.y - 10,
+            top: getTooltipTop(tooltip.y, tooltip.metrics.length),
             left: tooltip.x > window.innerWidth - 200 ? tooltip.x - 160 : tooltip.x + 10,
           }}
         >
