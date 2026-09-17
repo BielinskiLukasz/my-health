@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-14 — Phase 02 execution started
+Last activity: 2026-09-17 - Completed quick task 260917-dzj: Fix gap G-02-2: chart screen Log button hidden under bottom nav
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -106,6 +106,12 @@ Recent decisions affecting current work:
   Message to surface: "To track MyHealth/ files in the outer repo, please run: `rm -rf MyHealth/.git`
   or use `Get-Item C:/my-code/vibe-coding/my-health/MyHealth/.git -Force | Remove-Item -Recurse -Force` in PowerShell.
   Then re-add files with `git -C C:/my-code/vibe-coding/my-health add MyHealth/`."
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260917-dzj | Fix gap G-02-2: chart screen Log button hidden under bottom nav. Reposition Log button so it clears the bottom nav (layout/padding fix). Update 02-UAT.md to mark G-02-2 resolved, following the pattern used for G-02-1 (commit 6eef7b9). | 2026-09-17 | 2d12acf | [260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h](./quick/260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h/) |
 
 ## Deferred Items
 
