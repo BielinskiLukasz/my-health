@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-dzj: Fix gap G-02-2: chart screen Log button hidden under bottom nav
+Last activity: 2026-09-17 - Completed quick task 260917-fw9: Fix gaps G-02-3/G-02-4 (log form prefill/existing-value check)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -112,6 +112,7 @@ Recent decisions affecting current work:
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260917-dzj | Fix gap G-02-2: chart screen Log button hidden under bottom nav. Reposition Log button so it clears the bottom nav (layout/padding fix). Update 02-UAT.md to mark G-02-2 resolved, following the pattern used for G-02-1 (commit 6eef7b9). | 2026-09-17 | 2d12acf | [260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h](./quick/260917-dzj-fix-gap-g-02-2-chart-screen-log-button-h/) |
+| 260917-fw9 | Fix gaps G-02-3 and G-02-4: metric log forms should check for an existing entry on the selected date (load into editable field) or prefill the last logged value if none exists. Update 02-UAT.md to mark both resolved. | 2026-09-17 | 74466eb | [260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo](./quick/260917-fw9-fix-gaps-g-02-3-and-g-02-4-metric-log-fo/) |
 
 ## Deferred Items
 
