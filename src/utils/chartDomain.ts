@@ -26,3 +26,25 @@ export function getYAxisDomain(metric: MetricType): [string, string] | undefined
   const padding = Y_AXIS_PADDING[metric]
   return [`dataMin - ${padding}`, `dataMax + ${padding}`]
 }
+
+// BMI points of padding applied to actual data when it extends outside the
+// Underweight/Normal/Overweight category thresholds (18.5, 25).
+const BMI_PADDING = 1
+
+/**
+ * Returns a numeric `[min, max]` domain tuple for the BMI mini chart's YAxis.
+ * Unlike `getYAxisDomain`, this clamps against the fixed 18.5 (Underweight)
+ * and 25 (Overweight) category-threshold ReferenceLine values so those lines
+ * are never clipped out of frame, while still expanding (with BMI_PADDING)
+ * to cover actual data that falls outside that range. The Obese threshold
+ * (30) is not a clamp target — data may legitimately render above it without
+ * requiring a floor.
+ */
+export function getBmiYAxisDomain(bmiValues: number[]): [number, number] {
+  if (bmiValues.length === 0) {
+    return [18.5, 25]
+  }
+  const dataMin = Math.min(...bmiValues)
+  const dataMax = Math.max(...bmiValues)
+  return [Math.min(dataMin - BMI_PADDING, 18.5), Math.max(dataMax + BMI_PADDING, 25)]
+}
