@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-09-16T19:04:40.236Z",
+  "timestamp": "2026-09-17T09:20:51.424Z",
   "phase": "02",
   "phase_name": "charts-visualization",
   "phase_dir": ".planning/phases/02-charts-visualization",
@@ -10,50 +10,55 @@
   "status": "paused",
   "completed_tasks": [
     {"id": 1, "name": "Plans 02-01..02-04 (charts, heatmap, sparklines, BMI section) executed and code-reviewed", "status": "done", "commit": "426b196"},
-    {"id": 2, "name": "02-VERIFICATION.md automated pass (17/17 checks) — status human_needed, 4 items need browser UAT", "status": "done", "commit": null},
-    {"id": 3, "name": "UAT test 1 (D2) run — found bug: update banner button no-op", "status": "done", "commit": "6eef7b9"},
-    {"id": 4, "name": "Gap G-02-1 (update banner no-op) fixed and resolved", "status": "done", "commit": "6eef7b9"}
+    {"id": 2, "name": "Gap G-02-1 (update banner no-op) fixed and resolved", "status": "done", "commit": "6eef7b9"},
+    {"id": 3, "name": "Gap G-02-2 (chart Log button hidden under bottom nav) fixed and resolved via quick task 260917-dzj", "status": "done", "commit": "2d12acf"},
+    {"id": 4, "name": "Fresh UAT pass restarted from test 1 (D2) at user request", "status": "done", "commit": null},
+    {"id": 5, "name": "UAT test 1 (D2) re-run — user found 3 new issues, logged as gaps G-02-3, G-02-4, G-02-5 in 02-UAT.md", "status": "done", "commit": null}
   ],
   "remaining_tasks": [
-    {"id": 5, "name": "Fix G-02-2 — chart screen Log button hidden under bottom nav (major severity, unresolved)", "status": "not_started"},
-    {"id": 6, "name": "UAT test 2 (D4) — ChartHeader recompute on period switch", "status": "awaiting_human", "note": "Current test in 02-UAT.md, awaiting user response"},
-    {"id": 7, "name": "UAT test 3 (H1) — GitHub-style heatmap layout", "status": "not_started"},
-    {"id": 8, "name": "UAT test 4 (H2) — heatmap cell tap tooltip", "status": "not_started"},
-    {"id": 9, "name": "Close out Phase 2: update 02-UAT.md summary, mark phase 2 complete in state.json", "status": "not_started"},
-    {"id": 10, "name": "Discuss-phase for Phase 3 (Targets & Goals) — no phase directory exists yet", "status": "not_started"}
+    {"id": 6, "name": "Fix G-02-5 (major) — weight/heart-rate/temperature charts should scale Y-axis to min/max of selected period instead of starting at 0", "status": "not_started"},
+    {"id": 7, "name": "Fix G-02-4 (major) — logging for a previous date should check for an existing value and load it into an editable field instead of allowing silent duplicate/overwrite", "status": "not_started"},
+    {"id": 8, "name": "Fix G-02-3 (minor) — weight logging form should display/prefill the last logged value", "status": "not_started"},
+    {"id": 9, "name": "Re-run UAT test 1 (D2) after fixes land", "status": "not_started"},
+    {"id": 10, "name": "Run UAT test 2 (D4) — ChartHeader recompute on period switch", "status": "not_started"},
+    {"id": 11, "name": "Run UAT test 3 (H1) — GitHub-style heatmap layout", "status": "not_started"},
+    {"id": 12, "name": "Run UAT test 4 (H2) — heatmap cell tap tooltip", "status": "not_started"},
+    {"id": 13, "name": "Close out Phase 2: update 02-UAT.md summary, mark phase 2 complete in state", "status": "not_started"},
+    {"id": 14, "name": "Discuss-phase for Phase 3 (Targets & Goals) — no phase directory exists yet", "status": "not_started"}
   ],
   "blockers": [
     {
-      "description": "Gap G-02-2: chart's Log button is obscured by the bottom nav bar (major severity) — reported during UAT test 1, not yet fixed",
+      "description": "G-02-5 (major): weight/HR/temperature charts start Y-axis at 0 instead of scaling to period min/max — undermines the project's core value of 'clear, honest charts'",
       "type": "technical",
-      "workaround": "Move Log button higher in the chart screen layout or reposition relative to bottom nav before Phase 2 sign-off"
+      "workaround": "Recharts YAxis domain needs to be computed from the filtered dataset's min/max for the selected period rather than left at default [0, auto]"
+    },
+    {
+      "description": "G-02-4 (major): logging for a date that already has a value doesn't surface the existing value — risk of silent duplicate/overwrite entries",
+      "type": "technical",
+      "workaround": "On date selection in the log form, query Dexie for an existing entry on that date and prefill the editable value field if found"
+    },
+    {
+      "description": "G-02-3 (minor): weight log form doesn't prefill the last logged value as a starting point",
+      "type": "technical",
+      "workaround": "Query the most recent weight entry and prefill the input on form open"
     }
   ],
   "async_jobs": [],
   "human_actions_pending": [
     {
-      "action": "Resume UAT test 2 (D4) in 02-UAT.md — switch W/M/Y periods on any chart screen and confirm Avg/min-max/trend arrow recompute correctly",
-      "context": "02-UAT.md has this marked as the Current Test, awaiting user response",
-      "blocking": true
-    },
-    {
-      "action": "Complete UAT tests 3 (H1 heatmap layout) and 4 (H2 heatmap tooltip) after test 2",
-      "context": "Both still pending in 02-UAT.md",
+      "action": "Decide: fix G-02-3/4/5 now (via /gsd-quick or similar) before continuing UAT, or finish UAT tests 2-4 first and batch all fixes together",
+      "context": "User paused UAT immediately after reporting the 3 issues; no decision made yet on fix-now vs fix-later sequencing",
       "blocking": true
     }
   ],
   "decisions": [
-    {"decision": "SC3 (target progress bars/color coding on tiles) deferred from Phase 2 to Phase 3", "rationale": "Phase 3 Success Criteria #2 explicitly owns this feature; Phase 2 goal is charts/heatmap/BMI only", "phase": "02"},
-    {"decision": "useRegisterSW() needRefresh must be destructured as a tuple [value, setter], not a boolean", "rationale": "Root cause of G-02-1 — registerType 'autoUpdate' plus wrong destructuring made the update button a permanent no-op with false-positive banner display", "phase": "02"}
+    {"decision": "Full UAT restarted from test 1 (D2) at user request, even though G-02-1/G-02-2 were already resolved from a prior partial pass", "rationale": "User wanted a clean fresh pass to re-verify nothing regressed after the G-02-2 fix", "phase": "02"},
+    {"decision": "G-02-3/4/5 recorded against test 1 (D2) since they surfaced during that test's manual walkthrough, even though 2 of the 3 are about the log form rather than the chart itself", "rationale": "02-UAT.md's gap schema ties gaps to the test number they were found under; no separate 'log form' test exists in this phase's UAT plan", "phase": "02"}
   ],
   "uncommitted_files": [
-    ".planning/milestone.lock",
     ".planning/phases/02-charts-visualization/02-UAT.md",
-    ".planning/state.json",
-    ".planning/phases/01-foundation-core-logging/01-VERIFICATION.md",
-    ".planning/phases/02-charts-visualization/02-VERIFICATION.md",
     ".planning/research/.cache/"
   ],
-  "next_action": "Resume the Phase 2 UAT conversation at test 2 (D4) in 02-UAT.md, then tests 3 and 4; fix gap G-02-2 (Log button under bottom nav) before final Phase 2 verification sign-off.",
-  "context_notes": "Phase 2 code is fully implemented and automated-verified (17/17 checks). We are mid human-UAT loop: test 1 already surfaced two issues — one fixed (update banner no-op, commit 6eef7b9) and one still open (G-02-2, Log button hidden under bottom nav, major). Once UAT tests 2-4 finish and G-02-2 is fixed, close out Phase 2 in state.json and move to /gsd-discuss-phase for Phase 3 (Targets & Goals) — phases 3-5 have no phase directories yet and each needs its own discuss-phase pass before planning."
+  "next_action": "Ask the user whether to fix G-02-3/4/5 now (recommended: via /gsd-quick, similar to how G-02-2 was handled) or continue running UAT tests 2-4 first and batch fixes afterward. Then route accordingly.",
+  "context_notes": "Phase 2 code was previously verified 17/17 automated + 2 UAT gaps (G-02-1, G-02-2) already fixed. User asked to restart UAT from the beginning for a clean pass. Test 1 (D2, chart rendering across all 6 metrics with W/M/Y period switching) was re-run and the user found 3 NEW issues unrelated to G-02-1/G-02-2: (1) weight log form doesn't prefill last value, (2) logging for a previous date doesn't check for/display an existing value in an editable box — duplicate-entry risk, (3) weight/HR/temperature charts start Y-axis at 0 instead of scaling to the period's min/max, which flattens trends and cuts against the app's core value of honest, readable charts. All 3 are logged as open gaps in 02-UAT.md (G-02-3 minor, G-02-4 major, G-02-5 major) with test 1 marked result: issue. User then said 'pause uat' before any fix was made or before deciding fix-now vs fix-later. No code changes have been made for these 3 gaps yet."
 }
