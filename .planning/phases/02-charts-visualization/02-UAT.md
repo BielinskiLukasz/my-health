@@ -66,21 +66,27 @@ blocked: 0
 
 - gap_id: G-02-4
   truth: "Logging a value for a date that already has an entry loads the existing value into an editable field instead of allowing a silent duplicate/overwrite."
-  status: open
+  status: resolved
   reason: "User reported: When logging for previous days it should check if value is already logged (date selection should fetch data and display it in editable value text box)."
   severity: major
   test: 1
+  root_cause: "The per-date existing-entry lookup (query by date, load into the editable field, mark the form as editing so Save updates rather than duplicates) was already correctly implemented in all six Log forms at the time this gap was reported; this fix commit adds the companion \"no entry for this date\" fallback and re-verifies the existing-entry path end-to-end alongside it, closing out the gap."
   artifacts: []
   missing: []
+  resolved_by: "commit 74466eb (fix(log): prefill last logged value when no entry exists for date)"
+  resolved_at: 2026-09-17
 
 - gap_id: G-02-3
   truth: "The weight logging form displays/prefills the last logged value."
-  status: open
+  status: resolved
   reason: "User reported: When logging new value for weight it should display last value."
   severity: minor
   test: 1
+  root_cause: "The load effect in every metric log form only handled the case where an entry already existed for the selected date — when no entry existed it cleared the field(s) to empty instead of prefilling the metric's most recently logged value."
   artifacts: []
   missing: []
+  resolved_by: "commit 74466eb (fix(log): prefill last logged value when no entry exists for date)"
+  resolved_at: 2026-09-17
 
 - gap_id: G-02-2
   truth: "The chart's Log button is reachable and clickable, not obscured by the bottom nav."
