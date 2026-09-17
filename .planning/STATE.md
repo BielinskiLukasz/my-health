@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-m7l: Yearly view now renders continuous metrics as a line chart
+Last activity: 2026-09-17 - Completed quick task 260917-nbo: BMI chart Y-axis clamped to always include the 18.5-25 normal range
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -121,6 +121,7 @@ Recent decisions affecting current work:
 | 260917-hwj | Fix regression in the G-02-3 fallback (commit 74466eb): all six metric log forms prefilled the most-recently-logged value for ANY no-entry date, contaminating historic backfill dates. Gated the fallback on currentDate === todayISO() in all six forms; documented the refinement on the resolved G-02-3 entry in 02-UAT.md. | 2026-09-17 | b436efa | [260917-hwj-fix-regression-in-the-g-02-3-fallback-pr](./quick/260917-hwj-fix-regression-in-the-g-02-3-fallback-pr/) |
 | 260917-i9a | Fix gap G-02-3-adjacent: heatmap tap tooltip could render under/behind the fixed bottom nav for taps near the bottom of the viewport. Added vertical clamp/flip (getTooltipTop) and raised z-index to z-[60]. Annotated pending H2 UAT test in 02-UAT.md. | 2026-09-17 | 6125b6b | [260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c](./quick/260917-i9a-the-activity-heatmap-s-tap-tooltip-src-c/) |
 | 260917-m7l | Narrow D-06: yearly (Y) period no longer forces every metric into a bar chart. Continuous metrics (weight, sleep, heartRate, temperature) now render as a line chart in Y too, matching W/M; only discrete/count metrics (steps, water) stay bar in all periods. | 2026-09-17 | a94856c | [260917-m7l-reverse-part-of-decision-d-06-in-metricc](./quick/260917-m7l-reverse-part-of-decision-d-06-in-metricc/) |
+| 260917-nbo | Apply min/max Y-axis scaling to the BMI mini chart, with the domain clamped so lower bound is never above 18.5 and upper bound never below 25 (category threshold lines always stay in-frame), expanding further to cover actual BMI data outside that range. | 2026-09-17 | 9e13aa2 | [260917-nbo-apply-the-same-min-max-y-axis-scaling-ru](./quick/260917-nbo-apply-the-same-min-max-y-axis-scaling-ru/) |
 
 ## Deferred Items
 
