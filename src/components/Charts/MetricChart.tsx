@@ -168,7 +168,7 @@ export default function MetricChart() {
       {/* D-02: FAB navigates to log form for this metric */}
       <button
         onClick={() => navigate("/log/" + metric)}
-        className="fixed bottom-6 right-6 z-10 flex items-center justify-center rounded-full bg-white text-black p-4 shadow-lg hover:bg-gray-100 transition-colors"
+        className="fixed bottom-24 right-6 z-40 flex items-center justify-center rounded-full bg-white text-black p-4 shadow-lg hover:bg-gray-100 transition-colors"
         aria-label={`Log ${config.label}`}
       >
         <Plus className="size-5" />
