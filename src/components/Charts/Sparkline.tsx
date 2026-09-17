@@ -1,5 +1,6 @@
-import { ResponsiveContainer, LineChart, Line } from "recharts"
+import { ResponsiveContainer, LineChart, Line, YAxis } from "recharts"
 import { useChartData } from "@/hooks/useChartData"
+import { getYAxisDomain } from "@/utils/chartDomain"
 import type { MetricType } from "@/store/appStore"
 
 interface SparklineProps {
@@ -11,11 +12,14 @@ interface SparklineProps {
  * 14-day mini sparkline for Dashboard metric tiles (D-14, D-15).
  * Uses period='M' (30 days) and slices the last 14 entries.
  * Purely visual: no axes, no tooltip, no grid — just a trend line.
+ * Y-axis scales to data min/max for weight/heartRate/temperature (mirrors
+ * MetricChart.tsx's G-02-5 fix); sleep/steps/water keep default 0-start scale.
  * Fixed height={40} per RESEARCH.md Pitfall 7 (height="100%" resolves to 0).
  */
 export default function Sparkline({ metric, accentHex }: SparklineProps) {
   const { data: allData, isLoading } = useChartData(metric, "M")
   const data = allData.slice(-14)
+  const yAxisDomain = getYAxisDomain(metric)
 
   // Loading placeholder — same height as the chart for layout stability
   if (isLoading) {
@@ -34,6 +38,7 @@ export default function Sparkline({ metric, accentHex }: SparklineProps) {
   return (
     <ResponsiveContainer width="100%" height={40}>
       <LineChart data={data}>
+        <YAxis domain={yAxisDomain} hide />
         <Line
           type="monotone"
           dataKey="value"
