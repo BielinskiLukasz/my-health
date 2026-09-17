@@ -6,6 +6,7 @@ import type { MetricType } from "@/store/appStore"
 interface SparklineProps {
   metric: MetricType
   accentHex: string
+  height?: number
 }
 
 /**
@@ -14,29 +15,29 @@ interface SparklineProps {
  * Purely visual: no axes, no tooltip, no grid — just a trend line.
  * Y-axis scales to data min/max for weight/heartRate/temperature (mirrors
  * MetricChart.tsx's G-02-5 fix); sleep/steps/water keep default 0-start scale.
- * Fixed height={40} per RESEARCH.md Pitfall 7 (height="100%" resolves to 0).
+ * Fixed height (default 40) per RESEARCH.md Pitfall 7 (height="100%" resolves to 0).
  */
-export default function Sparkline({ metric, accentHex }: SparklineProps) {
+export default function Sparkline({ metric, accentHex, height = 40 }: SparklineProps) {
   const { data: allData, isLoading } = useChartData(metric, "M")
   const data = allData.slice(-14)
   const yAxisDomain = getYAxisDomain(metric)
 
   // Loading placeholder — same height as the chart for layout stability
   if (isLoading) {
-    return <div className="h-[40px]" />
+    return <div style={{ height }} />
   }
 
   // D-15: No data in last 14 days → show helper message instead of empty chart
   if (data.length === 0) {
     return (
-      <div className="h-[40px] flex items-center">
+      <div style={{ height }} className="flex items-center">
         <span className="text-xs text-gray-400">Start logging to see trends</span>
       </div>
     )
   }
 
   return (
-    <ResponsiveContainer width="100%" height={40}>
+    <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data}>
         <YAxis domain={yAxisDomain} hide />
         <Line
