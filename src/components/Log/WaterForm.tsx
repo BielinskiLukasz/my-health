@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { db } from "@/db/schema"
 import { useAppStore } from "@/store/appStore"
-import { formatDisplayDate } from "@/utils/dateFormat"
+import { formatDisplayDate, todayISO } from "@/utils/dateFormat"
 import DatePicker from "./DatePicker"
 
 export default function WaterForm() {
@@ -34,10 +34,14 @@ export default function WaterForm() {
         if (entry) {
           setValue(String(entry.ml))
           setIsEditing(true)
-        } else {
-          // No entry for this date — prefill with the most recently logged value (G-02-3)
+        } else if (currentDate === todayISO()) {
+          // No entry for today — prefill with the most recently logged value (G-02-3)
           const last = await db.waterEntries.orderBy("date").reverse().first()
           setValue(last ? String(last.ml) : "")
+          setIsEditing(false)
+        } else {
+          // No entry for this historic date — leave empty, don't borrow an unrelated most-recent value
+          setValue("")
           setIsEditing(false)
         }
       } catch {

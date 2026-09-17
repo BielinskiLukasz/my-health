@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { db } from "@/db/schema"
 import { useAppStore } from "@/store/appStore"
-import { formatDisplayDate } from "@/utils/dateFormat"
+import { formatDisplayDate, todayISO } from "@/utils/dateFormat"
 import DatePicker from "./DatePicker"
 
 export default function SleepForm() {
@@ -41,8 +41,8 @@ export default function SleepForm() {
           setBeddingTime(bedParts[1]?.slice(0, 5) ?? "")
           setWakeTime(wakeParts[1]?.slice(0, 5) ?? "")
           setIsEditing(true)
-        } else {
-          // No entry for this date — prefill with the most recently logged value (G-02-3)
+        } else if (currentDate === todayISO()) {
+          // No entry for today — prefill with the most recently logged value (G-02-3)
           const last = await db.sleepEntries.orderBy("date").reverse().first()
           if (last) {
             const bedParts = last.beddingTime.split("T")
@@ -53,6 +53,12 @@ export default function SleepForm() {
             setBeddingTime("")
             setWakeTime("")
           }
+          setIsEditing(false)
+          setDuration(null)
+        } else {
+          // No entry for this historic date — leave empty, don't borrow an unrelated most-recent value
+          setBeddingTime("")
+          setWakeTime("")
           setIsEditing(false)
           setDuration(null)
         }
