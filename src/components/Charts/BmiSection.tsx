@@ -11,6 +11,7 @@ import {
 import { format } from "date-fns"
 import { useBmiData } from "@/hooks/useBmiData"
 import { getBmiYAxisDomain } from "@/utils/chartDomain"
+import { formatAxisTick } from "@/utils/axisTick"
 import CustomTooltip from "./CustomTooltip"
 
 // BMI category color hints (D-09)
@@ -83,6 +84,7 @@ export default function BmiSection() {
             tick={{ fill: "#71717a", fontSize: 11 }}
             axisLine={false}
             tickLine={false}
+            tickFormatter={formatAxisTick}
           />
           <Tooltip content={<CustomTooltip unit="BMI" />} />
 

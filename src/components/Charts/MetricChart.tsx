@@ -17,6 +17,7 @@ import type { MetricType } from "@/store/appStore"
 import { METRIC_CONFIG } from "@/utils/constants"
 import { CHART_HEX } from "@/utils/chartColors"
 import { getYAxisDomain } from "@/utils/chartDomain"
+import { formatAxisTick } from "@/utils/axisTick"
 import { useChartData } from "@/hooks/useChartData"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
@@ -131,6 +132,7 @@ export default function MetricChart() {
                 tick={{ fill: "#71717a", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
+                tickFormatter={yAxisDomain ? formatAxisTick : undefined}
               />
               <Tooltip content={<CustomTooltip unit={config.unit} />} />
               <Line
@@ -160,6 +162,7 @@ export default function MetricChart() {
                 tick={{ fill: "#71717a", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
+                tickFormatter={yAxisDomain ? formatAxisTick : undefined}
               />
               <Tooltip content={<CustomTooltip unit={config.unit} />} />
               <Bar dataKey="value" fill={accentHex} radius={[2, 2, 0, 0]} />
