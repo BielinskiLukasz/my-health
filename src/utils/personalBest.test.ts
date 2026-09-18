@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { detectPersonalBest, isNewPersonalBest, PB_METRICS } from "./personalBest"
+import { detectPersonalBest, isNewPersonalBest, PB_METRICS, resolveTodayValueForPbCheck } from "./personalBest"
 
 describe("detectPersonalBest", () => {
   it("returns null for an empty array", () => {
@@ -98,5 +98,26 @@ describe("PB_METRICS", () => {
 
   it("never contains a temperature entry (D-21 exclusion)", () => {
     expect(PB_METRICS.some((m) => (m.metric as string) === "temperature")).toBe(false)
+  })
+})
+
+describe("resolveTodayValueForPbCheck", () => {
+  it("returns null for an empty entries array", () => {
+    expect(resolveTodayValueForPbCheck([], "2026-09-18")).toBeNull()
+  })
+
+  it("returns null when no entry is dated today", () => {
+    const entries = [{ date: "2026-09-17", value: 70 }]
+    expect(resolveTodayValueForPbCheck(entries, "2026-09-18")).toBeNull()
+  })
+
+  it("returns the value when an entry's date exactly matches today", () => {
+    const entries = [{ date: "2026-09-18", value: 70 }]
+    expect(resolveTodayValueForPbCheck(entries, "2026-09-18")).toBe(70)
+  })
+
+  it("returns a genuine logged zero rather than treating it as no-data", () => {
+    const entries = [{ date: "2026-09-18", value: 0 }]
+    expect(resolveTodayValueForPbCheck(entries, "2026-09-18")).toBe(0)
   })
 })
