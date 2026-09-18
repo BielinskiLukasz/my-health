@@ -131,6 +131,21 @@ export function usePersonalBestData(
   // writes across re-renders within the same session/value.
   const bumpedRef = useRef<Set<string>>(new Set())
 
+  // CR-01 (re-review) fix: the detect+persist effect below must NOT list
+  // `cachedBests` in its own dependency array, because it also mutates
+  // `cachedBests` via `setCachedBests`. Doing so caused the effect to
+  // immediately re-fire off its own write — on that second run the same
+  // `valueToCheck` ties against the now-bumped cache, `matched` computes
+  // `false`, and `setIsPersonalBest(false)` overwrites the correct `true`
+  // one render later, so the badge/toast never reach the user. Instead,
+  // keep a ref in sync with the latest `cachedBests` via a separate effect
+  // and read from the ref inside the detect effect, which depends only on
+  // the truly external inputs.
+  const cachedBestsRef = useRef(cachedBests)
+  useEffect(() => {
+    cachedBestsRef.current = cachedBests
+  }, [cachedBests])
+
   // CR-01/CR-02/WR-01/WR-02 fix: the detect+persist logic now runs inside a
   // useEffect (never during render) and is only ever evaluated against
   // `valueToCheck` — a value the caller has already proven is dated today
@@ -146,7 +161,7 @@ export function usePersonalBestData(
     const value = valueToCheck
     let matched = false
 
-    for (const cb of cachedBests) {
+    for (const cb of cachedBestsRef.current) {
       if (!isNewPersonalBest(value, cb.value, cb.direction)) continue
       matched = true
 
@@ -168,7 +183,10 @@ export function usePersonalBestData(
     }
 
     setIsPersonalBest(matched)
-  }, [eligible, metric, valueToCheck, cachedBests])
+    // `cachedBests` intentionally excluded — see comment above; this effect
+    // reads the latest cache via `cachedBestsRef` so its own cache-bump
+    // write doesn't cause it to immediately re-fire against itself.
+  }, [eligible, metric, valueToCheck])
 
   if (!eligible) {
     return { isPersonalBest: false, isLoading: false }
