@@ -3,7 +3,7 @@ status: testing
 phase: 02-charts-visualization
 source: [02-VERIFICATION.md]
 started: 2026-09-16T16:14:21Z
-updated: 2026-09-16T16:35:00Z
+updated: 2026-09-18T00:00:00Z
 ---
 
 ## Current Test
@@ -11,26 +11,19 @@ updated: 2026-09-16T16:35:00Z
 number: 1
 name: D2 — W/M/Y chart rendering for all 6 metrics
 expected: |
-  Each metric renders a chart (line for weight/sleep/steps/water/heartRate,
-  bar for yearly and temperature) with real data visible. The period switch
-  reloads chart data.
-awaiting: paused — 3 gaps logged (G-02-3, G-02-4, G-02-5), session paused before fixes
-note: "Re-run from the start at user request. Previously found G-02-1 (update banner no-op) and G-02-2 (Log button hidden under nav) — both now resolved. Fresh pass surfaced 3 new gaps; UAT paused at user request to address them."
+  Each metric renders a chart with real data visible. Weight, sleep, steps,
+  heartRate, and temperature render as a line chart in all three periods
+  (W/M/Y); steps and water render as a bar chart (discrete/count metrics
+  stay bar in every period, per the D-06 narrowing). The period switch
+  reloads chart data and Y-axis ticks show at most 1 decimal place.
+awaiting: user response
 
 ## Tests
 
 ### 1. D2 — W/M/Y chart rendering for all 6 metrics
-expected: Each metric renders a chart (line for weight/sleep/steps/water/heartRate, bar for yearly and temperature) with real data visible. The period switch reloads chart data.
-result: issue
-reported: |
-  1. Logging a new weight value doesn't display/prefill the last logged value.
-  2. Logging for a previous date doesn't check whether a value is already logged for
-     that date — date selection should fetch and display any existing value in an
-     editable text box (currently allows silent duplicate/overwrite without showing prior value).
-  3. Charts for weight, heart rate, and temperature start the Y-axis at 0 instead of
-     scaling to the min/max of the selected period — flattens trends and makes charts
-     hard to read.
-severity: major
+expected: Each metric renders a chart with real data visible. Weight, sleep, steps, heartRate, and temperature render as a line chart in all three periods (W/M/Y); steps and water render as a bar chart in every period (D-06 narrowed to discrete/count metrics only). The period switch reloads chart data and Y-axis ticks show at most 1 decimal place.
+result: [pending]
+note: "Re-tested fresh at user request on 2026-09-18 — all 3 gaps from the prior pass (G-02-3, G-02-4, G-02-5) are fixed and committed. Expected text corrected: the original wording ('bar for yearly and temperature') is stale — commit a94856c narrowed D-06 so only steps/water stay bar; weight/sleep/heartRate/temperature are line in Y too. Prior result/reported/severity superseded by this re-test."
 
 ### 2. D4 — ChartHeader recomputes on period switch
 expected: All three stat values (average, range, trend direction arrow) update correctly for each period.
@@ -45,16 +38,41 @@ expected: A tooltip appears showing the formatted date and the names of the metr
 result: [pending]
 note: "Quick task 260917-i9a fixed a previously-undiscovered bug where the tooltip could render under/behind the fixed bottom nav for taps near the bottom of the viewport (raised z-index + vertical clamp/flip in ActivityHeatmap.tsx). This test still needs a human UAT pass to visually confirm the tooltip renders correctly."
 
+### 5. BMI-02 — BMI section below weight chart
+expected: On the weight metric's chart screen only, a BMI section appears below the main chart showing current BMI value, color-coded category (blue=Underweight, emerald=Normal, yellow=Overweight, red=Obese), and a mini trend line chart with reference lines at BMI 18.5/25/30. The Y-axis domain always includes the 18.5-25 normal range even if actual BMI data falls outside it, and ticks show at most 1 decimal place. No BMI section appears on other metrics' chart screens.
+result: [pending]
+note: "Never had a UAT checkpoint — 02-04-SUMMARY.md's BMI-02 coverage entry (human_judgment: true) was missed when the original 4-test UAT file was created. Also covers ad-hoc fixes: BMI Y-axis domain clamp (commit 9e13aa2) and tick decimal formatting (commit 7830271)."
+
+### 6. DASH-02 — Dashboard sparklines + tile layout
+expected: Every Dashboard metric tile shows a 14-day mini sparkline. For weight/heartRate/temperature, the sparkline's Y-axis scales to the min/max of that 14-day window (not from 0), so trends are visible rather than flattened. Tiles no longer show a "last logged date" line or "Not logged today" badge — that space is used to render the sparkline taller. Metrics with no recent data show "Start logging to see trends" instead of a blank chart.
+result: issue
+reported: "the not logged message and date of log are not visible in home page now"
+severity: major
+note: "This is the exact behavior the ad-hoc decluttering commit (8d38c9f, quick task 260917-h77) intentionally changed — it dropped the lastDate line and 'Not logged today' badge from MetricTile variant B to make room for a taller sparkline. User is flagging that removal as a regression, not confirming it. Never had a UAT checkpoint — 02-03-SUMMARY.md (sparklines) has no coverage: block at all, so it fell through legacy extraction and no test was generated until now. Fix landed in commit 9128812 (restoring the last-logged-date line and \"Not logged today\" badge as one compact row alongside the taller Y-axis-scaled sparkline from commit 8d38c9f) and is awaiting human re-verification."
+
 ## Summary
 
-total: 4
+total: 6
 passed: 0
 issues: 1
-pending: 3
+pending: 5
 skipped: 0
 blocked: 0
 
 ## Gaps
+
+- gap_id: G-02-6
+  truth: "Tiles no longer show a \"last logged date\" line or \"Not logged today\" badge — that space is used to render the sparkline taller."
+  status: failed
+  reason: "User reported: the not logged message and date of log are not visible in home page now"
+  severity: major
+  test: 6
+  root_cause: ""
+  artifacts: []
+  missing: []
+  resolved_by: "commit 9128812 (fix: restore last-logged-date and not-logged badge to dashboard tile)"
+  resolved_at: 2026-09-18
+  fix_committed: true
 
 - gap_id: G-02-5
   truth: "Charts for weight, heart rate, and temperature scale their Y-axis to the min/max of the selected period, not from 0."
