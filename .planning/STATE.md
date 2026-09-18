@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 03
 current_phase_name: Targets & Goals
 status: executing
-stopped_at: "Completed 03-04-PLAN.md (gap-closure: CR-01/CR-02/WR-01/WR-02 fixed)"
-last_updated: "2026-09-18T17:47:02.493Z"
+stopped_at: "Completed 03-05-PLAN.md (gap-closure: CR-03/CR-04/WR-04 fixed)"
+last_updated: "2026-09-18T18:03:50.234Z"
 last_activity: 2026-09-18
 last_activity_desc: Phase 03 execution started
-state_head: e3d864c698cd29e2c22f7d4e2effd82e94d29be8
+state_head: 916271e9c41ea6a438abad21083817fbd00af8a5
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 13
-  completed_plans: 12
+  completed_plans: 13
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 ## Current Position
 
 Phase: 03 (Targets & Goals) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Last activity: 2026-09-18 — Phase 03 execution started
 
@@ -67,6 +67,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03 P02 | 24 | 3 tasks | 9 files |
 | Phase 03 P03 | 20 | 2 tasks | 6 files |
 | Phase 03 P04 | 15 | 2 tasks | 5 files |
+| Phase 03 P05 | 18 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,8 @@ Recent decisions affecting current work:
 - [Phase 03]: Plan 03-03: toggleToday() reads the exerciseLog row fresh from Dexie before writing (not from stale hook state), always keyed on todayISO() — T-03-07 mitigation — prevents a wrong-day write even if hook state is stale, and avoids leaking the Dashboard's selectable currentDate into the write path
 - [Phase 03]: Plan 03-04: usePersonalBestData replaced isTodayPersonalBest callback with an explicit valueToCheck param; detect+persist logic moved into a useEffect (never render) with a .catch-guarded Dexie write (CR-01/WR-01)
 - [Phase 03]: Plan 03-04: MetricChart.tsx calls all hooks unconditionally; invalid-metric case uses a safe fallback metric plus a post-hook useEffect redirect and return-null after all hooks (CR-02)
+- [Phase 03]: [Phase 03]: Plan 03-05: Target.direction widened to up|down|null; useTargetData.saveTarget persists explicit null (not undefined) for a directionless weight target, backfilled by WeightForm.tsx's isolated resolveWeightDirection() call after every weight save (CR-03)
+- [Phase 03]: [Phase 03]: Plan 03-05: exerciseWeekSnapshots (Dexie v6, additive) freezes each already-elapsed week's met/unmet status; only the current, still-open week is recomputed live each load — editing the weekly target can no longer retroactively rewrite the streak (CR-04, restores D-08)
 
 ### Pending Todos
 
@@ -140,6 +143,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-18T17:47:01.685Z
-Stopped at: Completed 03-04-PLAN.md (gap-closure: CR-01/CR-02/WR-01/WR-02 fixed)
+Last session: 2026-09-18T18:03:49.352Z
+Stopped at: Completed 03-05-PLAN.md (gap-closure: CR-03/CR-04/WR-04 fixed)
 Resume file: None
