@@ -11,6 +11,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  ReferenceLine,
 } from "recharts"
 import { ChevronLeft, Plus } from "lucide-react"
 import type { MetricType } from "@/store/appStore"
@@ -18,11 +19,36 @@ import { METRIC_CONFIG } from "@/utils/constants"
 import { CHART_HEX } from "@/utils/chartColors"
 import { getYAxisDomain } from "@/utils/chartDomain"
 import { formatAxisTick } from "@/utils/axisTick"
+import { formatShortDate } from "@/utils/dateFormat"
 import { useChartData } from "@/hooks/useChartData"
+import { useTargetData } from "@/hooks/useTargetData"
+import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
 import CustomTooltip from "./CustomTooltip"
 import BmiSection from "./BmiSection"
+import TargetModal from "./TargetModal"
+
+// D-13/D-21: temperature never gets target UI (not in TARG-01's metric list)
+type TargetEligibleMetric = "weight" | "sleep" | "steps" | "water" | "heartRate"
+
+function isTargetEligible(m: MetricType): m is TargetEligibleMetric {
+  return m !== "temperature"
+}
+
+const STATUS_BADGE_CLASS: Record<OnTrackStatus, string> = {
+  green: "bg-emerald-500 text-white",
+  yellow: "bg-amber-500 text-white",
+  red: "bg-red-500 text-white",
+  grey: "bg-gray-500 text-white",
+}
+
+const STATUS_BADGE_LABEL: Record<OnTrackStatus, string> = {
+  green: "On track",
+  yellow: "Off track",
+  red: "Far off",
+  grey: "Not enough data yet",
+}
 
 // D-05: auto-choose chart type by metric (line for continuous, bar for discrete)
 const METRIC_CHART_TYPE: Record<MetricType, "line" | "bar"> = {
@@ -62,6 +88,25 @@ export default function MetricChart() {
   const metric = metricParam as MetricType
   const { data, prevData, isLoading } = useChartData(metric, period)
 
+  // D-13: target reference line + status badge (never rendered for temperature)
+  const { target } = useTargetData(metric)
+  // On-track status is always computed from the "W" period specifically,
+  // independent of whichever period the user has selected (D-11).
+  const { data: weekData } = useChartData(metric, "W")
+
+  let onTrackStatus: OnTrackStatus | null = null
+  if (target && isTargetEligible(metric)) {
+    const trend = fitLinearTrend(weekData)
+    const startDate = weekData[0]?.date ?? format(new Date(), "yyyy-MM-dd")
+    // Pitfall 6 guard: fall back to the latest known value rather than
+    // crash when no trend can be fit or no target date is set.
+    const projected =
+      trend && target.targetDate
+        ? projectPace(trend, startDate, target.targetDate)
+        : weekData.at(-1)?.value ?? target.value
+    onTrackStatus = getOnTrackStatus(projected, target, metric, weekData.length)
+  }
+
   // D-06 (narrowed): bar chart is forced only for discrete/count metrics
   // (steps, water) via METRIC_CHART_TYPE, independent of period — continuous
   // metrics render as a line chart in every period, including yearly.
@@ -96,6 +141,26 @@ export default function MetricChart() {
 
       {/* Summary stat header (avg/min/max + trend arrow) */}
       <ChartHeader metric={metric} data={data} prevData={prevData} period={period} />
+
+      {/* D-06/D-13: target CTA, summary label, and on-track status badge — never for temperature */}
+      {isTargetEligible(metric) && (
+        <div className="flex items-center gap-2 mb-4 flex-wrap">
+          <TargetModal metric={metric} />
+          {target && (
+            <span className="text-sm text-zinc-400">
+              Target: {target.value} {config.unit}
+              {target.targetDate && ` by ${formatShortDate(target.targetDate)}`}
+            </span>
+          )}
+          {onTrackStatus && (
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_BADGE_CLASS[onTrackStatus]}`}
+            >
+              {STATUS_BADGE_LABEL[onTrackStatus]}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Period switcher W | M | Y */}
       <div className="mb-4">
@@ -135,6 +200,20 @@ export default function MetricChart() {
                 tickFormatter={yAxisDomain ? formatAxisTick : undefined}
               />
               <Tooltip content={<CustomTooltip unit={config.unit} />} />
+              {target && (
+                <ReferenceLine
+                  y={target.value}
+                  stroke={accentHex}
+                  strokeDasharray="5,5"
+                  strokeWidth={2}
+                  label={{
+                    value: `${target.value} ${config.unit}`,
+                    fill: accentHex,
+                    fontSize: 12,
+                    position: "right",
+                  }}
+                />
+              )}
               <Line
                 type="monotone"
                 dataKey="value"
@@ -165,6 +244,20 @@ export default function MetricChart() {
                 tickFormatter={yAxisDomain ? formatAxisTick : undefined}
               />
               <Tooltip content={<CustomTooltip unit={config.unit} />} />
+              {target && (
+                <ReferenceLine
+                  y={target.value}
+                  stroke={accentHex}
+                  strokeDasharray="5,5"
+                  strokeWidth={2}
+                  label={{
+                    value: `${target.value} ${config.unit}`,
+                    fill: accentHex,
+                    fontSize: 12,
+                    position: "right",
+                  }}
+                />
+              )}
               <Bar dataKey="value" fill={accentHex} radius={[2, 2, 0, 0]} />
             </BarChart>
           )}
