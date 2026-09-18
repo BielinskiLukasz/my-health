@@ -12,7 +12,10 @@ Clear, honest charts of your own health history — something Samsung Health nev
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ User can set a target value + target date for each metric (weight, sleep, steps, water, heart rate, exercise frequency) — Phase 3
+- ✓ App shows projected pace vs target deadline — Phase 3
+- ✓ Dashboard/chart show progress bar, color coding (red/yellow/green), and streak per metric — Phase 3
+- ✓ App detects and flags personal bests for logged metrics (weight, sleep, steps, water, heart rate) — Phase 3
 
 ### Active
 
@@ -31,11 +34,6 @@ Clear, honest charts of your own health history — something Samsung Health nev
 - [ ] User can create, edit, and delete custom exercise types
 - [ ] Default exercises: warm-up, stretching, push-ups, sit-ups, squats, squash
 
-**Targets**
-- [ ] User can set a target value + target date for each metric (weight, sleep, steps, water, exercise frequency)
-- [ ] App shows projected pace vs target deadline
-- [ ] Dashboard shows progress bar, color coding (red/yellow/green), and streak per metric
-
 **Views & Charts**
 - [ ] Dashboard shows today's snapshot across all metrics
 - [ ] Weekly / monthly / yearly chart view per metric (line/bar charts via Recharts)
@@ -43,8 +41,8 @@ Clear, honest charts of your own health history — something Samsung Health nev
 - [ ] History list: scrollable log of past entries, filterable by metric type, date range, exercise
 
 **Personal Bests**
-- [ ] App detects and flags personal records (most reps, longest session, etc.)
-- [ ] PBs visible in history and on exercise detail views
+- [ ] App detects and flags personal records for training sessions (most reps, heaviest weight, longest session — needs Phase 4's session data model)
+- [ ] PBs visible in a dedicated history list and on exercise detail views (currently surfaced on Dashboard tiles + chart screens only, per Phase 3)
 
 **BMI**
 - [ ] User enters height once (settings); BMI auto-calculated from weight entries and charted alongside weight
@@ -119,4 +117,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-02 after initialization*
+*Last updated: 2026-09-18 after Phase 3*

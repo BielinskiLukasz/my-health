@@ -20,10 +20,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-02)
+See: .planning/PROJECT.md (updated 2026-09-18)
 
 **Core value:** Clear, honest charts of your own health history — with full data ownership and the ability to track any exercise you actually do
-**Current focus:** Phase 03 — Targets & Goals
+**Current focus:** Phase 03 is complete. Dependency-correct next phase is Phase 4 — Training Sessions (see Blockers/Concerns: Phase 1 & 2 roadmap-checkbox status is stale).
 
 ## Current Position
 
@@ -109,6 +109,8 @@ Recent decisions affecting current work:
 - [Phase 03]: Plan 03-04: MetricChart.tsx calls all hooks unconditionally; invalid-metric case uses a safe fallback metric plus a post-hook useEffect redirect and return-null after all hooks (CR-02)
 - [Phase 03]: [Phase 03]: Plan 03-05: Target.direction widened to up|down|null; useTargetData.saveTarget persists explicit null (not undefined) for a directionless weight target, backfilled by WeightForm.tsx's isolated resolveWeightDirection() call after every weight save (CR-03)
 - [Phase 03]: [Phase 03]: Plan 03-05: exerciseWeekSnapshots (Dexie v6, additive) freezes each already-elapsed week's met/unmet status; only the current, still-open week is recomputed live each load — editing the weekly target can no longer retroactively rewrite the streak (CR-04, restores D-08)
+- [Phase 03]: Post-gap-closure code review found the 03-04 fix itself introduced a new Critical regression: `usePersonalBestData`'s detect+persist effect listed `cachedBests` in its own dependency array while also mutating it, causing an immediate self-triggered re-run that flipped `isPersonalBest` back to `false` before the UI ever showed the true badge. Fixed via a `cachedBestsRef` read inside the effect, dropping `cachedBests` from its dependency array (commit ffeb612).
+- [Phase 03]: Code-review-fix pass also closed 3 Warnings: exercise-week snapshot now captured on first discovery of a skipped week (not just the current week) (0ea50a7); WeightForm gained an isNaN/≤0 guard matching TargetModal's pattern, also protecting the CR-03 direction-backfill from a NaN input (f45a7db); TargetModal's value ceiling is now JS-enforced, not just HTML `max` (4b0a8a4).
 
 ### Pending Todos
 
@@ -117,6 +119,7 @@ Recent decisions affecting current work:
 ### Blockers/Concerns
 
 - ~~Nested MyHealth/.git~~ — RESOLVED/STALE as of 2026-09-17. Verified no `MyHealth/` directory exists in the repo; it's a single flat repo rooted at `.git`. This blocker predates the current tree layout and no longer applies. Flagged independently by two quick-task executors (260917-nbo, 260917-ntz) before removal.
+- ⚠️ [Phase 03 transition, 2026-09-18] `gsd_run query phase.complete "03"` set `current_phase: 1` in this file's frontmatter, because Phase 1 and Phase 2 both have `roadmap_complete: false` in `roadmap.analyze` (their ROADMAP.md checkboxes were never checked) despite having all plans/summaries on disk (4/4 each). `roadmap.analyze`'s own dependency-aware `next_phase` field says `"4"` (Training Sessions, since Phase 3 — the actual last-completed phase — unblocks it). Unresolved: whether Phase 1/2 are genuinely done (just missing the formal `/gsd-transition` checkbox step) or Phase 2 still has an open human-verification gap (G-02-6, noted below as "pending human re-verification" as of quick task 260918-ep1). Did not touch Phase 1/2 checkboxes — needs a human decision, not an automated fix.
 
 ### Quick Tasks Completed
 
@@ -144,6 +147,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-18T18:03:49.352Z
-Stopped at: Phase 03 complete, ready to plan Phase 1
+Last session: 2026-09-18T21:15:00.000Z
+Stopped at: Phase 03 complete (gap-closure + code-review-fix verified, 127/127 tests). Dependency-correct next phase is Phase 4, but see Blockers/Concerns re: stale Phase 1/2 checkboxes before planning it.
 Resume file: None
