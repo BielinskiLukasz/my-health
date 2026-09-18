@@ -8,6 +8,7 @@ import {
   meetsTargetForDay,
   calculateStreak,
   calculateWeeklyStreak,
+  getExerciseWeeklyStatus,
 } from "./targetCalcs"
 
 describe("fitLinearTrend", () => {
@@ -374,5 +375,35 @@ describe("calculateWeeklyStreak", () => {
 
   it("returns 0 when the most recent week is unmet", () => {
     expect(calculateWeeklyStreak([{ met: false }])).toBe(0)
+  })
+})
+
+describe("getExerciseWeeklyStatus", () => {
+  it("returns 'green' when weekCount === weeklyTarget", () => {
+    expect(getExerciseWeeklyStatus(3, 3)).toBe("green")
+  })
+
+  it("returns 'green' when weekCount > weeklyTarget (overshoot)", () => {
+    expect(getExerciseWeeklyStatus(5, 3)).toBe("green")
+  })
+
+  it("returns 'yellow' when weekCount is 1 below weeklyTarget", () => {
+    expect(getExerciseWeeklyStatus(2, 3)).toBe("yellow")
+  })
+
+  it("returns 'yellow' when weekCount is 2 below weeklyTarget", () => {
+    expect(getExerciseWeeklyStatus(1, 3)).toBe("yellow")
+  })
+
+  it("returns 'red' when weekCount is more than 2 below weeklyTarget", () => {
+    expect(getExerciseWeeklyStatus(0, 4)).toBe("red")
+  })
+
+  it("has no 'grey' branch — always returns green/yellow/red", () => {
+    const statuses = new Set<string>()
+    for (let weekCount = 0; weekCount <= 5; weekCount++) {
+      statuses.add(getExerciseWeeklyStatus(weekCount, 3))
+    }
+    expect(statuses.has("grey")).toBe(false)
   })
 })
