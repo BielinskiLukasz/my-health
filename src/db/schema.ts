@@ -61,6 +61,14 @@ export interface PersonalBest {
   date: string // YYYY-MM-DD
 }
 
+// Phase 3 Plan 03 (D-01/D-07, additive-only, version 5).
+// One boolean row per day — the lightweight exercise-frequency proxy ahead
+// of Phase 4's real training-session schema.
+export interface ExerciseLog {
+  date: string // YYYY-MM-DD (primary key)
+  logged: boolean
+}
+
 // Per D-15: separate tables per metric — NEVER a unified table
 // Per D-16: weight + heartRate + temperature allow multiple per day (++id PK), others are one per day (date PK)
 // Per D-17: dates as YYYY-MM-DD strings, timestamps as full ISO strings
@@ -75,6 +83,7 @@ class MyHealthDB extends Dexie {
   temperatures!: EntityTable<Temperature, "id">
   targets!: EntityTable<Target, "metric">
   personalBests!: EntityTable<PersonalBest, "id">
+  exerciseLog!: EntityTable<ExerciseLog, "date">
 
   constructor() {
     super("MyHealthDB")
@@ -93,6 +102,9 @@ class MyHealthDB extends Dexie {
     })
     this.version(4).stores({
       personalBests: "++id, metric",
+    })
+    this.version(5).stores({
+      exerciseLog: "date",
     })
   }
 }

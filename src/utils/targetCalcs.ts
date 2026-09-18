@@ -202,3 +202,21 @@ export function calculateWeeklyStreak(weeks: { met: boolean }[]): number {
   }
   return count
 }
+
+/**
+ * D-01/D-07: exercise-proxy weekly on-track status. No "grey" case — once a
+ * weekly target exists, a week always has a defined count (D-05 already
+ * hides the whole exercise status area when no target is set).
+ * - green: weekCount already at/above weeklyTarget.
+ * - yellow: short by 1 or 2 sessions.
+ * - red: short by more than 2 sessions.
+ */
+export function getExerciseWeeklyStatus(
+  weekCount: number,
+  weeklyTarget: number
+): "green" | "yellow" | "red" {
+  if (weekCount >= weeklyTarget) return "green"
+  const shortfall = weeklyTarget - weekCount
+  if (shortfall <= 2) return "yellow"
+  return "red"
+}
