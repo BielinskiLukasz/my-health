@@ -71,15 +71,27 @@ export function useExerciseLogData(weeklyTarget: number): ExerciseLogDataResult 
           }
 
           const snapshot = await db.exerciseWeekSnapshots.get(bounds.start)
-          const entries =
-            snapshot === undefined
-              ? await db.exerciseLog
-                  .where("date")
-                  .between(bounds.start, bounds.end, true, true)
-                  .toArray()
-              : []
-          const count = entries.filter((e) => e.logged).length
-          history.push({ met: resolveWeekMet(snapshot, count, weeklyTarget) })
+          if (snapshot === undefined) {
+            // WR-01: a past week only ever gets a persisted snapshot if the
+            // dashboard was opened while it was still the current (i===0)
+            // week. A week the user skipped entirely never passes through
+            // that write, so without this branch it would keep falling back
+            // to a LIVE count>=weeklyTarget check on every single read —
+            // letting a later target edit retroactively flip it forever,
+            // reproducing the exact CR-04 defect this snapshot table exists
+            // to prevent. Freeze it here, the first time it's discovered
+            // missing, so subsequent reads stop drifting with future edits.
+            const entries = await db.exerciseLog
+              .where("date")
+              .between(bounds.start, bounds.end, true, true)
+              .toArray()
+            const count = entries.filter((e) => e.logged).length
+            const met = resolveWeekMet(undefined, count, weeklyTarget)
+            await db.exerciseWeekSnapshots.put({ weekStart: bounds.start, met })
+            history.push({ met })
+          } else {
+            history.push({ met: resolveWeekMet(snapshot, 0, weeklyTarget) })
+          }
         }
 
         if (!cancelledRef.cancelled) {
