@@ -61,3 +61,21 @@ export function isNewPersonalBest(
   if (cachedBest === undefined) return true
   return direction === "max" ? todayValue > cachedBest : todayValue < cachedBest
 }
+
+/**
+ * CR-01/WR-02 fix: the only correct way to resolve "today's value" for a PB
+ * check. Finds the entry whose own `date` strictly equals `today` and
+ * returns its `value` — including a legitimate `0` — or `null` when no such
+ * entry exists. Never falls back to a numeric sentinel (e.g. `0`), which
+ * previously let "no data today" be mistaken for a real all-time-low
+ * measurement and permanently poisoned min-direction PB caches (CR-01).
+ * Callers must never scan an entire displayed period for "any past match"
+ * (WR-02) — only an entry dated exactly `today` may trigger a PB check.
+ */
+export function resolveTodayValueForPbCheck(
+  entries: { date: string; value: number }[],
+  today: string
+): number | null {
+  const match = entries.find((e) => e.date === today)
+  return match ? match.value : null
+}
