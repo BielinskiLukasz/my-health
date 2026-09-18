@@ -2,10 +2,34 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { db } from "@/db/schema"
 import { useAppStore, type MetricType } from "@/store/appStore"
-import { formatShortDate } from "@/utils/dateFormat"
+import { formatShortDate, todayISO } from "@/utils/dateFormat"
 import { differenceInMinutes, parseISO } from "date-fns"
 import { CHART_HEX } from "@/utils/chartColors"
 import Sparkline from "@/components/Charts/Sparkline"
+import { useTargetData } from "@/hooks/useTargetData"
+import { useChartData } from "@/hooks/useChartData"
+import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
+
+// Same 4-color mapping as the chart screen's status badge (Task 2)
+const STATUS_BADGE_CLASS: Record<OnTrackStatus, string> = {
+  green: "bg-emerald-500 text-white",
+  yellow: "bg-amber-500 text-white",
+  red: "bg-red-500 text-white",
+  grey: "bg-gray-500 text-white",
+}
+
+const STATUS_BADGE_LABEL: Record<OnTrackStatus, string> = {
+  green: "On track",
+  yellow: "Off track",
+  red: "Far off",
+  grey: "Not enough data yet",
+}
+
+// constants.ts only declares the `text-*` accent variant — map it to its
+// `bg-*` counterpart for the progress bar fill.
+function accentColorToBg(accentColor: string): string {
+  return accentColor.replace("text-", "bg-")
+}
 
 interface MetricTileProps {
   metric: MetricType
@@ -172,6 +196,26 @@ export default function MetricTile({
     loadTileData(metric, currentDate).then(setTileData)
   }, [metric, currentDate])
 
+  // D-05: progress bar/badge only render when a target exists (never true
+  // for temperature — Task 1/2 never let a target be created for it).
+  const { target } = useTargetData(metric)
+  const { data: weekData } = useChartData(metric, "W")
+
+  let onTrackStatus: OnTrackStatus | null = null
+  let currentNumericValue = 0
+  if (target && metric !== "temperature") {
+    const trend = fitLinearTrend(weekData)
+    const startDate = weekData[0]?.date ?? todayISO()
+    // Pitfall 6 guard: fall back to the latest known value rather than
+    // crash when no trend can be fit or no target date is set.
+    const projected =
+      trend && target.targetDate
+        ? projectPace(trend, startDate, target.targetDate)
+        : weekData.at(-1)?.value ?? target.value
+    onTrackStatus = getOnTrackStatus(projected, target, metric, weekData.length)
+    currentNumericValue = weekData.at(-1)?.value ?? 0
+  }
+
   const handleTap = () => {
     navigate("/chart/" + metric)
   }
@@ -225,6 +269,28 @@ export default function MetricTile({
       <div className="mt-2">
         <Sparkline metric={metric} accentHex={CHART_HEX[metric]} height={60} />
       </div>
+
+      {/* D-05: progress bar + status badge only render when a target exists */}
+      {target && onTrackStatus && (
+        <div className="mt-2 flex flex-col gap-1">
+          <span
+            className={`self-start rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_BADGE_CLASS[onTrackStatus]}`}
+          >
+            {STATUS_BADGE_LABEL[onTrackStatus]}
+          </span>
+          <div className="h-2 w-full rounded-lg bg-gray-200 dark:bg-zinc-800">
+            <div
+              className={`h-2 rounded-lg ${accentColorToBg(accentColor)}`}
+              style={{
+                width: `${Math.min(100, (currentNumericValue / target.value) * 100)}%`,
+              }}
+            />
+          </div>
+          <span className="text-xs text-gray-400">
+            {currentNumericValue}/{target.value} {unit}
+          </span>
+        </div>
+      )}
     </button>
   )
 }
