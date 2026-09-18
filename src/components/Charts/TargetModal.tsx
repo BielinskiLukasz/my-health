@@ -63,8 +63,11 @@ export default function TargetModal({ metric }: TargetModalProps) {
     e.preventDefault()
 
     const numValue = parseFloat(value)
-    if (!value || isNaN(numValue) || numValue <= 0) {
-      toast.error("Enter a target value.")
+    // WR-03: don't rely solely on the native <input max={...}> constraint —
+    // enforce the ceiling in JS too, since constraint validation is not
+    // bullet-proof across all browsers/input methods.
+    if (!value || isNaN(numValue) || numValue <= 0 || numValue > MAX_VALUE[metric]) {
+      toast.error(`Enter a value between 0 and ${MAX_VALUE[metric]}.`)
       return
     }
     if (!targetDate || targetDate <= format(new Date(), "yyyy-MM-dd")) {
