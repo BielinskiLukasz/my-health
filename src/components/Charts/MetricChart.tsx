@@ -22,6 +22,7 @@ import { formatAxisTick } from "@/utils/axisTick"
 import { formatShortDate } from "@/utils/dateFormat"
 import { useChartData } from "@/hooks/useChartData"
 import { useTargetData } from "@/hooks/useTargetData"
+import { usePersonalBestData } from "@/hooks/usePersonalBestData"
 import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
@@ -107,6 +108,12 @@ export default function MetricChart() {
     onTrackStatus = getOnTrackStatus(projected, target, metric, weekData.length)
   }
 
+  // D-20/D-21: PB badge — target-independent, never shown for temperature.
+  // Matches if any point in the currently displayed period is a genuine
+  // new best (isTodayPersonalBest suppresses ties against the cache).
+  const { isTodayPersonalBest } = usePersonalBestData(metric)
+  const isPersonalBest = metric !== "temperature" && data.some((d) => isTodayPersonalBest(d.value))
+
   // D-06 (narrowed): bar chart is forced only for discrete/count metrics
   // (steps, water) via METRIC_CHART_TYPE, independent of period — continuous
   // metrics render as a line chart in every period, including yearly.
@@ -141,6 +148,13 @@ export default function MetricChart() {
 
       {/* Summary stat header (avg/min/max + trend arrow) */}
       <ChartHeader metric={metric} data={data} prevData={prevData} period={period} />
+
+      {/* D-20/D-21: PB badge — target-independent; never shown for temperature */}
+      {isPersonalBest && (
+        <span className="mb-4 inline-block self-start rounded-full bg-amber-500 px-3 py-1 text-xs font-semibold text-white">
+          🏆 Personal best!
+        </span>
+      )}
 
       {/* D-06/D-13: target CTA, summary label, and on-track status badge — never for temperature */}
       {isTargetEligible(metric) && (

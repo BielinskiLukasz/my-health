@@ -8,7 +8,13 @@ import { CHART_HEX } from "@/utils/chartColors"
 import Sparkline from "@/components/Charts/Sparkline"
 import { useTargetData } from "@/hooks/useTargetData"
 import { useChartData } from "@/hooks/useChartData"
+import { useStreakData, type StreakEligibleMetric } from "@/hooks/useStreakData"
+import { usePersonalBestData } from "@/hooks/usePersonalBestData"
 import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
+
+function isStreakEligible(m: MetricType): m is StreakEligibleMetric {
+  return m !== "temperature"
+}
 
 // Same 4-color mapping as the chart screen's status badge (Task 2)
 const STATUS_BADGE_CLASS: Record<OnTrackStatus, string> = {
@@ -216,6 +222,20 @@ export default function MetricTile({
     currentNumericValue = weekData.at(-1)?.value ?? 0
   }
 
+  // Streak (D-14–D-19): only meaningful when a target is set (D-05); for
+  // temperature, target is always null so useStreakData short-circuits to 0
+  // without a Dexie call. Cast is safe: isStreakEligible narrows the target.
+  const { streak } = useStreakData(
+    metric as StreakEligibleMetric,
+    isStreakEligible(metric) ? target : null
+  )
+
+  // Personal best (D-20–D-22): independent of whether a target is set;
+  // never rendered for temperature (D-21 exclusion).
+  const { isTodayPersonalBest } = usePersonalBestData(metric)
+  const isPersonalBest =
+    metric !== "temperature" && isTodayPersonalBest(weekData.at(-1)?.value ?? 0)
+
   const handleTap = () => {
     navigate("/chart/" + metric)
   }
@@ -289,7 +309,17 @@ export default function MetricTile({
           <span className="text-xs text-gray-400">
             {currentNumericValue}/{target.value} {unit}
           </span>
+          {/* D-19: streak label always rendered when a target exists, even
+              at 0 (UI-SPEC empty state — never hidden). */}
+          <span className="text-xs text-gray-400">{streak} day streak</span>
         </div>
+      )}
+
+      {/* D-20/D-21: PB badge is target-independent; never shown for temperature */}
+      {isPersonalBest && (
+        <span className="mt-2 self-start rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+          🏆 Personal best!
+        </span>
       )}
     </button>
   )
