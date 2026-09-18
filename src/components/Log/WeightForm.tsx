@@ -61,9 +61,20 @@ export default function WeightForm() {
     e.preventDefault()
     if (!value) return
 
+    const numValue = parseFloat(value)
+    // WR-02: mirror TargetModal.tsx's validation — native <input type="number">
+    // constraint validation is not bullet-proof across all browsers/input
+    // methods (paste, autofill, IME input, programmatic value-setting), and a
+    // NaN/negative write here both corrupts db.weights permanently and feeds
+    // CR-03's resolveWeightDirection backfill (NaN comparisons are always
+    // false, so inferDirection would silently lock in the wrong direction).
+    if (isNaN(numValue) || numValue <= 0) {
+      toast.error("Enter a valid weight.")
+      return
+    }
+
     setIsLoading(true)
     try {
-      const numValue = parseFloat(value)
       if (editingId !== undefined) {
         await db.weights.update(editingId, {
           value: numValue,
