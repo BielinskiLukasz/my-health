@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { format } from "date-fns"
 import {
@@ -19,10 +19,11 @@ import { METRIC_CONFIG } from "@/utils/constants"
 import { CHART_HEX } from "@/utils/chartColors"
 import { getYAxisDomain } from "@/utils/chartDomain"
 import { formatAxisTick } from "@/utils/axisTick"
-import { formatShortDate } from "@/utils/dateFormat"
+import { formatShortDate, todayISO } from "@/utils/dateFormat"
 import { useChartData } from "@/hooks/useChartData"
 import { useTargetData } from "@/hooks/useTargetData"
 import { usePersonalBestData } from "@/hooks/usePersonalBestData"
+import { resolveTodayValueForPbCheck } from "@/utils/personalBest"
 import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
 import PeriodSelector from "./PeriodSelector"
 import ChartHeader from "./ChartHeader"
@@ -80,13 +81,14 @@ export default function MetricChart() {
   const navigate = useNavigate()
   const [period, setPeriod] = useState<"W" | "M" | "Y">("W")
 
-  // T-02-01: guard against invalid metric in URL param
-  if (!metricParam || !isValidMetric(metricParam)) {
-    navigate(-1)
-    return null
-  }
+  // T-02-01/CR-02: validate metric against the allowlist, but never early-
+  // return before all hooks below have been called — a safe fallback metric
+  // ("weight") is used only to keep hook calls stable; it is never reflected
+  // in the returned JSX because the component returns `null` whenever
+  // `metricParamValid` is false (see the post-hook return at the bottom).
+  const metricParamValid = !!metricParam && isValidMetric(metricParam)
+  const metric: MetricType = metricParamValid ? (metricParam as MetricType) : "weight"
 
-  const metric = metricParam as MetricType
   const { data, prevData, isLoading } = useChartData(metric, period)
 
   // D-13: target reference line + status badge (never rendered for temperature)
@@ -108,11 +110,20 @@ export default function MetricChart() {
     onTrackStatus = getOnTrackStatus(projected, target, metric, weekData.length)
   }
 
-  // D-20/D-21: PB badge — target-independent, never shown for temperature.
-  // Matches if any point in the currently displayed period is a genuine
-  // new best (isTodayPersonalBest suppresses ties against the cache).
-  const { isTodayPersonalBest } = usePersonalBestData(metric)
-  const isPersonalBest = metric !== "temperature" && data.some((d) => isTodayPersonalBest(d.value))
+  // D-20/D-21/CR-01/WR-02: PB badge — target-independent, never shown for
+  // temperature. Resolves today's own value first — a missing-today-entry
+  // case is never represented as a numeric sentinel, and only today's own
+  // entry (never a scan of the whole displayed period) can trigger the badge.
+  const latestTodayValue = resolveTodayValueForPbCheck(data, todayISO())
+  const { isPersonalBest } = usePersonalBestData(metric, latestTodayValue)
+
+  // CR-02: all hooks above are now called unconditionally on every render.
+  // The invalid-metric redirect is expressed only as a post-hook effect.
+  useEffect(() => {
+    if (!metricParamValid) navigate(-1)
+  }, [metricParamValid, navigate])
+
+  if (!metricParamValid) return null
 
   // D-06 (narrowed): bar chart is forced only for discrete/count metrics
   // (steps, water) via METRIC_CHART_TYPE, independent of period — continuous

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { differenceInMinutes, parseISO } from "date-fns"
 import { db } from "@/db/schema"
 import type { MetricType } from "@/store/appStore"
@@ -8,7 +8,7 @@ import { detectPersonalBest, isNewPersonalBest, PB_METRICS } from "@/utils/perso
 type PbEligibleMetric = "weight" | "sleep" | "steps" | "water" | "heartRate"
 
 interface PersonalBestResult {
-  isTodayPersonalBest: (value: number) => boolean
+  isPersonalBest: boolean
   isLoading: boolean
 }
 
@@ -61,11 +61,20 @@ function isPbEligible(metric: MetricType): metric is PbEligibleMetric {
  * absent, runs a one-time retroactive scan over the metric's own table
  * (read-only — T-03-05) and caches the result. Temperature is excluded
  * (D-21) and returns a no-op immediately.
+ *
+ * `valueToCheck` (CR-01/CR-02 fix) must be resolved by the caller via
+ * `resolveTodayValueForPbCheck` — `null` means "no entry dated today exists"
+ * and is never checked against the cache; a real value (including a
+ * legitimate `0`) is checked and, on a genuine new best, bumps the cache.
  */
-export function usePersonalBestData(metric: MetricType): PersonalBestResult {
+export function usePersonalBestData(
+  metric: MetricType,
+  valueToCheck: number | null
+): PersonalBestResult {
   const eligible = isPbEligible(metric)
   const [cachedBests, setCachedBests] = useState<{ direction: "max" | "min"; value: number }[]>([])
   const [isLoading, setIsLoading] = useState(eligible)
+  const [isPersonalBest, setIsPersonalBest] = useState(false)
 
   useEffect(() => {
     if (!eligible) return
@@ -119,43 +128,51 @@ export function usePersonalBestData(metric: MetricType): PersonalBestResult {
   }, [metric, eligible])
 
   // Guards the forward-detection cache bump below against duplicate Dexie
-  // writes across re-renders within the same session (React may invoke
-  // isTodayPersonalBest many times per render with the same value).
+  // writes across re-renders within the same session/value.
   const bumpedRef = useRef<Set<string>>(new Set())
 
-  const isTodayPersonalBest = useCallback(
-    (value: number) => {
-      if (!eligible) return false
-      const pbMetric = metric as PbEligibleMetric
-      let matched = false
+  // CR-01/CR-02/WR-01/WR-02 fix: the detect+persist logic now runs inside a
+  // useEffect (never during render) and is only ever evaluated against
+  // `valueToCheck` — a value the caller has already proven is dated today
+  // via `resolveTodayValueForPbCheck`. `null` means "no entry today"; it is
+  // never checked against the cache and never written to Dexie.
+  useEffect(() => {
+    if (!eligible || valueToCheck === null) {
+      setIsPersonalBest(false)
+      return
+    }
 
-      for (const cb of cachedBests) {
-        if (!isNewPersonalBest(value, cb.value, cb.direction)) continue
-        matched = true
+    const pbMetric = metric as PbEligibleMetric
+    const value = valueToCheck
+    let matched = false
 
-        // D-22 "continues detecting new PBs going forward": once a
-        // genuine new PB is found, bump the cache so a later call with the
-        // SAME value ties (and correctly stops re-triggering the badge)
-        // rather than staying stale and re-matching forever.
-        const key = `${pbMetric}:${cb.direction}:${value}`
-        if (!bumpedRef.current.has(key)) {
-          bumpedRef.current.add(key)
-          const date = todayISO()
-          void db.personalBests.put({ metric: pbMetric, direction: cb.direction, value, date })
-          setCachedBests((prev) =>
-            prev.map((p) => (p.direction === cb.direction ? { ...p, value } : p))
-          )
-        }
+    for (const cb of cachedBests) {
+      if (!isNewPersonalBest(value, cb.value, cb.direction)) continue
+      matched = true
+
+      // D-22 "continues detecting new PBs going forward": once a genuine
+      // new PB is found, bump the cache so a later render with the SAME
+      // value ties (and correctly stops re-triggering the badge) rather
+      // than staying stale and re-matching forever.
+      const key = `${pbMetric}:${cb.direction}:${value}`
+      if (!bumpedRef.current.has(key)) {
+        bumpedRef.current.add(key)
+        const date = todayISO()
+        db.personalBests
+          .put({ metric: pbMetric, direction: cb.direction, value, date })
+          .catch(() => bumpedRef.current.delete(key))
+        setCachedBests((prev) =>
+          prev.map((p) => (p.direction === cb.direction ? { ...p, value } : p))
+        )
       }
+    }
 
-      return matched
-    },
-    [eligible, cachedBests, metric]
-  )
+    setIsPersonalBest(matched)
+  }, [eligible, metric, valueToCheck, cachedBests])
 
   if (!eligible) {
-    return { isTodayPersonalBest: () => false, isLoading: false }
+    return { isPersonalBest: false, isLoading: false }
   }
 
-  return { isTodayPersonalBest, isLoading }
+  return { isPersonalBest, isLoading }
 }

@@ -10,6 +10,7 @@ import { useTargetData } from "@/hooks/useTargetData"
 import { useChartData } from "@/hooks/useChartData"
 import { useStreakData, type StreakEligibleMetric } from "@/hooks/useStreakData"
 import { usePersonalBestData } from "@/hooks/usePersonalBestData"
+import { resolveTodayValueForPbCheck } from "@/utils/personalBest"
 import { fitLinearTrend, projectPace, getOnTrackStatus, type OnTrackStatus } from "@/utils/targetCalcs"
 
 function isStreakEligible(m: MetricType): m is StreakEligibleMetric {
@@ -231,10 +232,11 @@ export default function MetricTile({
   )
 
   // Personal best (D-20–D-22): independent of whether a target is set;
-  // never rendered for temperature (D-21 exclusion).
-  const { isTodayPersonalBest } = usePersonalBestData(metric)
-  const isPersonalBest =
-    metric !== "temperature" && isTodayPersonalBest(weekData.at(-1)?.value ?? 0)
+  // never rendered for temperature (D-21 exclusion). CR-01 fix: resolve
+  // today's own value first — `null` (no entry logged today) is never
+  // passed to usePersonalBestData as a numeric sentinel like `0`.
+  const latestTodayValue = resolveTodayValueForPbCheck(weekData, todayISO())
+  const { isPersonalBest } = usePersonalBestData(metric, latestTodayValue)
 
   const handleTap = () => {
     navigate("/chart/" + metric)
