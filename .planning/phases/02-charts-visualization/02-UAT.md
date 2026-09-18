@@ -1,22 +1,14 @@
 ---
-status: testing
+status: partial
 phase: 02-charts-visualization
 source: [02-VERIFICATION.md]
 started: 2026-09-16T16:14:21Z
-updated: 2026-09-18T00:00:00Z
+updated: 2026-09-18T09:10:00Z
 ---
 
 ## Current Test
 
-number: 1
-name: D2 — W/M/Y chart rendering for all 6 metrics
-expected: |
-  Each metric renders a chart with real data visible. Weight, sleep, steps,
-  heartRate, and temperature render as a line chart in all three periods
-  (W/M/Y); steps and water render as a bar chart (discrete/count metrics
-  stay bar in every period, per the D-06 narrowing). The period switch
-  reloads chart data and Y-axis ticks show at most 1 decimal place.
-awaiting: user response
+[testing paused — 5 items outstanding: tests 1-5 pending, plus test 6 awaiting re-verification of the G-02-6 fix (commit 9128812)]
 
 ## Tests
 
