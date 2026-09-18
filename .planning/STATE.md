@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 Phase: 02 (Charts & Visualization) — EXECUTING
 Plan: 4 of 4
 Status: Phase complete — ready for verification
-Last activity: 2026-09-17 - Completed quick task 260917-ntz: chart Y-axis ticks formatted to 1 decimal place
+Last activity: 2026-09-18 - Completed quick task 260918-ep1: restore last-logged-date + Not logged today badge on Dashboard tiles (G-02-6)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -117,6 +117,7 @@ Recent decisions affecting current work:
 | 260917-m7l | Narrow D-06: yearly (Y) period no longer forces every metric into a bar chart. Continuous metrics (weight, sleep, heartRate, temperature) now render as a line chart in Y too, matching W/M; only discrete/count metrics (steps, water) stay bar in all periods. | 2026-09-17 | a94856c | [260917-m7l-reverse-part-of-decision-d-06-in-metricc](./quick/260917-m7l-reverse-part-of-decision-d-06-in-metricc/) |
 | 260917-nbo | Apply min/max Y-axis scaling to the BMI mini chart, with the domain clamped so lower bound is never above 18.5 and upper bound never below 25 (category threshold lines always stay in-frame), expanding further to cover actual BMI data outside that range. | 2026-09-17 | 9e13aa2 | [260917-nbo-apply-the-same-min-max-y-axis-scaling-ru](./quick/260917-nbo-apply-the-same-min-max-y-axis-scaling-ru/) |
 | 260917-ntz | Fix Y-axis tick labels rendering with many decimal digits (e.g. 25.413580246913575) instead of 1 decimal place. Added formatAxisTick() util; wired unconditionally into BmiSection.tsx and conditionally (on yAxisDomain) into MetricChart.tsx's line/bar YAxis. | 2026-09-17 | 7830271 | [260917-ntz-y-axis-tick-labels-can-render-with-many-](./quick/260917-ntz-y-axis-tick-labels-can-render-with-many-/) |
+| 260918-ep1 | Fix UAT gap G-02-6: restore the last-logged-date line and "Not logged today" badge in Dashboard MetricTile variant B (removed in commit 8d38c9f) as one compact row, without regressing the Y-axis min/max sparkline scaling from that same commit. Recorded fix against G-02-6/test 6 in 02-UAT.md, pending human re-verification. | 2026-09-18 | 9128812 | [260918-ep1-fix-uat-gap-g-02-6-restore-the-last-logg](./quick/260918-ep1-fix-uat-gap-g-02-6-restore-the-last-logg/) |
 
 ## Deferred Items
 
