@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 current_phase: 03
 current_phase_name: Targets & Goals
-status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-09-18T15:30:03.402Z"
+status: verifying
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-09-18T15:49:38.312Z"
 last_activity: 2026-09-18
 last_activity_desc: Phase 03 execution started
-state_head: 031c0825316491ed658b4cc99b563d4325d796ec
+state_head: ada2d540d30f61e25ae6a5f063b4211f79b05a48
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 
 Phase: 03 (Targets & Goals) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-09-18 — Phase 03 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -65,6 +65,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02 P04 | 9 | 2 tasks | 5 files |
 | Phase 03 P01 | 25 | 3 tasks | 7 files |
 | Phase 03 P02 | 24 | 3 tasks | 9 files |
+| Phase 03 P03 | 20 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,8 @@ Recent decisions affecting current work:
 - [Phase 02]: Quick 260917-i9a: Fixed heatmap tap tooltip nav-clipping via vertical clamp/flip (getTooltipTop) + raised z-index (z-[60]) above Layout.tsx's bottom nav
 - [Phase 03]: Plan 03-02: WEIGHT_STEADY_TOLERANCE (0.2kg) kept distinct from targetCalcs.ts's TOLERANCES.weight (0.5kg) — daily streak check and 7-day pace/color check use different tolerances
 - [Phase 03]: Plan 03-02: usePersonalBestData bumps the personalBests cache forward on a genuine new PB (ref-guarded Dexie put) so stale cache never fails to suppress a later exact-tie badge re-trigger
+- [Phase 03]: Plan 03-03: Default exercise weekly target of 3 sessions/week when no target row exists; tile always renders in full (count/toggle/status/streak), never the hint-only empty state used by the other 6 metrics — D-01/D-07 must-haves require the 7th tile to always show, independent of whether its target has been customized
+- [Phase 03]: Plan 03-03: toggleToday() reads the exerciseLog row fresh from Dexie before writing (not from stale hook state), always keyed on todayISO() — T-03-07 mitigation — prevents a wrong-day write even if hook state is stale, and avoids leaking the Dashboard's selectable currentDate into the write path
 
 ### Pending Todos
 
@@ -134,6 +137,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-18T15:30:00.331Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-09-18T15:49:35.916Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None
