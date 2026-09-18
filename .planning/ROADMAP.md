@@ -83,7 +83,7 @@ Plans:
   3. Dashboard shows the current consecutive-day streak for each metric that has an active target
   4. App automatically detects personal bests (heaviest weight, most steps, longest sleep, etc.) and flags them in history and exercise detail views
 
-**Plans**: 5/5 plans executed (3 original + 2 gap-closure)
+**Plans**: 4/5 plans executed (3 original + 2 gap-closure)
 
 Plans:
 **Wave 1**
@@ -100,7 +100,7 @@ Plans:
 
 **Gap Closure Wave 1** *(from 03-VERIFICATION.md — 4 Critical bugs found post-execution)*
 
-- [ ] 03-04-PLAN.md — Fix CR-01/CR-02/WR-01/WR-02: personal-best zero-fallback cache poisoning + MetricChart Rules-of-Hooks crash
+- [x] 03-04-PLAN.md — Fix CR-01/CR-02/WR-01/WR-02: personal-best zero-fallback cache poisoning + MetricChart Rules-of-Hooks crash
 - [ ] 03-05-PLAN.md — Fix CR-03/CR-04/WR-04: weight target direction backfill + exercise weekly-streak snapshot
 
 ### Phase 4: Training Sessions
@@ -143,6 +143,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Logging | 4/4 | Complete | 2026-09-14 |
 | 2. Charts & Visualization | 4/4 | In Progress|  |
-| 3. Targets & Goals | 3/3 | In Progress|  |
+| 3. Targets & Goals | 4/5 | In Progress|  |
 | 4. Training Sessions | 0/TBD | Not started | - |
 | 5. History & Data | 0/TBD | Not started | - |
