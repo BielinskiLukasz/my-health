@@ -83,7 +83,13 @@ Plans:
   3. Dashboard shows the current consecutive-day streak for each metric that has an active target
   4. App automatically detects personal bests (heaviest weight, most steps, longest sleep, etc.) and flags them in history and exercise detail views
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+
+- [ ] 03-01-PLAN.md — Target engine tracer: Dexie v3 `targets` table, pace/status calc engine (TDD), TargetModal, chart reference line + badge, Dashboard progress bar
+- [ ] 03-02-PLAN.md — Streaks + personal bests: streak/PB calc engines (TDD), Dexie v4 `personalBests`, Dashboard/chart streak + PB badge wiring
+- [ ] 03-03-PLAN.md — Exercise-frequency proxy: Dexie v5 `exerciseLog`, 7th Dashboard tile with weekly target, toggle, status, and week-streak
 
 ### Phase 4: Training Sessions
 
