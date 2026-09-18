@@ -9,6 +9,8 @@ import {
   calculateStreak,
   calculateWeeklyStreak,
   getExerciseWeeklyStatus,
+  resolveWeightDirection,
+  resolveWeekMet,
 } from "./targetCalcs"
 
 describe("fitLinearTrend", () => {
@@ -375,6 +377,53 @@ describe("calculateWeeklyStreak", () => {
 
   it("returns 0 when the most recent week is unmet", () => {
     expect(calculateWeeklyStreak([{ met: false }])).toBe(0)
+  })
+})
+
+describe("resolveWeightDirection", () => {
+  // CR-03: backfills a null/undefined direction using inferDirection(latestWeightValue,
+  // targetValue) — the same argument order used at the existing call site in
+  // useTargetData.ts (inferDirection(mostRecent.value, t.value)). Note: two of this
+  // task's illustrative <behavior> examples in 03-05-PLAN.md have swapped up/down
+  // expectations relative to inferDirection's own tested contract; the values below
+  // are corrected to match the real, established inferDirection semantics (documented
+  // as a deviation in 03-05-SUMMARY.md).
+  it('already-resolved "down" is returned unchanged (idempotent, no re-infer)', () => {
+    expect(resolveWeightDirection("down", 70, 75)).toBe("down")
+  })
+
+  it('already-resolved "up" is returned unchanged, never flipped by this backfill path', () => {
+    expect(resolveWeightDirection("up", 70, 65)).toBe("up")
+  })
+
+  it("returns null when still unresolvable (no weight value available yet)", () => {
+    expect(resolveWeightDirection(null, 70, undefined)).toBeNull()
+  })
+
+  it("backfills from undefined using inferDirection(latestWeightValue, targetValue): currently 65, target 70 -> up", () => {
+    expect(resolveWeightDirection(undefined, 70, 65)).toBe("up")
+  })
+
+  it("backfills from null using inferDirection(latestWeightValue, targetValue): currently 75, target 70 -> down", () => {
+    expect(resolveWeightDirection(null, 70, 75)).toBe("down")
+  })
+})
+
+describe("resolveWeekMet", () => {
+  it("a frozen met:true snapshot always wins, even against a wildly different live count/target", () => {
+    expect(resolveWeekMet({ met: true }, 0, 99)).toBe(true)
+  })
+
+  it("a frozen met:false snapshot can never be flipped to met by a later, lower target", () => {
+    expect(resolveWeekMet({ met: false }, 99, 1)).toBe(false)
+  })
+
+  it("no snapshot yet -> live fallback, count meets target -> true", () => {
+    expect(resolveWeekMet(undefined, 3, 3)).toBe(true)
+  })
+
+  it("no snapshot yet -> live fallback, count below target -> false", () => {
+    expect(resolveWeekMet(undefined, 2, 3)).toBe(false)
   })
 })
 
