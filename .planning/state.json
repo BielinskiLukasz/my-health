@@ -16,7 +16,7 @@
     {
       "number": "3",
       "name": "Targets & Goals",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "number": "4",
@@ -31,8 +31,8 @@
   ],
   "next": {
     "command": "/gsd:progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 3 of 5 · 0% · executing"
+    "label": "Advance to the next step (plan phase 1)",
+    "reason": "Phase 1 of 5 — needs a plan"
   },
-  "updated_at": "2026-09-18T18:02:37.982Z"
+  "updated_at": "2026-09-18T19:05:18.958Z"
 }

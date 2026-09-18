@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation & Core Logging** - Installable PWA on GitHub Pages with all five core metrics logged and a daily dashboard snapshot
 - [ ] **Phase 2: Charts & Visualization** - Weekly/monthly/yearly charts per metric, activity heatmap, and BMI overlay
-- [ ] **Phase 3: Targets & Goals** - Deadlined targets with projected pace, streaks, color coding, and personal bests
+- [x] **Phase 3: Targets & Goals** - Deadlined targets with projected pace, streaks, color coding, and personal bests (completed 2026-09-18)
 - [ ] **Phase 4: Training Sessions** - Custom exercise library, multi-exercise session logging, and free-text journal notes
 - [ ] **Phase 5: History & Data** - Filterable history list, JSON/CSV export, Samsung Health ZIP import, and push notifications
 
@@ -143,6 +143,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Logging | 4/4 | Complete | 2026-09-14 |
 | 2. Charts & Visualization | 4/4 | In Progress|  |
-| 3. Targets & Goals | 5/5 | In Progress|  |
+| 3. Targets & Goals | 5/5 | Complete    | 2026-09-18 |
 | 4. Training Sessions | 0/TBD | Not started | - |
 | 5. History & Data | 0/TBD | Not started | - |
