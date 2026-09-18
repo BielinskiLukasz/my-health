@@ -5,6 +5,9 @@ import {
   inferDirection,
   getOnTrackStatus,
   TOLERANCES,
+  meetsTargetForDay,
+  calculateStreak,
+  calculateWeeklyStreak,
 } from "./targetCalcs"
 
 describe("fitLinearTrend", () => {
@@ -235,5 +238,141 @@ describe("getOnTrackStatus", () => {
       water: 200,
       heartRate: 3,
     })
+  })
+})
+
+describe("meetsTargetForDay", () => {
+  // D-19: no baseline yet -> day 1 auto-qualifies
+  it("weight with no previousValue returns true (D-19)", () => {
+    expect(
+      meetsTargetForDay("weight", 70, { value: 68, direction: "down" }, undefined)
+    ).toBe(true)
+  })
+
+  it("weight/down: 0.5kg below previous returns true", () => {
+    expect(
+      meetsTargetForDay("weight", 69.5, { value: 68, direction: "down" }, 70)
+    ).toBe(true)
+  })
+
+  it("weight/down: exactly 0.1kg above previous (within 0.2kg steady tolerance) returns true (D-15)", () => {
+    expect(
+      meetsTargetForDay("weight", 70.1, { value: 68, direction: "down" }, 70)
+    ).toBe(true)
+  })
+
+  it("weight/down: 0.5kg above previous returns false", () => {
+    expect(
+      meetsTargetForDay("weight", 70.5, { value: 68, direction: "down" }, 70)
+    ).toBe(false)
+  })
+
+  it("weight/up: 0.5kg above previous returns true", () => {
+    expect(
+      meetsTargetForDay("weight", 70.5, { value: 75, direction: "up" }, 70)
+    ).toBe(true)
+  })
+
+  it("weight/up: 0.5kg below previous returns false", () => {
+    expect(
+      meetsTargetForDay("weight", 69.5, { value: 75, direction: "up" }, 70)
+    ).toBe(false)
+  })
+
+  it("sleep: within SLEEP_RANGE_HALF_WIDTH of target returns true", () => {
+    expect(meetsTargetForDay("sleep", 8.5, { value: 8 }, undefined)).toBe(true)
+  })
+
+  it("sleep: outside SLEEP_RANGE_HALF_WIDTH of target returns false", () => {
+    expect(meetsTargetForDay("sleep", 9.5, { value: 8 }, undefined)).toBe(false)
+  })
+
+  it("heartRate: at or below ceiling returns true", () => {
+    expect(meetsTargetForDay("heartRate", 60, { value: 60 }, undefined)).toBe(true)
+  })
+
+  it("heartRate: above ceiling returns false", () => {
+    expect(meetsTargetForDay("heartRate", 61, { value: 60 }, undefined)).toBe(false)
+  })
+
+  it("steps: at or above floor returns true", () => {
+    expect(meetsTargetForDay("steps", 10000, { value: 10000 }, undefined)).toBe(true)
+  })
+
+  it("steps: below floor returns false", () => {
+    expect(meetsTargetForDay("steps", 9999, { value: 10000 }, undefined)).toBe(false)
+  })
+
+  it("water: at or above floor returns true", () => {
+    expect(meetsTargetForDay("water", 2000, { value: 2000 }, undefined)).toBe(true)
+  })
+
+  it("water: below floor returns false", () => {
+    expect(meetsTargetForDay("water", 1999, { value: 2000 }, undefined)).toBe(false)
+  })
+})
+
+describe("calculateStreak", () => {
+  // D-19: single qualifying day at index 0 returns 1
+  it("returns 1 for a single qualifying day", () => {
+    expect(calculateStreak([{ hasEntry: true, metQualifies: true }])).toBe(1)
+  })
+
+  it("stops at the first hasEntry:false day (D-16, no grace day)", () => {
+    const days = [
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: false, metQualifies: false },
+      { hasEntry: true, metQualifies: true },
+    ]
+    expect(calculateStreak(days)).toBe(2)
+  })
+
+  it("stops at the first hasEntry:true,metQualifies:false day", () => {
+    const days = [
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: true, metQualifies: false },
+      { hasEntry: true, metQualifies: true },
+    ]
+    expect(calculateStreak(days)).toBe(1)
+  })
+
+  it("returns 0 when the most recent day breaks immediately", () => {
+    expect(calculateStreak([{ hasEntry: false, metQualifies: false }])).toBe(0)
+  })
+
+  it("keeps counting through a fluctuating-but-qualifying weight series (Pitfall 3)", () => {
+    // up-then-down-then-up, all within tolerance -> all metQualifies:true
+    const days = [
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: true, metQualifies: true },
+      { hasEntry: true, metQualifies: true },
+    ]
+    expect(calculateStreak(days)).toBe(4)
+  })
+})
+
+describe("calculateWeeklyStreak", () => {
+  it("is a distinct function from calculateStreak (Pitfall 4)", () => {
+    expect(calculateWeeklyStreak).not.toBe(calculateStreak)
+  })
+
+  it("returns 1 for a single met week", () => {
+    expect(calculateWeeklyStreak([{ met: true }])).toBe(1)
+  })
+
+  it("stops at the first unmet week, walking most-recent-week-first", () => {
+    const weeks = [
+      { met: true },
+      { met: true },
+      { met: false },
+      { met: true },
+    ]
+    expect(calculateWeeklyStreak(weeks)).toBe(2)
+  })
+
+  it("returns 0 when the most recent week is unmet", () => {
+    expect(calculateWeeklyStreak([{ met: false }])).toBe(0)
   })
 })
