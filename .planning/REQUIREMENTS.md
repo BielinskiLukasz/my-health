@@ -9,7 +9,7 @@
 
 - [ ] **DASH-01**: User sees today's snapshot across all tracked metrics on the home screen
 - [x] **DASH-02**: Each metric tile shows current value, target progress bar, and color indicator (red/yellow/green)
-- [x] **DASH-03**: Dashboard shows active streak count for each metric with a target
+- [ ] **DASH-03**: Dashboard shows active streak count for each metric with a target
 
 ### Metrics — Core Logging
 
@@ -41,16 +41,16 @@
 
 ### Targets
 
-- [x] **TARG-01**: User can set a target value and target date for each metric (weight, sleep, steps, water, heart rate, exercise frequency)
-- [x] **TARG-02**: App calculates and displays projected pace vs target deadline
-- [x] **TARG-03**: Target progress shown as progress bar with percentage
-- [x] **TARG-04**: Metrics color-coded red/yellow/green based on proximity to target
-- [x] **TARG-05**: Streak shows consecutive days the target was met
+- [ ] **TARG-01**: User can set a target value and target date for each metric (weight, sleep, steps, water, heart rate, exercise frequency)
+- [ ] **TARG-02**: App calculates and displays projected pace vs target deadline
+- [ ] **TARG-03**: Target progress shown as progress bar with percentage
+- [ ] **TARG-04**: Metrics color-coded red/yellow/green based on proximity to target
+- [ ] **TARG-05**: Streak shows consecutive days the target was met
 
 ### Personal Bests
 
-- [x] **PB-01**: App automatically detects and records personal bests (most reps, heaviest weight, longest session, most steps, etc.)
-- [x] **PB-02**: Personal best entries are flagged in history and exercise detail views
+- [ ] **PB-01**: App automatically detects and records personal bests (most reps, heaviest weight, longest session, most steps, etc.)
+- [ ] **PB-02**: Personal best entries are flagged in history and exercise detail views
 
 ### Charts & History
 
@@ -127,7 +127,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PWA-05 | Phase 5 | Pending |
 | DASH-01 | Phase 1 | Pending |
 | DASH-02 | Phase 2 | Complete |
-| DASH-03 | Phase 3 | Complete |
+| DASH-03 | Phase 3 | Gaps Found |
 | WGHT-01 | Phase 1 | Pending |
 | WGHT-02 | Phase 1 | Pending |
 | SLEP-01 | Phase 1 | Complete |
@@ -150,13 +150,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SESS-02 | Phase 4 | Pending |
 | SESS-03 | Phase 4 | Pending |
 | SESS-04 | Phase 4 | Pending |
-| TARG-01 | Phase 3 | Complete |
-| TARG-02 | Phase 3 | Complete |
-| TARG-03 | Phase 3 | Complete |
-| TARG-04 | Phase 3 | Complete |
-| TARG-05 | Phase 3 | Complete |
-| PB-01 | Phase 3 | Complete |
-| PB-02 | Phase 3 | Complete |
+| TARG-01 | Phase 3 | Gaps Found |
+| TARG-02 | Phase 3 | Gaps Found |
+| TARG-03 | Phase 3 | Gaps Found |
+| TARG-04 | Phase 3 | Gaps Found |
+| TARG-05 | Phase 3 | Gaps Found |
+| PB-01 | Phase 3 | Gaps Found |
+| PB-02 | Phase 3 | Gaps Found |
 | CHRT-01 | Phase 2 | Complete |
 | CHRT-02 | Phase 2 | Complete |
 | CHRT-03 | Phase 2 | Complete |
