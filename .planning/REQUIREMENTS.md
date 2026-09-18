@@ -45,12 +45,12 @@
 - [x] **TARG-02**: App calculates and displays projected pace vs target deadline
 - [x] **TARG-03**: Target progress shown as progress bar with percentage
 - [x] **TARG-04**: Metrics color-coded red/yellow/green based on proximity to target
-- [ ] **TARG-05**: Streak shows consecutive days the target was met
+- [x] **TARG-05**: Streak shows consecutive days the target was met
 
 ### Personal Bests
 
-- [ ] **PB-01**: App automatically detects and records personal bests (most reps, heaviest weight, longest session, most steps, etc.)
-- [ ] **PB-02**: Personal best entries are flagged in history and exercise detail views
+- [x] **PB-01**: App automatically detects and records personal bests (most reps, heaviest weight, longest session, most steps, etc.)
+- [x] **PB-02**: Personal best entries are flagged in history and exercise detail views
 
 ### Charts & History
 
@@ -154,9 +154,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TARG-02 | Phase 3 | Complete |
 | TARG-03 | Phase 3 | Complete |
 | TARG-04 | Phase 3 | Complete |
-| TARG-05 | Phase 3 | Pending |
-| PB-01 | Phase 3 | Pending |
-| PB-02 | Phase 3 | Pending |
+| TARG-05 | Phase 3 | Complete |
+| PB-01 | Phase 3 | Complete |
+| PB-02 | Phase 3 | Complete |
 | CHRT-01 | Phase 2 | Complete |
 | CHRT-02 | Phase 2 | Complete |
 | CHRT-03 | Phase 2 | Complete |

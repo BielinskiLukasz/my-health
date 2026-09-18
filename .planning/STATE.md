@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 03
 current_phase_name: Targets & Goals
 status: executing
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-09-18T15:01:38.707Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-09-18T15:30:03.402Z"
 last_activity: 2026-09-18
 last_activity_desc: Phase 03 execution started
-state_head: 9c01a12be7cfab5736f1cb9edfa0ab6b0c6985e3
+state_head: 031c0825316491ed658b4cc99b563d4325d796ec
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-02)
 ## Current Position
 
 Phase: 03 (Targets & Goals) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-09-18 — Phase 03 execution started
 
@@ -64,6 +64,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02 P03 | 7 | 2 tasks | 2 files |
 | Phase 02 P04 | 9 | 2 tasks | 5 files |
 | Phase 03 P01 | 25 | 3 tasks | 7 files |
+| Phase 03 P02 | 24 | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 02]: Quick 260917-hwj: Gated G-02-3 fallback prefill on currentDate === todayISO() in all six Log forms — historic dates with no entry now leave fields empty instead of borrowing an unrelated most-recent value
 - [Phase 02]: Quick 260917-m7l: Narrowed D-06 — yearly period no longer forces bar for every metric; only steps/water (discrete/count) stay bar, weight/sleep/heartRate/temperature render as line in Y same as W/M
 - [Phase 02]: Quick 260917-i9a: Fixed heatmap tap tooltip nav-clipping via vertical clamp/flip (getTooltipTop) + raised z-index (z-[60]) above Layout.tsx's bottom nav
+- [Phase 03]: Plan 03-02: WEIGHT_STEADY_TOLERANCE (0.2kg) kept distinct from targetCalcs.ts's TOLERANCES.weight (0.5kg) — daily streak check and 7-day pace/color check use different tolerances
+- [Phase 03]: Plan 03-02: usePersonalBestData bumps the personalBests cache forward on a genuine new PB (ref-guarded Dexie put) so stale cache never fails to suppress a later exact-tie badge re-trigger
 
 ### Pending Todos
 
@@ -131,6 +134,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-09-18T15:01:37.909Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-09-18T15:30:00.331Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None

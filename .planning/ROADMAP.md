@@ -83,7 +83,7 @@ Plans:
   3. Dashboard shows the current consecutive-day streak for each metric that has an active target
   4. App automatically detects personal bests (heaviest weight, most steps, longest sleep, etc.) and flags them in history and exercise detail views
 
-**Plans**: 1/3 plans executed
+**Plans**: 2/3 plans executed
 
 Plans:
 **Wave 1**
@@ -92,7 +92,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-02-PLAN.md — Streaks + personal bests: streak/PB calc engines (TDD), Dexie v4 `personalBests`, Dashboard/chart streak + PB badge wiring
+- [x] 03-02-PLAN.md — Streaks + personal bests: streak/PB calc engines (TDD), Dexie v4 `personalBests`, Dashboard/chart streak + PB badge wiring
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -138,6 +138,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Logging | 4/4 | Complete | 2026-09-14 |
 | 2. Charts & Visualization | 4/4 | In Progress|  |
-| 3. Targets & Goals | 1/3 | In Progress|  |
+| 3. Targets & Goals | 2/3 | In Progress|  |
 | 4. Training Sessions | 0/TBD | Not started | - |
 | 5. History & Data | 0/TBD | Not started | - |
