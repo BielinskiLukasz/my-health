@@ -133,3 +133,72 @@ export function getOnTrackStatus(
   if (gap <= tolerance * 2) return "yellow"
   return "red"
 }
+
+// D-15: weight's small fluctuation-is-not-a-break tolerance for the DAILY
+// streak check — distinct from getOnTrackStatus's 7-day pace TOLERANCES.weight.
+const WEIGHT_STEADY_TOLERANCE = 0.2
+
+/**
+ * D-14/D-15/D-16: hard daily boolean check — "did today's entry qualify
+ * toward the streak" — distinct from getOnTrackStatus's 7-day pace/color gap
+ * logic above.
+ * - weight: no previousValue (first-ever entry) auto-qualifies (D-19); a
+ *   move within WEIGHT_STEADY_TOLERANCE of the previous value counts as
+ *   holding steady; otherwise must move in target.direction.
+ * - sleep: range target — within SLEEP_RANGE_HALF_WIDTH of target.value.
+ * - heartRate: ceiling target — todayValue <= target.value.
+ * - steps/water: floor targets — todayValue >= target.value.
+ */
+export function meetsTargetForDay(
+  metric: "weight" | "sleep" | "steps" | "water" | "heartRate",
+  todayValue: number,
+  target: { value: number; direction?: "up" | "down" },
+  previousValue?: number
+): boolean {
+  if (metric === "weight") {
+    if (previousValue === undefined) return true
+    const delta = todayValue - previousValue
+    if (Math.abs(delta) <= WEIGHT_STEADY_TOLERANCE) return true
+    return target.direction === "down" ? delta < 0 : delta > 0
+  }
+  if (metric === "sleep") {
+    return Math.abs(todayValue - target.value) <= SLEEP_RANGE_HALF_WIDTH
+  }
+  if (metric === "heartRate") {
+    return todayValue <= target.value
+  }
+  // steps, water — floor targets
+  return todayValue >= target.value
+}
+
+/**
+ * D-16: count consecutive days (most-recent-first, starting at today) that
+ * both have a logged entry AND met the target that day. Stops at the first
+ * day that breaks either condition — no grace day. D-19 falls out naturally:
+ * a single qualifying day at index 0 returns 1.
+ */
+export function calculateStreak(
+  days: { hasEntry: boolean; metQualifies: boolean }[]
+): number {
+  let count = 0
+  for (const day of days) {
+    if (!day.hasEntry || !day.metQualifies) break
+    count++
+  }
+  return count
+}
+
+/**
+ * D-17: exercise-proxy weekly streak — mirrors calculateStreak's walk-back
+ * shape but over weeks (most-recent-week-first), counting consecutive weeks
+ * that hit the weekly session target. Kept as a DISTINCT function from
+ * calculateStreak (Pitfall 4) — never reused for daily metrics.
+ */
+export function calculateWeeklyStreak(weeks: { met: boolean }[]): number {
+  let count = 0
+  for (const week of weeks) {
+    if (!week.met) break
+    count++
+  }
+  return count
+}
