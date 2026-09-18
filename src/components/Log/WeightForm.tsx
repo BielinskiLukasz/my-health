@@ -14,6 +14,7 @@ import {
 import { db } from "@/db/schema"
 import { useAppStore } from "@/store/appStore"
 import { formatDisplayDate, todayISO } from "@/utils/dateFormat"
+import { resolveWeightDirection } from "@/utils/targetCalcs"
 import DatePicker from "./DatePicker"
 
 export default function WeightForm() {
@@ -75,6 +76,26 @@ export default function WeightForm() {
           timestamp: new Date().toISOString(),
         })
       }
+
+      // CR-03: backfill a still-unresolved weight target direction now that
+      // a weight entry exists. Isolated in its own try/catch so a backfill
+      // failure can never surface as a failed weight-save toast.
+      try {
+        const weightTarget = await db.targets.get("weight")
+        if (weightTarget) {
+          const resolvedDirection = resolveWeightDirection(
+            weightTarget.direction,
+            weightTarget.value,
+            numValue
+          )
+          if (resolvedDirection !== weightTarget.direction) {
+            await db.targets.update("weight", { direction: resolvedDirection })
+          }
+        }
+      } catch {
+        console.error("Failed to backfill weight target direction")
+      }
+
       toast.success("Saved")
       navigate("/log")
     } catch {

@@ -46,7 +46,12 @@ export interface Target {
   metric: MetricType | "exercise" // primary key — one target per metric
   value: number
   targetDate?: string // YYYY-MM-DD; optional — exercise proxy target has no deadline (Plan 03-03)
-  direction?: "up" | "down" // inferred for weight only (D-02); undefined otherwise
+  // Inferred for weight only (D-02); undefined for other metrics. `null` is the
+  // explicit "not yet resolvable" state for weight (CR-03) — set when a weight
+  // target is created before any weight entry exists — distinct from the
+  // `undefined` that other metrics always carry. TypeScript-only widening; not
+  // an indexed field, so no Dexie version bump is required for this change.
+  direction?: "up" | "down" | null
   createdAt: string // full ISO timestamp
 }
 

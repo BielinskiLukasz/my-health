@@ -44,12 +44,14 @@ export function useTargetData(metric: MetricType | "exercise"): TargetDataResult
 
   const saveTarget = useCallback(
     async (t: { value: number; targetDate?: string }) => {
-      let direction: "up" | "down" | undefined
+      // CR-03: a weight target created before any weight entry exists must
+      // persist an explicit `null` direction (never a bare `undefined`) so
+      // downstream on-track/gap math never silently falls into the "up"
+      // branch. Non-weight metrics keep `direction: undefined` unchanged.
+      let direction: "up" | "down" | null | undefined
       if (metric === "weight") {
         const mostRecent = await db.weights.orderBy("date").reverse().first()
-        if (mostRecent) {
-          direction = inferDirection(mostRecent.value, t.value)
-        }
+        direction = mostRecent ? inferDirection(mostRecent.value, t.value) : null
       }
 
       await db.targets.put({

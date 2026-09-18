@@ -87,6 +87,27 @@ export function inferDirection(
 }
 
 /**
+ * CR-03: backfills a still-unresolved ("null"/"undefined") weight target
+ * direction once a weight entry exists, using the SAME inferDirection
+ * argument order as the existing target-save path (useTargetData.ts's
+ * `inferDirection(mostRecent.value, t.value)` — current weight, then target
+ * weight). An already-resolved "up"/"down" direction is returned unchanged
+ * and is NEVER silently re-derived by this backfill path (must_haves
+ * backstop truth) — only a currently null/undefined direction is backfilled.
+ */
+export function resolveWeightDirection(
+  currentDirection: "up" | "down" | null | undefined,
+  targetValue: number,
+  latestWeightValue: number | undefined
+): "up" | "down" | null {
+  if (currentDirection === "up" || currentDirection === "down") {
+    return currentDirection
+  }
+  if (latestWeightValue === undefined) return null
+  return inferDirection(latestWeightValue, targetValue)
+}
+
+/**
  * D-10/D-11/D-12: compute the red/yellow/green/grey on-track status for a
  * projected value against a target.
  * - grey: fewer than 7 days of logged entries in the trailing window (D-11).
@@ -97,7 +118,7 @@ export function inferDirection(
  */
 export function getOnTrackStatus(
   projectedValue: number,
-  target: { value: number; direction?: "up" | "down" },
+  target: { value: number; direction?: "up" | "down" | null },
   metric: "weight" | "sleep" | "steps" | "water" | "heartRate",
   dataPointCount: number
 ): OnTrackStatus {
@@ -152,7 +173,7 @@ const WEIGHT_STEADY_TOLERANCE = 0.2
 export function meetsTargetForDay(
   metric: "weight" | "sleep" | "steps" | "water" | "heartRate",
   todayValue: number,
-  target: { value: number; direction?: "up" | "down" },
+  target: { value: number; direction?: "up" | "down" | null },
   previousValue?: number
 ): boolean {
   if (metric === "weight") {
