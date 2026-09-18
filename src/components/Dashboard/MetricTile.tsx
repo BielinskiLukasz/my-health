@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { db } from "@/db/schema"
 import { useAppStore, type MetricType } from "@/store/appStore"
+import { formatShortDate } from "@/utils/dateFormat"
 import { differenceInMinutes, parseISO } from "date-fns"
 import { CHART_HEX } from "@/utils/chartColors"
 import Sparkline from "@/components/Charts/Sparkline"
@@ -175,7 +176,7 @@ export default function MetricTile({
     navigate("/chart/" + metric)
   }
 
-  const { variant, value, error } = tileData
+  const { variant, value, lastDate, error } = tileData
 
   return (
     <button
@@ -208,6 +209,14 @@ export default function MetricTile({
               {value}
             </span>
             <span className="text-sm text-gray-400 opacity-50">{unit}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {lastDate && (
+              <span className="text-xs text-gray-400">{formatShortDate(lastDate)}</span>
+            )}
+            <span className="rounded-full bg-zinc-800 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-gray-400">
+              Not logged today
+            </span>
           </div>
         </div>
       )}
