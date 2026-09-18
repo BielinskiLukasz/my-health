@@ -83,7 +83,7 @@ Plans:
   3. Dashboard shows the current consecutive-day streak for each metric that has an active target
   4. App automatically detects personal bests (heaviest weight, most steps, longest sleep, etc.) and flags them in history and exercise detail views
 
-**Plans**: 3/3 plans executed
+**Plans**: 5/5 plans executed (3 original + 2 gap-closure)
 
 Plans:
 **Wave 1**
@@ -97,6 +97,11 @@ Plans:
 **Wave 3** *(blocked on Wave 2 completion)*
 
 - [x] 03-03-PLAN.md — Exercise-frequency proxy: Dexie v5 `exerciseLog`, 7th Dashboard tile with weekly target, toggle, status, and week-streak
+
+**Gap Closure Wave 1** *(from 03-VERIFICATION.md — 4 Critical bugs found post-execution)*
+
+- [ ] 03-04-PLAN.md — Fix CR-01/CR-02/WR-01/WR-02: personal-best zero-fallback cache poisoning + MetricChart Rules-of-Hooks crash
+- [ ] 03-05-PLAN.md — Fix CR-03/CR-04/WR-04: weight target direction backfill + exercise weekly-streak snapshot
 
 ### Phase 4: Training Sessions
 
