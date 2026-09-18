@@ -1,4 +1,5 @@
 import MetricTile from "./MetricTile"
+import ExerciseProxyTile from "./ExerciseProxyTile"
 import { METRIC_CONFIG } from "@/utils/constants"
 import { formatDisplayDate } from "@/utils/dateFormat"
 import { useAppStore } from "@/store/appStore"
@@ -24,6 +25,10 @@ export default function Dashboard() {
         </div>
         <div className="col-span-2">
           <MetricTile metric="temperature" {...METRIC_CONFIG.temperature} />
+        </div>
+        {/* D-07: 7th Dashboard tile — exercise-frequency proxy, always shown */}
+        <div className="col-span-2">
+          <ExerciseProxyTile />
         </div>
       </div>
       {/* Activity heatmap below metric tile grid (D-12) */}
