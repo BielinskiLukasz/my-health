@@ -241,3 +241,20 @@ export function getExerciseWeeklyStatus(
   if (shortfall <= 2) return "yellow"
   return "red"
 }
+
+/**
+ * CR-04: resolves whether a given exercise week counted toward the streak.
+ * A frozen snapshot (already-elapsed week) always wins and ignores
+ * liveCount/liveTarget entirely — this is what prevents a later target edit
+ * from retroactively rewriting an already-elapsed week's met/unmet status.
+ * With no snapshot yet (the current, still-open week), falls back to a live
+ * inclusive boundary check: count >= target counts as met.
+ */
+export function resolveWeekMet(
+  snapshot: { met: boolean } | undefined,
+  liveCount: number,
+  liveTarget: number
+): boolean {
+  if (snapshot !== undefined) return snapshot.met
+  return liveCount >= liveTarget
+}

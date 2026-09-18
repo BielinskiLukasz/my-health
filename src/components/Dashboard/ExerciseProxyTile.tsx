@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from "sonner"
 import { useTargetData } from "@/hooks/useTargetData"
 import { useExerciseLogData } from "@/hooks/useExerciseLogData"
 import {
@@ -57,6 +58,12 @@ export default function ExerciseProxyTile() {
       parsed <= MAX_WEEKLY_TARGET
     ) {
       await saveTarget({ value: parsed })
+    } else {
+      // WR-04: match TargetModal's toast.error(...) pattern instead of
+      // silently discarding the invalid edit.
+      toast.error(
+        `Enter a whole number between ${MIN_WEEKLY_TARGET} and ${MAX_WEEKLY_TARGET}.`
+      )
     }
     setIsEditingTarget(false)
   }

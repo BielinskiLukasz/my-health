@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import { startOfWeek, endOfWeek, subWeeks, format } from "date-fns"
 import { db } from "@/db/schema"
 import { todayISO } from "@/utils/dateFormat"
+import { resolveWeekMet } from "@/utils/targetCalcs"
 
 // T-03-08: bounded lookback — never a full-table scan.
 const WEEK_LOOKBACK = 52
@@ -52,19 +53,33 @@ export function useExerciseLogData(weeklyTarget: number): ExerciseLogDataResult 
         setTodayLogged(todayEntry?.logged ?? false)
 
         // Most-recent-week-first, bounded to WEEK_LOOKBACK weeks (T-03-08).
+        // CR-04: the current, still-open week (i === 0) is always
+        // (re)computed live and its snapshot overwritten on every load —
+        // it is the only week still allowed to change. Every past week
+        // (i >= 1) is frozen in db.exerciseWeekSnapshots the first time it
+        // is computed; a later-edited weeklyTarget never recomputes it.
         const history: { met: boolean }[] = []
         for (let i = 0; i < WEEK_LOOKBACK; i++) {
           const weekRef = subWeeks(now, i)
           const bounds = isoWeekBounds(weekRef)
+
+          if (i === 0) {
+            const met = resolveWeekMet(undefined, currentWeekCount, weeklyTarget)
+            await db.exerciseWeekSnapshots.put({ weekStart: bounds.start, met })
+            history.push({ met })
+            continue
+          }
+
+          const snapshot = await db.exerciseWeekSnapshots.get(bounds.start)
           const entries =
-            i === 0
-              ? currentWeekEntries
-              : await db.exerciseLog
+            snapshot === undefined
+              ? await db.exerciseLog
                   .where("date")
                   .between(bounds.start, bounds.end, true, true)
                   .toArray()
+              : []
           const count = entries.filter((e) => e.logged).length
-          history.push({ met: count >= weeklyTarget })
+          history.push({ met: resolveWeekMet(snapshot, count, weeklyTarget) })
         }
 
         if (!cancelledRef.cancelled) {

@@ -74,6 +74,16 @@ export interface ExerciseLog {
   logged: boolean
 }
 
+// Phase 3 gap-closure (CR-04, additive-only, version 6).
+// Freezes each already-elapsed week's met/unmet status against the weekly
+// target that was actually in effect at the time — so a later edit to the
+// weekly target can never retroactively rewrite history (D-08). Only the
+// current, still-open week is ever overwritten (see useExerciseLogData.ts).
+export interface ExerciseWeekSnapshot {
+  weekStart: string // YYYY-MM-DD (primary key) — Monday of the ISO week
+  met: boolean
+}
+
 // Per D-15: separate tables per metric — NEVER a unified table
 // Per D-16: weight + heartRate + temperature allow multiple per day (++id PK), others are one per day (date PK)
 // Per D-17: dates as YYYY-MM-DD strings, timestamps as full ISO strings
@@ -89,6 +99,7 @@ class MyHealthDB extends Dexie {
   targets!: EntityTable<Target, "metric">
   personalBests!: EntityTable<PersonalBest, "id">
   exerciseLog!: EntityTable<ExerciseLog, "date">
+  exerciseWeekSnapshots!: EntityTable<ExerciseWeekSnapshot, "weekStart">
 
   constructor() {
     super("MyHealthDB")
@@ -110,6 +121,9 @@ class MyHealthDB extends Dexie {
     })
     this.version(5).stores({
       exerciseLog: "date",
+    })
+    this.version(6).stores({
+      exerciseWeekSnapshots: "weekStart",
     })
   }
 }
