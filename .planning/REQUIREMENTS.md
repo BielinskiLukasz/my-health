@@ -41,10 +41,10 @@
 
 ### Targets
 
-- [ ] **TARG-01**: User can set a target value and target date for each metric (weight, sleep, steps, water, heart rate, exercise frequency)
-- [ ] **TARG-02**: App calculates and displays projected pace vs target deadline
-- [ ] **TARG-03**: Target progress shown as progress bar with percentage
-- [ ] **TARG-04**: Metrics color-coded red/yellow/green based on proximity to target
+- [x] **TARG-01**: User can set a target value and target date for each metric (weight, sleep, steps, water, heart rate, exercise frequency)
+- [x] **TARG-02**: App calculates and displays projected pace vs target deadline
+- [x] **TARG-03**: Target progress shown as progress bar with percentage
+- [x] **TARG-04**: Metrics color-coded red/yellow/green based on proximity to target
 - [ ] **TARG-05**: Streak shows consecutive days the target was met
 
 ### Personal Bests
@@ -150,10 +150,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SESS-02 | Phase 4 | Pending |
 | SESS-03 | Phase 4 | Pending |
 | SESS-04 | Phase 4 | Pending |
-| TARG-01 | Phase 3 | Pending |
-| TARG-02 | Phase 3 | Pending |
-| TARG-03 | Phase 3 | Pending |
-| TARG-04 | Phase 3 | Pending |
+| TARG-01 | Phase 3 | Complete |
+| TARG-02 | Phase 3 | Complete |
+| TARG-03 | Phase 3 | Complete |
+| TARG-04 | Phase 3 | Complete |
 | TARG-05 | Phase 3 | Pending |
 | PB-01 | Phase 3 | Pending |
 | PB-02 | Phase 3 | Pending |
