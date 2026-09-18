@@ -86,9 +86,16 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
+**Wave 1**
 
 - [ ] 03-01-PLAN.md — Target engine tracer: Dexie v3 `targets` table, pace/status calc engine (TDD), TargetModal, chart reference line + badge, Dashboard progress bar
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 03-02-PLAN.md — Streaks + personal bests: streak/PB calc engines (TDD), Dexie v4 `personalBests`, Dashboard/chart streak + PB badge wiring
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 03-03-PLAN.md — Exercise-frequency proxy: Dexie v5 `exerciseLog`, 7th Dashboard tile with weekly target, toggle, status, and week-streak
 
 ### Phase 4: Training Sessions
