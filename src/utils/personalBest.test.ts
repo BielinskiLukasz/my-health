@@ -97,6 +97,6 @@ describe("PB_METRICS", () => {
   })
 
   it("never contains a temperature entry (D-21 exclusion)", () => {
-    expect(PB_METRICS.some((m) => m.metric === "temperature")).toBe(false)
+    expect(PB_METRICS.some((m) => (m.metric as string) === "temperature")).toBe(false)
   })
 })

@@ -50,6 +50,17 @@ export interface Target {
   createdAt: string // full ISO timestamp
 }
 
+// Phase 3 Plan 02 (D-20/D-21/D-22, additive-only, version 4).
+// `metric` excludes "exercise" and "temperature" — only the 5 PB-eligible
+// core metrics (D-21 exclusion).
+export interface PersonalBest {
+  id?: number
+  metric: "weight" | "sleep" | "steps" | "water" | "heartRate"
+  direction: "max" | "min"
+  value: number
+  date: string // YYYY-MM-DD
+}
+
 // Per D-15: separate tables per metric — NEVER a unified table
 // Per D-16: weight + heartRate + temperature allow multiple per day (++id PK), others are one per day (date PK)
 // Per D-17: dates as YYYY-MM-DD strings, timestamps as full ISO strings
@@ -63,6 +74,7 @@ class MyHealthDB extends Dexie {
   heartRates!: EntityTable<HeartRate, "id">
   temperatures!: EntityTable<Temperature, "id">
   targets!: EntityTable<Target, "metric">
+  personalBests!: EntityTable<PersonalBest, "id">
 
   constructor() {
     super("MyHealthDB")
@@ -78,6 +90,9 @@ class MyHealthDB extends Dexie {
     })
     this.version(3).stores({
       targets: "metric",
+    })
+    this.version(4).stores({
+      personalBests: "++id, metric",
     })
   }
 }
