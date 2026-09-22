@@ -30,6 +30,7 @@ data/
 .claude/settings.local.json
 
 # GSD
+.planning/research/.cache/
 gsd-*
 .gsd-*
 .gsd/
